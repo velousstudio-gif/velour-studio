@@ -1,0 +1,34 @@
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.artwork {
+  position: absolute;
+  z-index: -1;
+  top: 155px;
+  left: -65px;
+  width: clamp(300px, 29vw, 420px);
+  aspect-ratio: 1;
+  opacity: 0.18;
+  pointer-events: none;
+  user-select: none;
+}
+
+.artwork img { object-fit: contain; }
+
+@media (max-width: 800px) {
+  .artwork {
+    top: auto;
+    bottom: -65px;
+    left: auto;
+    right: -150px;
+    width: 420px;
+    opacity: 0.08;
+  }
+}
+
+@media (max-width: 540px) {
+  .artwork { width: 360px; right: -140px; bottom: -30px; }
+}

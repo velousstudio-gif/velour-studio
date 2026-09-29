@@ -1,0 +1,42 @@
+.logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 124px;
+  max-width: 100%;
+  height: 52px;
+  flex-shrink: 0;
+  align-self: center;
+  justify-self: start;
+  color: inherit;
+  text-decoration: none;
+}
+
+.type { display: flex; flex-direction: column; align-items: center; }
+.name {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 2px;
+  padding-left: 2px;
+}
+.studio {
+  font-family: var(--sans);
+  font-size: 8px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 5px;
+  padding-left: 5px;
+  margin-top: 7px;
+}
+:global(footer) .logo { align-self: start; }
+.logo:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+
+@media (max-width: 540px) {
+  .logo { width: 112px; height: 48px; }
+  .name { font-size: 27px; }
+  .studio { font-size: 7px; letter-spacing: 4.5px; padding-left: 4.5px; }
+}
+
