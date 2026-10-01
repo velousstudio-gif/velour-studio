@@ -1,41 +1,66 @@
 import 'server-only';
-import { businessConfig } from '@/content/site-content';
+import { Resend } from 'resend';
 import { configuredValue, validEmail } from './contact-links';
 import type { Inquiry } from './inquiry';
 
-export function getResendConfig() {
-  const apiKey = configuredValue(process.env.RESEND_API_KEY || '');
-  const fromEmail = validEmail(process.env.RESEND_FROM_EMAIL || '');
-  const formRecipientEmail = validEmail(process.env.FORM_RECIPIENT_EMAIL?.trim() || businessConfig.formRecipientEmail);
-  if (!apiKey.startsWith('re_') || !fromEmail || !formRecipientEmail) return null;
-  return { apiKey, fromEmail, formRecipientEmail };
+/** Accept a bare mailbox or the display-name format supported by Resend. */
+function validSender(value: string): string {
+  const sender = configuredValue(value);
+  if (sender.length > 320 || /[\r\n]/.test(sender)) return '';
+  if (validEmail(sender)) return sender;
+  const match = sender.match(/^[^<>]+<([^<>]+)>$/);
+  return match && validEmail(match[1]) ? sender : '';
 }
 
-export async function sendInquiry(config: NonNullable<ReturnType<typeof getResendConfig>>, inquiry: Inquiry) {
+// Called inside POST at runtime, never during page rendering or in client code.
+export function getResendConfig() {
+  const apiKey = configuredValue(process.env.RESEND_API_KEY || '');
+  const fromEmail = validSender(process.env.FROM_EMAIL || '');
+  const contactEmail = validEmail(process.env.CONTACT_EMAIL || '');
+  const invalid = [
+    ...(!apiKey || /\s/.test(apiKey) ? ['RESEND_API_KEY'] : []),
+    ...(!fromEmail ? ['FROM_EMAIL'] : []),
+    ...(!contactEmail ? ['CONTACT_EMAIL'] : []),
+  ];
+  if (invalid.length) {
+    console.error('[contact] Configuración de Resend ausente o inválida.', { variables: invalid });
+    return null;
+  }
+  return { apiKey, fromEmail, contactEmail };
+}
+
+export async function sendInquiry(config: NonNullable<ReturnType<typeof getResendConfig>>, inquiry: Inquiry, idempotencyKey: string) {
   // Plain text keeps visitor-supplied markup inert. The visitor is Reply-To, never From.
   const text = [
-    'Nueva consulta desde Velour Studio', '',
+    'Nueva solicitud de proyecto — Velour Studio', '',
     `Nombre: ${inquiry.name}`, `Empresa: ${inquiry.company || 'No indicada'}`,
     `Email: ${inquiry.email}`, `WhatsApp: ${inquiry.phone || 'No indicado'}`,
+    `Tipo de proyecto: ${inquiry.project || 'Consulta general'}`,
+    `Presupuesto: ${inquiry.budget || 'Sin definir'}`,
     `Consulta: ${inquiry.kind === 'question' ? 'Pregunta' : 'Diagnóstico de proyecto'}`,
-    ...(inquiry.kind === 'project' ? [`Tipo de proyecto: ${inquiry.project}`, `Para: ${inquiry.audience}`, `Situación actual: ${inquiry.situation}`, `Presupuesto: ${inquiry.budget || 'Sin definir'}`] : []),
+    ...(inquiry.kind === 'project' ? [`Para: ${inquiry.audience}`, `Situación actual: ${inquiry.situation}`] : []),
     '', 'Mensaje:', inquiry.message,
   ].join('\n');
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${config.apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: `Velour Studio <${config.fromEmail}>`,
-      to: [config.formRecipientEmail],
-      reply_to: inquiry.email,
-      subject: inquiry.kind === 'question' ? 'Nueva pregunta — Velour Studio' : 'Nuevo proyecto — Velour Studio', text,
-    }),
-    signal: AbortSignal.timeout(10000),
-    redirect: 'error',
-  });
-  if (!response.ok) throw new Error('No se pudo aceptar la consulta.');
-  const result: unknown = await response.json();
-  if (!result || typeof result !== 'object' || !('id' in result) || typeof result.id !== 'string' || !result.id) {
-    throw new Error('Respuesta de envío no válida.');
+  const resend = new Resend(config.apiKey);
+  const { data, error } = await resend.emails.send({
+    from: config.fromEmail,
+    to: [config.contactEmail],
+    replyTo: inquiry.email,
+    subject: 'Nueva solicitud de proyecto — Velour Studio',
+    text,
+  }, { idempotencyKey });
+
+  if (error) {
+    console.error('[contact] Resend rechazó el envío. Revisar permisos de la API key, FROM_EMAIL y su dominio verificado.', {
+      name: error.name,
+      statusCode: error.statusCode,
+      message: error.message.replaceAll(config.apiKey, '[redacted]').slice(0, 500),
+    });
+    throw new Error('Resend rejected the email');
   }
+  if (!data?.id) {
+    console.error('[contact] Resend devolvió una respuesta sin ID de email.');
+    throw new Error('Missing Resend email ID');
+  }
+  console.info('[contact] Resend aceptó el email.', { emailId: data.id });
 }

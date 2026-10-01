@@ -1,45 +1,51 @@
-# Configuración real y Resend
+# Configuración del formulario con Resend
 
-## Datos del negocio
+## Variables privadas
 
-Editar `businessConfig` al principio de `content/site-content.ts`:
-
-| Variable | Valor que hay que completar |
-| --- | --- |
-| `publicEmail` | Email visible al público, sin el prefijo mailto:. |
-| `whatsappNumber` | Número internacional con código de país; admite +, espacios y guiones. |
-| `instagramUrl` | URL completa del perfil oficial con https://. |
-| `linkedinUrl` | URL completa del perfil oficial con https://. |
-| `domain` | URL pública completa con https://; se usa su origen para metadata, Open Graph, canónicas y sitemap. |
-| `legalBusinessName` | Nombre legal o razón social reales. Se usa como publisher en metadata si está completo; aprobar aparte los textos legales. |
-| `formRecipientEmail` | Buzón receptor del formulario, opcional aquí. Preferible dejarlo vacío y definir FORM_RECIPIENT_EMAIL en el servidor si no se quiere exponerlo en el código público. |
-
-No completar con ejemplos ficticios. Un valor vacío o TU_*_AQUI no crea enlaces. Email genera mailto:, WhatsApp genera wa.me con mensaje codificado; Instagram y LinkedIn abren una nueva pestaña con noopener/noreferrer. El dominio sin configurar conserva localhost y desactiva indexación. Los campos antiguos de siteContent se derivan automáticamente de businessConfig: no duplicar datos allí.
-
-## Archivo .env.local
-
-Copiar `.env.example` a `.env.local` y completar estas tres líneas:
+Copiar `.env.example` a `.env.local` para desarrollo. En Vercel, configurar los mismos nombres en **Settings → Environment Variables**, en el entorno de despliegue correspondiente:
 
 ```dotenv
 RESEND_API_KEY=
-RESEND_FROM_EMAIL=
-FORM_RECIPIENT_EMAIL=
+FROM_EMAIL=
+CONTACT_EMAIL=
 ```
 
-- `RESEND_API_KEY`: tu API key de Resend con permiso para enviar emails. Es privada, solo se lee en el servidor y no debe llevar prefijo NEXT_PUBLIC_.
-- `RESEND_FROM_EMAIL`: dirección remitente de un dominio verificado en Resend. Escribir solo el email; el código añade el nombre Velour Studio. No se utiliza el email del visitante como remitente.
-- `FORM_RECIPIENT_EMAIL`: buzón donde querés recibir las consultas. Tiene prioridad sobre `businessConfig.formRecipientEmail`. Si está vacío, se usa ese campo central; si ambos están vacíos, no se activa el envío.
+- `RESEND_API_KEY`: API key de Resend con permiso para enviar desde el dominio elegido. Nunca usar el prefijo `NEXT_PUBLIC_`, incluirla en contenido público ni subir `.env.local` a Git.
+- `FROM_EMAIL`: remitente autorizado en Resend. Admite una dirección sola o `Velour Studio <dirección>`. Se utiliza exactamente ese valor, sin añadir otro nombre. El dominio debe estar verificado en la misma cuenta de Resend y autorizado para esa API key.
+- `CONTACT_EMAIL`: buzón donde recibir las consultas. Puede ser Gmail. Es privado y se lee exclusivamente en el servidor; no usa el email público como fallback.
 
-La integración permanece desactivada si falta cualquiera de las tres piezas válidas. No existe envío de prueba automático. `.env.local` está excluido de Git.
+Los nombres anteriores `RESEND_FROM_EMAIL` y `FORM_RECIPIENT_EMAIL` ya no se utilizan. Tampoco existe un destinatario del formulario en `businessConfig`: los datos públicos de contacto siguen centralizados en `content/site-content.ts`.
 
-Después de cambiar variables, ejecutar `npm run build` y reiniciar `npm start` (o volver a desplegar). La disponibilidad mostrada en la página se resuelve al compilar. En desarrollo, reiniciar `npm run dev`.
+Después de cambiar código o variables en Vercel, crear un **nuevo deployment / Redeploy**. En local, reiniciar el proceso de Next.js. La configuración se lee al recibir cada POST; la página estática ya no decide si permite enviar.
 
-## Funcionamiento
+## Verificar FROM_EMAIL
 
-La ruta `/api/contact` recibe dos tipos de consulta: `kind: 'question'` para preguntas y `kind: 'project'` para el diagnóstico de dos pasos. Valida los datos, aplica el honeypot y llama a la API HTTPS de Resend desde el servidor. Envía todos los campos como texto plano (incluidas audiencia y situación actual), usa el email del visitante en reply_to y conserva un remitente y destinatario configurados. Solo devuelve éxito cuando Resend confirma la aceptación con un ID; esto no confirma por sí solo la llegada al buzón. Los errores del proveedor no exponen claves ni detalles internos. Los formularios conservan los datos si falla el envío. El diagnóstico también los conserva al volver al paso anterior.
+1. Confirmar que el dominio exacto del remitente figura como **Verified** en Resend → Domains y tiene habilitado el envío.
+2. Confirmar que la API key pertenece a esa cuenta y permite enviar desde ese dominio.
+3. No usar una dirección `@gmail.com` como FROM_EMAIL: el dominio Gmail no es propio y no puede verificarse. Sí puede usarse en CONTACT_EMAIL o Reply-To.
+4. Si todavía no hay un dominio propio, `onboarding@resend.dev` permite **pruebas solo al email asociado a la cuenta de Resend**. CONTACT_EMAIL debe coincidir con ese email. Esta restricción la aplica Resend; no se sustituye automáticamente el remitente.
+5. Tras desplegar, enviar una consulta de prueba y revisar su estado en Resend → Emails y el buzón receptor. Un ID confirma aceptación, no garantiza entrega al inbox.
 
-`npm run test:forms` comprueba validación, ausencia de credenciales y respuestas de proveedor simuladas. No realiza envíos reales ni lee tus credenciales.
+Documentación oficial: [dominios verificados](https://resend.com/docs/dashboard/domains/introduction), [restricciones de resend.dev](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain) y [SDK oficial Node.js](https://github.com/resend/resend-node).
 
-La integración anterior por CONTACT_WEBHOOK_URL fue reemplazada por Resend; esa variable ya no habilita el formulario. Antes de publicar, verificar el dominio remitente, comprobar una entrega real y configurar protección contra abuso en la plataforma/proveedor. En esta tarea no se enviaron emails reales.
+## Archivos y comportamiento
 
-Documentación oficial: [Enviar emails](https://resend.com/docs/api-reference/emails/send-email) y [verificar dominios](https://resend.com/docs/dashboard/domains/introduction).
+- `app/api/contact/route.ts`: POST `/api/contact`, runtime Node.js, origen permitido, JSON limitado, honeypot y validación del servidor.
+- `lib/inquiry.ts`: valida tipos, campos obligatorios, longitudes, email y opciones de proyecto contra el contenido central.
+- `lib/resend-mail.ts`: módulo `server-only`, lectura de variables en runtime y SDK oficial `resend` mediante `resend.emails.send`.
+- `components/contact-form.tsx`: los formularios de pregunta y diagnóstico hacen POST real, muestran `Enviando...`, deshabilitan el envío y conservan todo si falla.
+
+El correo usa FROM_EMAIL como `from`, CONTACT_EMAIL como `to` y el email del visitante como `replyTo`. Asunto: **Nueva solicitud de proyecto — Velour Studio**. Incluye nombre, empresa, email, WhatsApp, tipo de proyecto, presupuesto y mensaje; el diagnóstico añade audiencia y situación. Los campos ausentes de la consulta breve se indican como no definidos. Se envía texto plano para que el contenido introducido por visitantes no ejecute HTML.
+
+El bloqueo sincrónico evita doble submit y la clave de idempotencia de Resend evita duplicar el correo al reintentar la misma solicitud tras un error de red. Solo se confirma éxito cuando Resend devuelve un ID. Los errores del proveedor se registran en el servidor con nombre, código y mensaje; nunca se devuelve la API key ni el error interno al navegador.
+
+## Comprobaciones
+
+```sh
+npm install
+npm run lint
+npm run test:forms
+npm run build
+```
+
+`test:forms` ejecuta el endpoint y el SDK instalado con transporte HTTP simulado, sin cargar credenciales ni enviar emails. Comprueba validación, configuración, payload, idempotencia y errores. Para probar envíos reales localmente, completar `.env.local`, reiniciar Next.js y enviar desde la web.

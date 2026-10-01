@@ -15,7 +15,7 @@ import { FAQExperience, ContactSections } from './sections/contact-sections';
 import { FooterExperience } from './sections/footer-experience';
 import { ExperienceScenes } from './experience/experience-scenes';
 
-export default function ExperienceHome({ contactEnabled = false }: { contactEnabled?: boolean }) {
+export default function ExperienceHome() {
   const main = useRef<HTMLElement>(null);
-  return <><a className="skip-link" href="#main">Saltar al contenido</a><PageIntro /><Header /><main ref={main} id="main" className="experience-main"><ExperienceScenes root={main} /><HeroExperience /><TechnologyMarquee /><ServicesShowcase /><ProjectsShowcase /><ProcessStory /><AboutExperience /><GiantType /><ConversionCTA /><FAQExperience /><ContactSections enabled={contactEnabled} /></main><FooterExperience /></>;
+  return <><a className="skip-link" href="#main">Saltar al contenido</a><PageIntro /><Header /><main ref={main} id="main" className="experience-main"><ExperienceScenes root={main} /><HeroExperience /><TechnologyMarquee /><ServicesShowcase /><ProjectsShowcase /><ProcessStory /><AboutExperience /><GiantType /><ConversionCTA /><FAQExperience /><ContactSections /></main><FooterExperience /></>;
 }

@@ -6,21 +6,20 @@ import { flushSync } from 'react-dom';
 import { useState, useRef, useEffect } from 'react';
 import { ArrowUpRight, ArrowRight, ArrowLeft, LoaderCircle, CheckCircle2 } from 'lucide-react';
 import { siteContent } from '@/content/site-content';
-import { contact } from '@/lib/content';
 import { loadScrollMotion, refreshMotionLayout } from '@/lib/motion';
 
 const labels = siteContent.copy.form;
 const copy = siteContent.agency;
 const options = siteContent.diagnosticOptions;
 
-export function ProjectDiagnostic({ enabled = false }: { enabled?: boolean }) {
-  return <InquiryForm enabled={enabled} kind="project" />;
+export function ProjectDiagnostic() {
+  return <InquiryForm kind="project" />;
 }
-export function QuestionForm({ enabled = false }: { enabled?: boolean }) {
-  return <InquiryForm enabled={enabled} kind="question" />;
+export function QuestionForm() {
+  return <InquiryForm kind="question" />;
 }
 
-function InquiryForm({ enabled, kind }: { enabled: boolean; kind: 'project' | 'question' }) {
+function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
   const diagnostic = kind === 'project';
   const [step, setStep] = useState(1);
   const [changingStep, setChangingStep] = useState(false);
@@ -28,6 +27,8 @@ function InquiryForm({ enabled, kind }: { enabled: boolean; kind: 'project' | 'q
   const formRef = useRef<HTMLFormElement>(null);
   const stepContext = useRef<gsap.Context | null>(null);
   const transitionLock = useRef(false);
+  const submitLock = useRef(false);
+  const submission = useRef<{ body: string; key: string } | null>(null);
   const alive = useRef(true);
   useEffect(() => { alive.current = true; return () => { alive.current = false; stepContext.current?.revert(); }; }, []);
   const [selection, setSelection] = useState({ project: '', audience: '', situation: '' });
@@ -82,7 +83,7 @@ function InquiryForm({ enabled, kind }: { enabled: boolean; kind: 'project' | 'q
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (status === 'loading' || changingStep) return;
+    if (submitLock.current || status === 'success' || transitionLock.current) return;
     const form = event.currentTarget;
     if (diagnostic && step === 1) {
       if (form.reportValidity()) await changeStep(2);
@@ -94,25 +95,32 @@ function InquiryForm({ enabled, kind }: { enabled: boolean; kind: 'project' | 'q
         ? (key === 'message' ? siteContent.form.messages.messageTooShort : siteContent.form.messages.nameRequired) : '');
     }
     if (!form.reportValidity()) return;
-    if (!enabled) { setStatus('error'); setMessage(siteContent.form.messages.unavailable); return; }
-    setStatus('loading'); setMessage('');
+    // Capture values before disabling the fieldset. Lock synchronously, before React renders.
     const data = { ...Object.fromEntries(new FormData(form)), kind, ...(diagnostic ? selection : {}) };
+    const body = JSON.stringify(data);
+    submitLock.current = true;
+    setStatus('loading'); setMessage('');
     try {
-      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), signal: AbortSignal.timeout(15000) });
+      // Reuse the key on an unchanged retry, including an ambiguous network failure.
+      if (submission.current?.body !== body) submission.current = { body, key: crypto.randomUUID() };
+      const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Idempotency-Key': submission.current.key }, body, signal: AbortSignal.timeout(20000) });
       const result = await response.json();
-      if (!response.ok || !result.ok) throw new Error(result.error || siteContent.form.messages.failure);
+      if (!response.ok || result?.ok !== true) throw new Error('Contact request failed');
+      if (!alive.current) return;
       setStatus('success'); setMessage(siteContent.form.messages.success); form.reset();
+      submission.current = null;
       // Keep the confirmation visible; visitors can explicitly start another inquiry by returning.
       setSelection({ project: '', audience: '', situation: '' });
-    } catch (error) {
-      setStatus('error');
-      setMessage(error instanceof Error && error.name !== 'TimeoutError' ? error.message : siteContent.form.messages.timeout);
+    } catch {
+      if (!alive.current) return;
+      setStatus('error'); setMessage(siteContent.form.messages.failure);
+    } finally {
+      submitLock.current = false;
     }
   }
 
   return <form ref={formRef} onSubmit={submit} className={`contact-form ${diagnostic ? 'diagnostic-form' : 'question-form'}`} aria-label={diagnostic ? copy.diagnostic.label : copy.question.title} aria-busy={status === 'loading' || changingStep}>
     {diagnostic && <div className="diagnostic-progress"><h3 ref={stepRef} tabIndex={-1}>{copy.diagnostic.stepLabel} <motion.span key={step} className="step-number" initial={reduced ? false : { y: 8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: .3 }}>0{step} / 02</motion.span> <span>— {copy.diagnostic.steps[step - 1]}</span></h3><div className="step-progress-track" aria-hidden="true"><span /><span /><motion.i animate={{ scaleX: step / 2 }} initial={false} transition={{ duration: reduced ? 0 : .4, ease: editorialEase }} /></div></div>}
-    {!enabled && <p className="form-availability">{labels.el_envio_de_consultas_estara_disponible_proximamente}{contact.emailHref && <>{labels.mientras_tanto}<a href={contact.emailHref}>{labels.escribinos_por_email}</a>{labels.symbol}</>}</p>}
     <p className="form-help">{labels.los_campos_con_son_obligatorios}</p>
     <div className="form-step-window">
     {diagnostic && <fieldset className="diagnostic-first" hidden={step !== 1} disabled={step !== 1 || changingStep || status === 'loading'}>

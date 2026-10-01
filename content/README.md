@@ -1,6 +1,6 @@
 # Editar el contenido sin modificar el diseño
 
-Toda la información pública se edita en **content/site-content.ts**. Para completar contacto y publicación, usar los siete campos de `businessConfig` al principio del archivo; `siteContent.contact` y `siteContent.publication` derivan sus valores de ellos. `lib/content.ts` solo adapta los datos y genera enlaces seguros. No editar allí valores comerciales. Los contactos y el dominio ya no se leen desde NEXT_PUBLIC_*: el archivo de contenido es la fuente única. Nunca guardar claves o contraseñas en este archivo: se incluye en la web pública.
+Toda la información pública se edita en **content/site-content.ts**. Para completar contacto y publicación, usar los campos públicos de `businessConfig` al principio del archivo; `siteContent.contact` y `siteContent.publication` derivan sus valores de ellos. `lib/content.ts` solo adapta los datos y genera enlaces seguros. No editar allí valores comerciales. Los contactos y el dominio ya no se leen desde NEXT_PUBLIC_*: el archivo de contenido es la fuente única. Nunca guardar claves o contraseñas en este archivo: se incluye en la web pública.
 
 ## Campos principales
 
@@ -58,8 +58,8 @@ Las cinco visuales de servicios son exploraciones ilustrativas independientes de
 - Servicios, tiempos, administración y soporte de las FAQ necesitan confirmación comercial.
 - Los textos legales son borradores: completar responsable, contacto, jurisdicción, proveedores, conservación de datos y condiciones efectivas.
 - Instagram, LinkedIn, dirección (si aplica) y dominio siguen pendientes. Email y WhatsApp están confirmados.
-- El formulario conserva su aviso de disponibilidad hasta conectar un receptor privado de email.
+- El formulario usa Resend. Confirmar remitente autorizado y entrega al receptor configurado en CONTACT_EMAIL.
 
 ## Publicación
 
-Después de editar: `npm run lint`, `npm run typecheck`, `npm run test:forms` y `npm run build`; reiniciar el servidor. Configurar Resend con `RESEND_API_KEY`, `RESEND_FROM_EMAIL` y `FORM_RECIPIENT_EMAIL` en `.env.local` o en el alojamiento. Sin la configuración completa no se activa ninguno de los dos formularios. Ver [RESEND-SETUP.md](RESEND-SETUP.md) y comprobar una entrega real antes de publicar.
+Después de editar: `npm run lint`, `npm run typecheck`, `npm run test:forms` y `npm run build`; reiniciar el servidor. Configurar Resend con `RESEND_API_KEY`, `FROM_EMAIL` y `CONTACT_EMAIL` en `.env.local` o en el alojamiento. Ambos formularios envían al backend; una configuración incompleta produce un error de servidor y conserva los datos introducidos. Ver [RESEND-SETUP.md](RESEND-SETUP.md) y comprobar una entrega real antes de publicar.

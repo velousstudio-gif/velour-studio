@@ -7,6 +7,7 @@ export type Inquiry = Record<'name' | 'company' | 'email' | 'phone' | 'project' 
 export function validateInquiry(data: Record<string, unknown>): Inquiry | null {
   if (data.website || (data.kind !== 'project' && data.kind !== 'question')) return null;
   const fields = ['name', 'company', 'email', 'phone', 'project', 'audience', 'situation', 'budget', 'message'] as const;
+  if (fields.some(key => data[key] !== undefined && typeof data[key] !== 'string')) return null;
   const clean = Object.fromEntries(fields.map(key => [key, typeof data[key] === 'string' ? data[key].trim() : ''])) as Record<typeof fields[number], string>;
   if (!clean.name || clean.name.length > 100 || !validEmail(clean.email) || clean.message.length < 10 || clean.message.length > 5000 || clean.company.length > 150 || clean.phone.length > 40) return null;
   const options = siteContent.diagnosticOptions;

@@ -4,7 +4,7 @@
 export type Project = { slug: string; name: string; year: string; category: string; description: string; tech: string[]; kind: string; detail: string; status: 'demo' | 'real'; image: { src: string; alt: string }; sector: string; problem: string; solution: string; result: { text: string; evidenceUrl: string } | null };
 
 // Completar aquí los datos públicos. Mantener vacíos o placeholders hasta tener datos reales.
-// formRecipientEmail puede dejarse vacío y configurarse privadamente con FORM_RECIPIENT_EMAIL.
+// El destinatario privado del formulario se configura únicamente con CONTACT_EMAIL en el servidor.
 export const businessConfig = {
   publicEmail: 'velousstudio@gmail.com',
   whatsappNumber: '5493585329272',
@@ -13,7 +13,6 @@ export const businessConfig = {
   linkedinUrl: '',
   domain: '', // URL completa con https://
   legalBusinessName: 'TU_RAZON_SOCIAL_AQUI',
-  formRecipientEmail: '',
 };
 
 export const siteContent = {
@@ -360,10 +359,8 @@ export const siteContent = {
     "messages": {
       "nameRequired": "Ingresá tu nombre.",
       "messageTooShort": "Escribí un mensaje de al menos 10 caracteres.",
-      "unavailable": "El envío todavía no está disponible. Tus datos siguen en el formulario.",
-      "failure": "No pudimos enviar tu mensaje. Intentá nuevamente.",
-      "success": "Recibimos tu consulta. Gracias por contarnos tu idea.",
-      "timeout": "El envío tardó más de lo esperado. Tus datos siguen acá; intentá nuevamente."
+      "failure": "No pudimos enviar tu solicitud. Intentá nuevamente o escribinos por WhatsApp.",
+      "success": "Gracias. Recibimos tu solicitud y te contactaremos pronto."
     }
   },
   "copy": {
@@ -485,10 +482,6 @@ export const siteContent = {
       "atelier_sistema_de_identidad_visual": "ATELIER — SISTEMA DE IDENTIDAD VISUAL"
     },
     "form": {
-      "el_envio_de_consultas_estara_disponible_proximamente": "El envío de consultas estará disponible próximamente.",
-      "mientras_tanto": " Mientras tanto, ",
-      "escribinos_por_email": "escribinos por email",
-      "symbol": ".",
       "los_campos_con_son_obligatorios": "Los campos con * son obligatorios.",
       "nombre": "Nombre ",
       "symbol_2": "*",
@@ -509,7 +502,7 @@ export const siteContent = {
       "no_completar": "No completar",
       "al_enviar_aceptas_nuestra": "Al enviar, aceptás nuestra ",
       "politica_de_privacidad": "política de privacidad.",
-      "enviando": "Enviando ",
+      "enviando": "Enviando...",
       "enviar_proyecto": "Enviar proyecto "
     },
     "privacy": {

@@ -26,7 +26,7 @@ Los placeholders TU_*_AQUI no generan enlaces inválidos. Las antiguas variables
 
 Completar contactos y dominio; confirmar textos comerciales, precios y alcance; reemplazar o conservar claramente identificados los tres proyectos demo; completar los borradores legales. Recompilar después de editar.
 
-Completar `businessConfig` al inicio de `content/site-content.ts`. Para enviar consultas, definir `RESEND_API_KEY`, `RESEND_FROM_EMAIL` y `FORM_RECIPIENT_EMAIL` en `.env.local` o en el alojamiento. La integración permanece desactivada mientras falten credenciales, remitente o destinatario válidos. Guía completa: [content/RESEND-SETUP.md](content/RESEND-SETUP.md). No se envían emails de prueba automáticamente. Usar alojamiento compatible con Next.js/Node; no exportación estática.
+Completar `businessConfig` al inicio de `content/site-content.ts`. Para enviar consultas, definir `RESEND_API_KEY`, `FROM_EMAIL` y `CONTACT_EMAIL` en `.env.local` o en el alojamiento. Cada envío hace un POST real; las variables privadas se validan en el servidor al recibirlo. Guía completa: [content/RESEND-SETUP.md](content/RESEND-SETUP.md). No se envían emails de prueba automáticamente. Usar alojamiento compatible con Next.js/Node; no exportación estática.
 
 ## Marca y recursos
 
@@ -34,7 +34,7 @@ Header y footer mantienen el wordmark tipográfico; favicon PNG vigente. Los mon
 
 ## Recorrido comercial
 
-Hero → tecnologías → servicios → portfolio → proceso → estudio y principios → manifiesto → CTA → FAQ → preguntas → diagnóstico → footer. Los precios se muestran en FAQ. Ambos formularios comparten validación y el endpoint de Resend; sin configuración no transmiten datos.
+Hero → tecnologías → servicios → portfolio → proceso → estudio y principios → manifiesto → CTA → FAQ → preguntas → diagnóstico → footer. Los precios se muestran en FAQ. Ambos formularios comparten validación y el endpoint de Resend. Conservan todos los datos ante cualquier fallo y confirman éxito solo si el proveedor acepta el email.
 
 ESLint 9 se mantiene por compatibilidad con los plugins React de `eslint-config-next` 16.3.6; actualizar ambos conjuntamente cuando soporten ESLint 10. No añade dependencias al código servido al visitante.
 
