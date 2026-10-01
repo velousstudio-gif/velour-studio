@@ -36,7 +36,9 @@ Después de cambiar variables, ejecutar `npm run build` y reiniciar `npm start` 
 
 ## Funcionamiento
 
-La ruta `/api/contact` valida los datos, aplica el honeypot y llama a la API HTTPS de Resend desde el servidor. Envía todos los campos del formulario como texto plano, usa el email del visitante en reply_to y conserva un remitente y destinatario configurados. Solo devuelve éxito cuando Resend confirma la aceptación con un ID; esto no confirma por sí solo la llegada al buzón. Los errores de proveedor no exponen claves ni detalles internos. El formulario conserva los datos si falla el envío.
+La ruta `/api/contact` recibe dos tipos de consulta: `kind: 'question'` para preguntas y `kind: 'project'` para el diagnóstico de dos pasos. Valida los datos, aplica el honeypot y llama a la API HTTPS de Resend desde el servidor. Envía todos los campos como texto plano (incluidas audiencia y situación actual), usa el email del visitante en reply_to y conserva un remitente y destinatario configurados. Solo devuelve éxito cuando Resend confirma la aceptación con un ID; esto no confirma por sí solo la llegada al buzón. Los errores del proveedor no exponen claves ni detalles internos. Los formularios conservan los datos si falla el envío. El diagnóstico también los conserva al volver al paso anterior.
+
+`npm run test:forms` comprueba validación, ausencia de credenciales y respuestas de proveedor simuladas. No realiza envíos reales ni lee tus credenciales.
 
 La integración anterior por CONTACT_WEBHOOK_URL fue reemplazada por Resend; esa variable ya no habilita el formulario. Antes de publicar, verificar el dominio remitente, comprobar una entrega real y configurar protección contra abuso en la plataforma/proveedor. En esta tarea no se enviaron emails reales.
 

@@ -1,7 +1,7 @@
 /** ÚNICA FUENTE DE CONTENIDO PÚBLICO. No guardar claves ni secretos aquí.
  * Los placeholders TU_*_AQUI nunca se convierten en enlaces visibles.
  * Ver content/README.md para editar sin cambiar el diseño. */
-export type Project = { slug: string; name: string; year: string; category: string; description: string; tech: string[]; kind: string; detail: string; status: 'demo' | 'real'; image: { src: string; alt: string } };
+export type Project = { slug: string; name: string; year: string; category: string; description: string; tech: string[]; kind: string; detail: string; status: 'demo' | 'real'; image: { src: string; alt: string }; sector: string; problem: string; solution: string; result: { text: string; evidenceUrl: string } | null };
 
 // Completar aquí los datos públicos. Mantener vacíos o placeholders hasta tener datos reales.
 // formRecipientEmail puede dejarse vacío y configurarse privadamente con FORM_RECIPIENT_EMAIL.
@@ -33,12 +33,18 @@ export const siteContent = {
     "legalJurisdiction": "TU_JURISDICCION_AQUI"
   },
   "media": {
-    "hero": { "src": "/images/velour-sculpture.webp", "alt": "Escultura de seda marfil, luz y textura sobre piedra natural" },
-    "demoFashion": { "src": "/images/edit-fashion.webp", "alt": "Abrigo de lana marfil sobre una silla de madera, fotografía editorial de moda" }
+    "hero": {
+      "src": "/images/velour-sculpture.webp",
+      "alt": "Escultura de seda marfil, luz y textura sobre piedra natural"
+    },
+    "demoFashion": {
+      "src": "/images/edit-fashion.webp",
+      "alt": "Abrigo de lana marfil sobre una silla de madera, fotografía editorial de moda"
+    }
   },
   "seo": {
     "title": "Velour Studio | Web Design, E-commerce & Digital Solutions",
-    "description": "Estudio digital independiente. Diseño web, e-commerce en Shopify, branding, automatización y desarrollo a medida para marcas y negocios.",
+    "description": "Diseñamos páginas web, tiendas online y soluciones digitales para marcas y negocios que quieren crecer.",
     "socialImageAlt": "Velour Studio — Experiencias digitales creadas para destacar"
   },
   "navigation": [
@@ -51,12 +57,12 @@ export const siteContent = {
       "services"
     ],
     [
-      "El estudio",
-      "studio"
+      "Proceso",
+      "process"
     ],
     [
-      "Contacto",
-      "contact"
+      "El estudio",
+      "studio"
     ]
   ],
   "links": {
@@ -68,30 +74,76 @@ export const siteContent = {
     "manifesto": "/#manifiesto",
     "form": "/#project-form",
     "privacy": "/privacidad",
-    "terms": "/terminos"
+    "terms": "/terminos",
+    "process": "/#proceso",
+    "questions": "/#preguntas",
+    "webService": "/#web-commerce",
+    "automationService": "/#automation",
+    "ecommerceService": "/#ecommerce",
+    "developmentService": "/#development",
+    "branding": "/#branding",
+    "trust": "/#confianza"
   },
-  "services": [
-    {
-      "title": "Diseño y Desarrollo Web",
-      "description": "Creamos sitios web modernos, rápidos y pensados para convertir."
+  "services": {
+    "web": {
+      "eyebrow": "01 — QUÉ HACEMOS",
+      "title": "Diseño y desarrollo web",
+      "description": "Tu web no debería ser solamente bonita. Debe explicar qué hacés, generar confianza y hacer que contactar o comprar sea sencillo.",
+      "detailLabel": "Ver servicio",
+      "details": "Cada proyecto empieza por el contenido y la experiencia. Definimos la estructura, diseñamos una propuesta a medida y desarrollamos una web lista para usar, con atención al rendimiento, la navegación y el detalle.",
+      "capabilities": [
+        [
+          "PÁGINA WEB",
+          "Diseño personalizado para tu negocio."
+        ],
+        [
+          "LANDING PAGE",
+          "Una página enfocada en una acción concreta."
+        ],
+        [
+          "SHOPIFY",
+          "Tiendas online fáciles de gestionar."
+        ],
+        [
+          "RESPONSIVE",
+          "Experiencia optimizada en cualquier pantalla."
+        ]
+      ],
+      "visualCaption": "Exploraciones de diseño web · Conceptos de Velour Studio"
     },
-    {
-      "title": "E-commerce",
-      "description": "Diseñamos tiendas online en Shopify y soluciones de venta digital."
+    "automation": {
+      "eyebrow": "02 — QUÉ HACEMOS",
+      "title": "Automatización y desarrollo a medida",
+      "description": "Cuando una web no alcanza, conectamos herramientas y construimos soluciones que reducen trabajo manual y organizan mejor tu operación.",
+      "detailLabel": "Ver servicio",
+      "details": "Partimos de cómo trabajás hoy. Identificamos las tareas repetitivas y definimos qué conviene conectar o construir: formularios, APIs, seguimiento de consultas y herramientas internas.",
+      "capabilities": [
+        [
+          "AUTOMATION",
+          "Procesos, formularios y workflows."
+        ],
+        [
+          "CRM",
+          "Gestión de clientes y oportunidades."
+        ],
+        [
+          "INTEGRACIONES",
+          "Conexiones entre APIs y plataformas."
+        ],
+        [
+          "CUSTOM DEVELOPMENT",
+          "Herramientas internas y sistemas personalizados."
+        ]
+      ],
+      "visualCaption": "Una experiencia simple. Un sistema conectado. · Concepto"
     },
-    {
-      "title": "Branding",
-      "description": "Creamos identidades visuales claras, consistentes y modernas."
-    },
-    {
-      "title": "Automatización",
-      "description": "Conectamos procesos, formularios, CRM y herramientas para ahorrar tiempo."
-    },
-    {
-      "title": "Desarrollo Personalizado",
-      "description": "Creamos plataformas, portales, sistemas internos y soluciones a medida."
+    "branding": {
+      "label": "TAMBIÉN DAMOS FORMA A TU MARCA",
+      "title": "Branding con una mirada propia.",
+      "description": "Identidades visuales claras, consistentes y modernas. Desde el concepto hasta cada punto de contacto.",
+      "cta": "Hablemos de tu marca"
     }
-  ],
+  },
   "prices": [
     {
       "id": "landing",
@@ -122,8 +174,8 @@ export const siteContent = {
       "description": "Una experiencia de compra donde el producto y la dirección de arte hablan el mismo idioma.",
       "tech": [
         "Shopify",
-        "Dirección de arte",
-        "Diseño web"
+        "UX/UI",
+        "Responsive"
       ],
       "kind": "fashion",
       "detail": "Un concepto de tienda de moda que explora el equilibrio entre una experiencia editorial y una compra intuitiva. La tipografía, la fotografía y los espacios construyen una identidad serena, con el producto como protagonista.",
@@ -131,18 +183,22 @@ export const siteContent = {
       "image": {
         "src": "",
         "alt": ""
-      }
+      },
+      "sector": "Moda / retail",
+      "problem": "Explorar cómo presentar una colección con carácter editorial sin dificultar la compra.",
+      "solution": "Un concepto de tienda Shopify con jerarquía clara, catálogo visual y navegación pensada para móvil.",
+      "result": null
     },
     {
       "slug": "recruitment-platform",
       "name": "Recruitment Platform",
       "year": "2026",
-      "category": "Web App / CRM",
+      "category": "Web Platform",
       "description": "Una nueva perspectiva del talento. Una presencia digital abierta, expresiva y humana.",
       "tech": [
-        "Diseño web",
-        "Desarrollo",
-        "Experiencia de usuario"
+        "Next.js",
+        "Automation",
+        "CRM"
       ],
       "kind": "recruitment",
       "detail": "Concepto de plataforma de reclutamiento presentado desde su experiencia pública: una portada con voz propia que conecta a las personas con nuevas posibilidades. La identidad tipográfica y las formas ascendentes expresan movimiento y crecimiento.",
@@ -150,7 +206,11 @@ export const siteContent = {
       "image": {
         "src": "",
         "alt": ""
-      }
+      },
+      "sector": "Talento / servicios",
+      "problem": "Dar claridad a la conexión entre personas, búsquedas y oportunidades desde una experiencia pública.",
+      "solution": "Una propuesta de plataforma web con recorrido de consulta y una base conceptual para automatizar el seguimiento.",
+      "result": null
     },
     {
       "slug": "luxury-brand-identity",
@@ -159,9 +219,9 @@ export const siteContent = {
       "category": "Branding / Web",
       "description": "El valor de lo esencial. Una identidad táctil y atemporal que encuentra belleza en lo cotidiano.",
       "tech": [
-        "Identidad visual",
+        "Branding",
         "Dirección de arte",
-        "Diseño web"
+        "Web design"
       ],
       "kind": "identity",
       "detail": "Exploración de identidad para una marca de objetos de autor. Un monograma, una paleta de tintas profundas y papeles cálidos construyen un sistema visual que puede extenderse desde la papelería hasta la experiencia digital.",
@@ -169,86 +229,142 @@ export const siteContent = {
       "image": {
         "src": "",
         "alt": ""
-      }
+      },
+      "sector": "Diseño / objetos de autor",
+      "problem": "Construir una identidad reconocible que conserve su carácter tanto en papel como en pantalla.",
+      "solution": "Un sistema conceptual de identidad, tipografía y dirección de arte adaptable a una experiencia web.",
+      "result": null
     }
   ] as Project[],
   "faqs": [
-    [
-      "¿Cuánto cuesta una página web?",
-      "Las landing pages comienzan desde USD {landingPrice}, los sitios web desde USD {webPrice} y las tiendas online desde USD {commercePrice}. La propuesta final se define según el alcance y las funcionalidades de tu proyecto."
-    ],
-    [
-      "¿Cuánto tarda un proyecto?",
-      "Depende del proyecto y del contenido disponible. Antes de comenzar, definimos juntos el alcance y un cronograma de trabajo con etapas claras."
-    ],
-    [
-      "¿El dominio está incluido?",
-      "El registro y la renovación se abonan por separado. La conexión del dominio está incluida. También detallamos los costos de alojamiento y servicios externos en la propuesta."
-    ],
-    [
-      "¿Trabajan con Shopify?",
-      "Sí. Diseñamos y configuramos tiendas Shopify, desde la experiencia visual y el catálogo hasta pagos e integraciones. La suscripción a Shopify se abona por separado."
-    ],
-    [
-      "¿Puedo administrar la web después?",
-      "Sí. Según la solución elegida, te entregamos acceso y una guía para actualizar contenidos, imágenes o productos. Definimos qué podrás administrar antes de comenzar."
-    ],
-    [
-      "¿Ofrecen soporte luego de la entrega?",
-      "Sí. Acordamos las condiciones del acompañamiento y las opciones de mantenimiento para que tu proyecto siga funcionando y pueda evolucionar."
-    ]
+    {
+      "id": "pricing",
+      "question": "¿Cuánto cuesta una página web?",
+      "answer": "Cada proyecto depende del alcance y las funcionalidades. Landing Page: desde USD {landingPrice}. Web Profesional: desde USD {webPrice}. E-commerce: desde USD {commercePrice}. Desarrollo personalizado: cotización a medida."
+    },
+    {
+      "id": "timing",
+      "question": "¿Cuánto tarda un proyecto?",
+      "answer": "Depende del alcance y del contenido disponible. Como referencia: landing pages, {landingTime}; webs profesionales, {webTime}; e-commerce, {commerceTime}. El cronograma se acuerda antes de comenzar."
+    },
+    {
+      "id": "domain",
+      "question": "¿El dominio está incluido?",
+      "answer": "No. El dominio, hosting, Shopify, aplicaciones y servicios externos se pagan por separado salvo que la propuesta indique lo contrario."
+    },
+    {
+      "id": "shopify",
+      "question": "¿Trabajan con Shopify?",
+      "answer": "Sí. Diseñamos y configuramos tiendas Shopify, catálogo, inventario, colecciones, carrito y experiencia de compra."
+    },
+    {
+      "id": "management",
+      "question": "¿Puedo administrar la web después?",
+      "answer": "Sí. Siempre que la tecnología utilizada lo permita, entregamos accesos y dejamos preparada la plataforma para que puedas gestionar el contenido correspondiente."
+    },
+    {
+      "id": "payment",
+      "question": "¿Cómo se paga?",
+      "answer": "Podemos organizar el pago de dos maneras, según la propuesta acordada."
+    },
+    {
+      "id": "changes",
+      "question": "¿Qué pasa si necesito cambios?",
+      "answer": "Los cambios contemplados dentro del alcance inicial se trabajan durante las revisiones del proyecto. Las funcionalidades nuevas se cotizan por separado."
+    },
+    {
+      "id": "support",
+      "question": "¿Ofrecen soporte?",
+      "answer": "Sí. El soporte y mantenimiento posterior puede incluirse según las necesidades del proyecto."
+    }
   ],
   "process": [
-    [
-      "Descubrir",
-      "Entendemos el negocio, objetivos y necesidades."
-    ],
-    [
-      "Diseñar",
-      "Definimos estructura, identidad visual y experiencia."
-    ],
-    [
-      "Construir",
-      "Desarrollamos y optimizamos la solución."
-    ],
-    [
-      "Lanzar",
-      "Probamos, ajustamos y publicamos."
-    ]
+    {
+      "title": "Reunión / brief",
+      "timing": "Día 1",
+      "description": "Entendemos tu negocio, qué querés construir, tus referencias y el objetivo principal del proyecto.",
+      "deliverables": [
+        "Alcance inicial",
+        "Presupuesto",
+        "Próximos pasos"
+      ],
+      "approval": true
+    },
+    {
+      "title": "Dirección visual",
+      "timing": "Primeros días",
+      "description": "Definimos estructura, referencias, identidad visual y dirección del proyecto antes de avanzar con el desarrollo.",
+      "deliverables": [
+        "Dirección visual",
+        "Estructura",
+        "Primera propuesta"
+      ],
+      "approval": true
+    },
+    {
+      "title": "Desarrollo",
+      "timing": "Según alcance",
+      "description": "Construimos la solución aprobada y compartimos avances para que puedas revisar el proyecto durante el proceso.",
+      "deliverables": [
+        "Versión funcional",
+        "Preview / staging"
+      ],
+      "approval": false
+    },
+    {
+      "title": "Revisión y lanzamiento",
+      "timing": "Antes de publicar",
+      "description": "Probamos responsive, navegación, enlaces, formularios y rendimiento antes de publicar.",
+      "deliverables": [
+        "Web publicada",
+        "Accesos",
+        "Configuración final"
+      ],
+      "approval": true
+    },
+    {
+      "title": "Soporte",
+      "timing": "Después del lanzamiento",
+      "description": "Después del lanzamiento podemos acompañarte con ajustes, mantenimiento y nuevas mejoras según el proyecto.",
+      "deliverables": [],
+      "approval": false
+    }
   ],
   "footerServices": [
-    "Web Design",
-    "E-commerce",
-    "Branding",
-    "Automation",
-    "Development"
+    {
+      "label": "Web Design",
+      "link": "webService"
+    },
+    {
+      "label": "E-commerce",
+      "link": "ecommerceService"
+    },
+    {
+      "label": "Shopify",
+      "link": "ecommerceService"
+    },
+    {
+      "label": "Branding",
+      "link": "branding"
+    },
+    {
+      "label": "Automation",
+      "link": "automationService"
+    },
+    {
+      "label": "Development",
+      "link": "developmentService"
+    }
   ],
   "form": {
     "messages": {
-  "nameRequired": "Ingresá tu nombre.",
-  "messageTooShort": "Escribí al menos 10 caracteres para contarnos tu proyecto.",
-  "unavailable": "El envío todavía no está disponible. Tus datos siguen en el formulario.",
-  "failure": "No pudimos enviar tu mensaje. Intentá nuevamente.",
-  "success": "Recibimos tu consulta. Gracias por contarnos tu idea.",
-  "timeout": "El envío tardó más de lo esperado. Tus datos siguen acá; intentá nuevamente."
-},
-    "projectTypes": [
-      "Página web",
-      "E-commerce",
-      "Shopify",
-      "Sistema personalizado",
-      "CRM",
-      "Branding",
-      "Automatización",
-      "Otro"
-    ],
-    "budgets": [
-      "Menos de USD 200",
-      "USD 200–500",
-      "USD 500–1000",
-      "USD 1000+",
-      "No estoy seguro"
-    ]
+      "nameRequired": "Ingresá tu nombre.",
+      "messageTooShort": "Escribí un mensaje de al menos 10 caracteres.",
+      "unavailable": "El envío todavía no está disponible. Tus datos siguen en el formulario.",
+      "failure": "No pudimos enviar tu mensaje. Intentá nuevamente.",
+      "success": "Recibimos tu consulta. Gracias por contarnos tu idea.",
+      "timeout": "El envío tardó más de lo esperado. Tus datos siguen acá; intentá nuevamente."
+    }
   },
   "copy": {
     "home": {
@@ -327,8 +443,8 @@ export const siteContent = {
       "experiencias_con_proposito": "Experiencias con propósito.",
       "volver_arriba": "Volver arriba ",
       "text_2026_velour_studio": "© 2026 Velour Studio",
-      "privacy": "Privacy",
-      "terms": "Terms",
+      "privacy": "Privacidad",
+      "terms": "Términos",
       "independent_by_design": "INDEPENDENT BY DESIGN."
     },
     "demoArtwork": {
@@ -446,6 +562,240 @@ export const siteContent = {
     "Servicios, FAQ y textos comerciales: validar plazos, alcance, soporte y condiciones prometidas.",
     "copy.privacy y copy.terms: borradores legales; faltan responsable, jurisdicción, proveedores y condiciones definitivas.",
     "Hero y Open Graph: dirección de arte y textos actuales conservados; no se presentan como trabajos de clientes.",
-    "Resend: API key, remitente verificado y destinatario pendientes. Sin configuración completa no se envían consultas."
-  ]
+    "Resend: API key, remitente verificado y destinatario pendientes. Sin configuración completa no se envían consultas.",
+    "Interfaz de reservas de Atelier: composición ilustrativa, sin funcionalidad de reserva."
+  ],
+  "timelines": {
+    "landing": "aproximadamente 1 semana",
+    "web": "aproximadamente 1–3 semanas",
+    "commerce": "aproximadamente 2–4 semanas"
+  },
+  "paymentOptions": [
+    {
+      "label": "Opción A",
+      "description": "50% al inicio y 50% a la entrega."
+    },
+    {
+      "label": "Opción B",
+      "description": "Pago en tres etapas según alcance. Definimos los importes en la propuesta."
+    }
+  ],
+  "diagnosticOptions": {
+    "projectTypes": [
+      "Página web",
+      "Landing page",
+      "E-commerce",
+      "Shopify",
+      "Branding",
+      "Automatización",
+      "CRM / Sistema",
+      "Otro"
+    ],
+    "audiences": [
+      "Mi negocio",
+      "Una empresa",
+      "Un cliente",
+      "Proyecto personal",
+      "Otro"
+    ],
+    "situations": [
+      "Todavía no tengo nada",
+      "Tengo Instagram / redes",
+      "Tengo una web",
+      "Tengo una web pero quiero reemplazarla",
+      "Ya tengo una tienda",
+      "Necesito mejorar un sistema existente"
+    ],
+    "budgets": [
+      "Menos de USD 200",
+      "USD 200–500",
+      "USD 500–1,000",
+      "USD 1,000+",
+      "No estoy seguro"
+    ]
+  },
+  "agency": {
+    "hero": {
+      "eyebrow": "ESTUDIO DIGITAL — WEB / COMMERCE / BRANDING",
+      "title": "Tu negocio merece una presencia digital a la altura.",
+      "accent": "Diseñada para destacar. Construida para funcionar.",
+      "description": "Creamos páginas web, tiendas online y soluciones digitales para marcas y negocios que quieren verse profesionales, vender mejor y simplificar su operación.",
+      "primary": "Cotizar proyecto",
+      "secondary": "Ver trabajos",
+      "scroll": "Seguí descubriendo"
+    },
+    "trust": [
+      {
+        "title": "Diseño a medida",
+        "description": "Sin plantillas genéricas."
+      },
+      {
+        "title": "100% responsive",
+        "description": "Optimizado para celular, tablet y escritorio."
+      },
+      {
+        "title": "Atención directa",
+        "description": "Contacto durante todo el proyecto."
+      },
+      {
+        "title": "Entrega documentada",
+        "description": "Accesos y configuración organizados."
+      }
+    ],
+    "technology": {
+      "label": "HERRAMIENTAS QUE USAMOS",
+      "names": [
+        "Shopify",
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Vercel",
+        "GitHub",
+        "Figma",
+        "Meta",
+        "Google",
+        "OpenAI",
+        "Claude"
+      ],
+      "pause": "Pausar movimiento",
+      "play": "Reanudar movimiento"
+    },
+    "interface": {
+      "label": "EXPERIENCIA CONECTADA",
+      "wordmark": "Atelier",
+      "title": "Reservá un momento.",
+      "description": "Elegí el día. Nosotros nos ocupamos del resto.",
+      "date": "Jueves, 15 de octubre",
+      "times": [
+        "10:00",
+        "11:30",
+        "16:00"
+      ],
+      "button": "Confirmar encuentro",
+      "note": "Formulario → Agenda → Confirmación",
+      "status": "Todo en su lugar."
+    },
+    "process": {
+      "label": "CÓMO TRABAJAMOS",
+      "title": "Qué pasa después de que nos escribís",
+      "description": "Queremos que siempre sepas qué estamos haciendo, qué sigue y qué necesitamos de vos.",
+      "approval": "TU APROBACIÓN",
+      "deliverables": "ENTREGABLES",
+      "note": "Tiempos orientativos. El alcance y el cronograma se definen en la propuesta."
+    },
+    "work": {
+      "label": "TRABAJOS SELECCIONADOS",
+      "title": "Diseño que se ve bien.",
+      "accent": "Tecnología que funciona.",
+      "demo": "Exploraciones conceptuales. Una muestra de nuestra mirada, no casos de clientes.",
+      "real": "Proyectos con una idea clara y una ejecución cuidada.",
+      "caseLink": "Explorar proyecto",
+      "problem": "El desafío",
+      "solution": "La solución",
+      "result": "Resultado documentado",
+      "sector": "Sector",
+      "stack": "Stack / disciplinas"
+    },
+    "cta": {
+      "label": "¿TENÉS UNA IDEA?",
+      "title": "Tu próximo proyecto puede empezar con una conversación.",
+      "description": "Contanos qué querés construir y te ayudamos a definir el alcance adecuado.",
+      "primary": "Contanos tu proyecto",
+      "secondary": "WhatsApp",
+      "notes": [
+        "Sin compromiso",
+        "Presupuesto definido antes de comenzar",
+        "Atención directa"
+      ]
+    },
+    "faq": {
+      "label": "PREGUNTAS FRECUENTES",
+      "title": "Todo lo que necesitás saber",
+      "description": "Alcance, tiempos y formas de trabajar. Las respuestas para dar el primer paso con claridad.",
+      "link": "Dejanos tu pregunta"
+    },
+    "question": {
+      "label": "HABLEMOS DE TU IDEA",
+      "title": "¿Todavía tenés dudas?",
+      "description": "Escribinos y te ayudamos a entender qué solución puede encajar mejor con tu proyecto.",
+      "field": "Pregunta",
+      "placeholder": "¿Qué te gustaría saber?",
+      "submit": "Enviar pregunta"
+    },
+    "diagnostic": {
+      "label": "DIAGNÓSTICO DE PROYECTO",
+      "title": "Contanos qué necesitás construir",
+      "description": "Completá estas preguntas y tendremos el contexto necesario para preparar una propuesta.",
+      "steps": [
+        "Proyecto",
+        "Detalles"
+      ],
+      "stepLabel": "Paso",
+      "of": "de",
+      "need": "¿Qué necesitás?",
+      "audience": "¿Para quién es?",
+      "situation": "¿Cuál es tu situación actual?",
+      "next": "Continuar",
+      "back": "Volver",
+      "submit": "Solicitar propuesta",
+      "budget": "Presupuesto estimado",
+      "note": "Sin compromiso.",
+      "direct": "¿Preferís hablarlo directamente?",
+      "selectionPlaceholder": "Seleccioná una opción"
+    },
+    "nav": {
+      "contact": "Contacto",
+      "open": "Abrir menú",
+      "close": "Cerrar menú",
+      "label": "Navegación principal"
+    },
+    "contactLabels": {
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "instagram": "Instagram",
+      "linkedin": "LinkedIn"
+    },
+    "formError": "Revisá los campos e incluí un mensaje de al menos 10 caracteres.",
+    "companyName": "VELOUR STUDIO",
+    "trustLabel": "Nuestra forma de trabajar"
+  }
+};
+
+/** Copy and presentation data for the experience redesign. Contacts/prices remain above. */
+export const experienceContent = {
+  hero: {
+    eyebrow: 'VELOUR STUDIO — DIGITAL EXPERIENCE',
+    note: 'DISEÑO INDEPENDIENTE',
+    lines: ['CREAMOS', 'EXPERIENCIAS'],
+    accent: 'digitales.',
+    title: 'Creamos experiencias digitales.',
+    description: 'Diseñamos y desarrollamos páginas web, e-commerce y soluciones digitales que combinan estrategia, tecnología y diseño.',
+    primary: 'INICIAR PROYECTO', secondary: 'VER TRABAJOS',
+    exploration: 'VELOUR / SELECTED EXPLORATION', concept: 'CONCEPTO DIGITAL',
+    disciplines: 'ESTRATEGIA. DISEÑO. TECNOLOGÍA.', scroll: 'SCROLL PARA EXPLORAR',
+  },
+  technology: { title: 'TRABAJAMOS CON', note: 'LAS HERRAMIENTAS. NUESTRA MIRADA.', brands: [
+    ['Shopify', 'shopify'], ['Figma', 'figma'], ['Meta', 'meta'], ['Google', 'google'], ['GitHub', 'github'], ['OpenAI', 'openai'], ['Claude', 'claude'], ['Next.js', 'nextdotjs'], ['Vercel', 'vercel'], ['GSAP', 'gsap'],
+  ] },
+  services: {
+    label: '01 / CAPACIDADES', title: 'LO QUE', accent: 'hacemos.',
+    description: 'De una primera idea a una experiencia que funciona. Elegí por dónde empezamos.',
+    expand: 'Explorar servicio', cta: 'HABLEMOS DE TU PROYECTO', visual: 'EXPLORACIÓN VISUAL / CONCEPTO',
+    items: [
+      { id: 'web-commerce', name: 'WEB DESIGN', subtitle: 'Sitios con una mirada propia.', description: siteContent.services.web.description, details: siteContent.services.web.details, deliverables: ['Diseño UI/UX', 'Landing pages', 'Desarrollo responsive', 'Optimización web'], technologies: ['Figma', 'Next.js', 'React'], kind: 'recruitment' },
+      { id: 'ecommerce', name: 'E-COMMERCE', subtitle: 'Diseño que acompaña la compra.', description: 'Diseñamos tiendas online en Shopify y soluciones de venta digital.', details: 'Organizamos el catálogo y la experiencia de compra para que cada producto tenga su lugar y la tienda sea fácil de gestionar.', deliverables: ['Tienda Shopify', 'Catálogo y colecciones', 'Carrito y checkout', 'Configuración de la tienda'], technologies: ['Shopify', 'UX/UI', 'Integraciones'], kind: 'fashion' },
+      { id: 'branding', name: 'BRANDING', subtitle: 'Una identidad con intención.', description: siteContent.services.branding.description, details: 'Definimos una identidad visual que conecte el concepto de tu marca con sus puntos de contacto digitales.', deliverables: ['Identidad visual', 'Tipografía y paleta', 'Sistema gráfico', 'Aplicaciones digitales'], technologies: ['Figma', 'Dirección de arte'], kind: 'identity' },
+      { id: 'automation', name: 'AUTOMATION', subtitle: 'Menos tareas. Más posibilidades.', description: siteContent.services.automation.description, details: siteContent.services.automation.details, deliverables: ['Formularios conectados', 'Flujos de trabajo', 'Integración con CRM', 'APIs'], technologies: ['APIs', 'Node.js', 'Workflows'], kind: 'automation' },
+      { id: 'development', name: 'CUSTOM DEVELOPMENT', subtitle: 'Tecnología a la medida de tu idea.', description: 'Creamos plataformas, portales, sistemas internos y soluciones a medida.', details: 'Diseñamos y desarrollamos la herramienta que tu operación necesita, con el alcance y las prioridades definidos antes de construir.', deliverables: ['Plataformas web', 'Portales', 'Sistemas internos', 'Integraciones'], technologies: ['Next.js', 'TypeScript', 'Node.js'], kind: 'development' },
+    ],
+  },
+  projects: { label: '02 / PORTFOLIO', title: 'SELECTED', accent: 'work.', view: 'VER PROYECTO', },
+  process: { label: '03 / MÉTODO', title: 'CÓMO', accent: 'trabajamos.', names: ['DESCUBRIR', 'DISEÑAR', 'CONSTRUIR', 'LANZAR', 'MEJORAR'] },
+  about: { label: '04 / EL ESTUDIO', caption: 'WE BUILD DIGITAL EXPERIENCES', signature: 'ESTRATEGIA + SENSIBILIDAD + CÓDIGO' },
+  giant: ['DESIGN', 'TECHNOLOGY', 'STRATEGY'],
+  cta: { label: 'EL PRÓXIMO PASO', question: ['¿TENÉS', 'UNA IDEA?'], answer: ['HAGÁMOSLA', 'real.'], primary: 'CONTANOS TU PROYECTO' },
+  faq: { label: '05 / ALGUNAS RESPUESTAS', title: 'Antes de', accent: 'empezar.' },
+  diagnostic: { label: '06 / TU PRÓXIMO PROYECTO', title: '¿QUÉ QUERÉS', accent: 'construir?', direct: 'O EMPECEMOS CON UNA CONVERSACIÓN.' },
+  footer: { note: 'INDEPENDENT MIND. DIGITAL CRAFT.', contact: 'SIGAMOS LA CONVERSACIÓN', studio: 'STUDIO.' },
 };

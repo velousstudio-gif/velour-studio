@@ -1,6 +1,7 @@
 import 'server-only';
 import { businessConfig } from '@/content/site-content';
 import { configuredValue, validEmail } from './contact-links';
+import type { Inquiry } from './inquiry';
 
 export function getResendConfig() {
   const apiKey = configuredValue(process.env.RESEND_API_KEY || '');
@@ -10,15 +11,14 @@ export function getResendConfig() {
   return { apiKey, fromEmail, formRecipientEmail };
 }
 
-type Inquiry = Record<'name' | 'company' | 'email' | 'phone' | 'project' | 'budget' | 'message', string>;
-
 export async function sendInquiry(config: NonNullable<ReturnType<typeof getResendConfig>>, inquiry: Inquiry) {
   // Plain text keeps visitor-supplied markup inert. The visitor is Reply-To, never From.
   const text = [
     'Nueva consulta desde Velour Studio', '',
     `Nombre: ${inquiry.name}`, `Empresa: ${inquiry.company || 'No indicada'}`,
     `Email: ${inquiry.email}`, `WhatsApp: ${inquiry.phone || 'No indicado'}`,
-    `Tipo de proyecto: ${inquiry.project}`, `Presupuesto: ${inquiry.budget || 'Sin definir'}`,
+    `Consulta: ${inquiry.kind === 'question' ? 'Pregunta' : 'Diagnóstico de proyecto'}`,
+    ...(inquiry.kind === 'project' ? [`Tipo de proyecto: ${inquiry.project}`, `Para: ${inquiry.audience}`, `Situación actual: ${inquiry.situation}`, `Presupuesto: ${inquiry.budget || 'Sin definir'}`] : []),
     '', 'Mensaje:', inquiry.message,
   ].join('\n');
   const response = await fetch('https://api.resend.com/emails', {
@@ -28,7 +28,7 @@ export async function sendInquiry(config: NonNullable<ReturnType<typeof getResen
       from: `Velour Studio <${config.fromEmail}>`,
       to: [config.formRecipientEmail],
       reply_to: inquiry.email,
-      subject: 'Nuevo proyecto — Velour Studio', text,
+      subject: inquiry.kind === 'question' ? 'Nueva pregunta — Velour Studio' : 'Nuevo proyecto — Velour Studio', text,
     }),
     signal: AbortSignal.timeout(10000),
     redirect: 'error',
