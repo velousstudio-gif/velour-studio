@@ -1,12 +1,12 @@
 'use client';
 
 import { MotionLink as Link, AnimatedButton, editorialEase, useMotionPreferences } from './motion';
-import { motion } from 'framer-motion';
+import { animate, motion } from 'framer-motion';
 import { flushSync } from 'react-dom';
 import { useState, useRef, useEffect } from 'react';
 import { ArrowUpRight, ArrowRight, ArrowLeft, LoaderCircle, CheckCircle2 } from 'lucide-react';
 import { siteContent } from '@/content/site-content';
-import { loadScrollMotion, refreshMotionLayout } from '@/lib/motion';
+import { homeContent } from '@/content/home-content';
 
 const labels = siteContent.copy.form;
 const copy = siteContent.agency;
@@ -25,12 +25,12 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
   const [changingStep, setChangingStep] = useState(false);
   const { reduced } = useMotionPreferences();
   const formRef = useRef<HTMLFormElement>(null);
-  const stepContext = useRef<gsap.Context | null>(null);
+  const stepAnimation = useRef<ReturnType<typeof animate> | null>(null);
   const transitionLock = useRef(false);
   const submitLock = useRef(false);
   const submission = useRef<{ body: string; key: string } | null>(null);
   const alive = useRef(true);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; stepContext.current?.revert(); }; }, []);
+  useEffect(() => { alive.current = true; return () => { alive.current = false; stepAnimation.current?.stop(); }; }, []);
   const [selection, setSelection] = useState({ project: '', audience: '', situation: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -57,28 +57,22 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
     transitionLock.current = true;
     setChangingStep(true);
     const node = formRef.current;
-    const current = node?.querySelector(step === 1 ? '.diagnostic-first' : '.inquiry-details');
-    const incoming = node?.querySelector(next === 1 ? '.diagnostic-first' : '.inquiry-details');
+    const current = node?.querySelector<HTMLElement>(step === 1 ? '.diagnostic-first' : '.inquiry-details');
+    const incoming = node?.querySelector<HTMLElement>(next === 1 ? '.diagnostic-first' : '.inquiry-details');
     const commit = () => flushSync(() => { setStep(next); setStatus('idle'); setMessage(''); });
     if (node && current && incoming && !reduced) {
       try {
-        const { gsap } = await loadScrollMotion();
+        stepAnimation.current = animate(current, { opacity: 0, x: next > step ? -20 : 20 }, { duration: .15, ease: editorialEase });
+        await stepAnimation.current;
         if (!alive.current) return;
-        stepContext.current?.revert();
-        let timeline: gsap.core.Timeline | undefined;
-        stepContext.current = gsap.context(() => {
-          timeline = gsap.timeline({ defaults: { ease: 'power3.out' } })
-            .to(current, { opacity: 0, x: next > step ? -40 : 40, duration: .2 })
-            .call(commit)
-            .fromTo(incoming, { opacity: 0, x: next > step ? 40 : -40 }, { opacity: 1, x: 0, duration: .32, immediateRender: false });
-        }, node);
-        await timeline;
-      } catch { if (alive.current) commit(); }
-    } else commit();
+        commit();
+        stepAnimation.current = animate(incoming, { opacity: [0, 1], x: [next > step ? 20 : -20, 0] }, { duration: .15, ease: editorialEase });
+        await stepAnimation.current;
+      } catch { if (alive.current) { commit(); incoming.style.opacity = '1'; incoming.style.transform = 'none'; } }
+    } else { commit(); if (incoming) { incoming.style.opacity = '1'; incoming.style.transform = 'none'; } }
     if (!alive.current) return;
     transitionLock.current = false;
     setChangingStep(false);
-    refreshMotionLayout();
   }
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -119,8 +113,10 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
     }
   }
 
+  const messageField = <><label className="message-field"><span className="field-label">{diagnostic ? labels.mensaje : copy.question.field}<b> *</b></span><textarea name="message" placeholder={diagnostic ? labels.contanos_un_poco_sobre_tu_proyecto : copy.question.placeholder} rows={4} required minLength={10} maxLength={5000} aria-describedby={`${kind}-message-help`} onInput={event => event.currentTarget.setCustomValidity('')} /></label><p className="form-help" id={`${kind}-message-help`}>{labels.al_menos_10_caracteres}</p></>;
+
   return <form ref={formRef} onSubmit={submit} className={`contact-form ${diagnostic ? 'diagnostic-form' : 'question-form'}`} aria-label={diagnostic ? copy.diagnostic.label : copy.question.title} aria-busy={status === 'loading' || changingStep}>
-    {diagnostic && <div className="diagnostic-progress"><h3 ref={stepRef} tabIndex={-1}>{copy.diagnostic.stepLabel} <motion.span key={step} className="step-number" initial={reduced ? false : { y: 8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: .3 }}>0{step} / 02</motion.span> <span>— {copy.diagnostic.steps[step - 1]}</span></h3><div className="step-progress-track" aria-hidden="true"><span /><span /><motion.i animate={{ scaleX: step / 2 }} initial={false} transition={{ duration: reduced ? 0 : .4, ease: editorialEase }} /></div></div>}
+    {diagnostic && <div className="diagnostic-progress"><h3 ref={stepRef} tabIndex={-1}>{copy.diagnostic.stepLabel} <motion.span key={step} className="step-number" initial={false} animate={{ opacity: 1 }}> {step} de 2</motion.span> <span>— {copy.diagnostic.steps[step - 1]}</span></h3><div className="step-progress-track" aria-hidden="true"><motion.i animate={{ scaleX: step / 2 }} initial={false} transition={{ duration: reduced ? 0 : .3, ease: editorialEase }} /></div></div>}
     <p className="form-help">{labels.los_campos_con_son_obligatorios}</p>
     <div className="form-step-window">
     {diagnostic && <fieldset className="diagnostic-first" hidden={step !== 1} disabled={step !== 1 || changingStep || status === 'loading'}>
@@ -132,13 +128,14 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
     </fieldset>}
     <fieldset hidden={diagnostic && step !== 2} disabled={(diagnostic && step !== 2) || changingStep || status === 'loading' || status === 'success'} className="inquiry-details">
       <legend className="sr-only">{copy.diagnostic.steps[1]}</legend>
+      {!diagnostic && <><fieldset className="question-types"><legend>{homeContent.question.typeLabel}</legend><div>{siteContent.questionTypes.map((type, index) => <label className="question-type-option" key={type}><input type="radio" name="questionType" value={type} defaultChecked={index === 0} required /><span>{type}</span></label>)}</div></fieldset>{messageField}</>}
       <div className="form-grid"><label><span className="field-label">{labels.nombre}<b> *</b></span><input name="name" autoComplete="name" placeholder={labels.tu_nombre} required maxLength={100} onInput={event => event.currentTarget.setCustomValidity('')} /></label>
         {diagnostic && <label><span className="field-label">{labels.empresa}</span><input name="company" autoComplete="organization" placeholder={labels.nombre_de_tu_negocio} maxLength={150} /></label>}
         <label><span className="field-label">{labels.email}<b> *</b></span><input name="email" type="email" autoComplete="email" placeholder={labels.vos_tuempresa_com} required maxLength={254} /></label>
         <label><span className="field-label">{labels.whatsapp}</span><input name="phone" type="tel" autoComplete="tel" placeholder={labels.text_54_9} maxLength={40} /></label>
         {diagnostic && <label className="budget-field"><span className="field-label">{copy.diagnostic.budget}</span><select name="budget" defaultValue=""><option value="">{labels.sin_definir}</option>{options.budgets.map(budget => <option key={budget}>{budget}</option>)}</select></label>}
       </div>
-      <label className="message-field"><span className="field-label">{diagnostic ? labels.mensaje : copy.question.field}<b> *</b></span><textarea name="message" placeholder={diagnostic ? labels.contanos_un_poco_sobre_tu_proyecto : copy.question.placeholder} rows={4} required minLength={10} maxLength={5000} aria-describedby={`${kind}-message-help`} onInput={event => event.currentTarget.setCustomValidity('')} /></label><p className="form-help" id={`${kind}-message-help`}>{labels.al_menos_10_caracteres}</p>
+      {diagnostic && messageField}
     </fieldset>
     </div>
     <div className="honeypot" aria-hidden="true"><label>{labels.no_completar}<input name="website" tabIndex={-1} autoComplete="off" /></label></div>

@@ -1,0 +1,688 @@
+[
+  {
+    "clientWidth": 1425,
+    "overflowing": [],
+    "scrollWidth": 1425,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 1425
+      },
+      {
+        "id": "technology",
+        "width": 1425
+      },
+      {
+        "id": "servicios",
+        "width": 1425
+      },
+      {
+        "id": "proceso",
+        "width": 1425
+      },
+      {
+        "id": "proyectos",
+        "width": 1425
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 1425
+      },
+      {
+        "id": "faq",
+        "width": 1425
+      },
+      {
+        "id": "preguntas",
+        "width": 1425
+      },
+      {
+        "id": "contacto",
+        "width": 1425
+      },
+      {
+        "id": "site-footer",
+        "width": 1425
+      }
+    ],
+    "theme": "light",
+    "width": 1440
+  },
+  {
+    "clientWidth": 1425,
+    "overflowing": [],
+    "scrollWidth": 1425,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 1425
+      },
+      {
+        "id": "technology",
+        "width": 1425
+      },
+      {
+        "id": "servicios",
+        "width": 1425
+      },
+      {
+        "id": "proceso",
+        "width": 1425
+      },
+      {
+        "id": "proyectos",
+        "width": 1425
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 1425
+      },
+      {
+        "id": "faq",
+        "width": 1425
+      },
+      {
+        "id": "preguntas",
+        "width": 1425
+      },
+      {
+        "id": "contacto",
+        "width": 1425
+      },
+      {
+        "id": "site-footer",
+        "width": 1425
+      }
+    ],
+    "theme": "dark",
+    "width": 1440
+  },
+  {
+    "clientWidth": 1265,
+    "overflowing": [],
+    "scrollWidth": 1265,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 1265
+      },
+      {
+        "id": "technology",
+        "width": 1265
+      },
+      {
+        "id": "servicios",
+        "width": 1265
+      },
+      {
+        "id": "proceso",
+        "width": 1265
+      },
+      {
+        "id": "proyectos",
+        "width": 1265
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 1265
+      },
+      {
+        "id": "faq",
+        "width": 1265
+      },
+      {
+        "id": "preguntas",
+        "width": 1265
+      },
+      {
+        "id": "contacto",
+        "width": 1265
+      },
+      {
+        "id": "site-footer",
+        "width": 1265
+      }
+    ],
+    "theme": "light",
+    "width": 1280
+  },
+  {
+    "clientWidth": 1265,
+    "overflowing": [],
+    "scrollWidth": 1265,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 1265
+      },
+      {
+        "id": "technology",
+        "width": 1265
+      },
+      {
+        "id": "servicios",
+        "width": 1265
+      },
+      {
+        "id": "proceso",
+        "width": 1265
+      },
+      {
+        "id": "proyectos",
+        "width": 1265
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 1265
+      },
+      {
+        "id": "faq",
+        "width": 1265
+      },
+      {
+        "id": "preguntas",
+        "width": 1265
+      },
+      {
+        "id": "contacto",
+        "width": 1265
+      },
+      {
+        "id": "site-footer",
+        "width": 1265
+      }
+    ],
+    "theme": "dark",
+    "width": 1280
+  },
+  {
+    "clientWidth": 1009,
+    "overflowing": [],
+    "scrollWidth": 1009,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 1009
+      },
+      {
+        "id": "technology",
+        "width": 1009
+      },
+      {
+        "id": "servicios",
+        "width": 1009
+      },
+      {
+        "id": "proceso",
+        "width": 1009
+      },
+      {
+        "id": "proyectos",
+        "width": 1009
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 1009
+      },
+      {
+        "id": "faq",
+        "width": 1009
+      },
+      {
+        "id": "preguntas",
+        "width": 1009
+      },
+      {
+        "id": "contacto",
+        "width": 1009
+      },
+      {
+        "id": "site-footer",
+        "width": 1009
+      }
+    ],
+    "theme": "light",
+    "width": 1024
+  },
+  {
+    "clientWidth": 1009,
+    "overflowing": [],
+    "scrollWidth": 1009,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 1009
+      },
+      {
+        "id": "technology",
+        "width": 1009
+      },
+      {
+        "id": "servicios",
+        "width": 1009
+      },
+      {
+        "id": "proceso",
+        "width": 1009
+      },
+      {
+        "id": "proyectos",
+        "width": 1009
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 1009
+      },
+      {
+        "id": "faq",
+        "width": 1009
+      },
+      {
+        "id": "preguntas",
+        "width": 1009
+      },
+      {
+        "id": "contacto",
+        "width": 1009
+      },
+      {
+        "id": "site-footer",
+        "width": 1009
+      }
+    ],
+    "theme": "dark",
+    "width": 1024
+  },
+  {
+    "clientWidth": 753,
+    "overflowing": [],
+    "scrollWidth": 753,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 753
+      },
+      {
+        "id": "technology",
+        "width": 753
+      },
+      {
+        "id": "servicios",
+        "width": 753
+      },
+      {
+        "id": "proceso",
+        "width": 753
+      },
+      {
+        "id": "proyectos",
+        "width": 753
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 753
+      },
+      {
+        "id": "faq",
+        "width": 753
+      },
+      {
+        "id": "preguntas",
+        "width": 753
+      },
+      {
+        "id": "contacto",
+        "width": 753
+      },
+      {
+        "id": "site-footer",
+        "width": 753
+      }
+    ],
+    "theme": "light",
+    "width": 768
+  },
+  {
+    "clientWidth": 753,
+    "overflowing": [],
+    "scrollWidth": 753,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 753
+      },
+      {
+        "id": "technology",
+        "width": 753
+      },
+      {
+        "id": "servicios",
+        "width": 753
+      },
+      {
+        "id": "proceso",
+        "width": 753
+      },
+      {
+        "id": "proyectos",
+        "width": 753
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 753
+      },
+      {
+        "id": "faq",
+        "width": 753
+      },
+      {
+        "id": "preguntas",
+        "width": 753
+      },
+      {
+        "id": "contacto",
+        "width": 753
+      },
+      {
+        "id": "site-footer",
+        "width": 753
+      }
+    ],
+    "theme": "dark",
+    "width": 768
+  },
+  {
+    "clientWidth": 415,
+    "overflowing": [],
+    "scrollWidth": 415,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 415
+      },
+      {
+        "id": "technology",
+        "width": 415
+      },
+      {
+        "id": "servicios",
+        "width": 415
+      },
+      {
+        "id": "proceso",
+        "width": 415
+      },
+      {
+        "id": "proyectos",
+        "width": 415
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 415
+      },
+      {
+        "id": "faq",
+        "width": 415
+      },
+      {
+        "id": "preguntas",
+        "width": 415
+      },
+      {
+        "id": "contacto",
+        "width": 415
+      },
+      {
+        "id": "site-footer",
+        "width": 415
+      }
+    ],
+    "theme": "light",
+    "width": 430
+  },
+  {
+    "clientWidth": 415,
+    "overflowing": [],
+    "scrollWidth": 415,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 415
+      },
+      {
+        "id": "technology",
+        "width": 415
+      },
+      {
+        "id": "servicios",
+        "width": 415
+      },
+      {
+        "id": "proceso",
+        "width": 415
+      },
+      {
+        "id": "proyectos",
+        "width": 415
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 415
+      },
+      {
+        "id": "faq",
+        "width": 415
+      },
+      {
+        "id": "preguntas",
+        "width": 415
+      },
+      {
+        "id": "contacto",
+        "width": 415
+      },
+      {
+        "id": "site-footer",
+        "width": 415
+      }
+    ],
+    "theme": "dark",
+    "width": 430
+  },
+  {
+    "clientWidth": 375,
+    "overflowing": [],
+    "scrollWidth": 375,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 375
+      },
+      {
+        "id": "technology",
+        "width": 375
+      },
+      {
+        "id": "servicios",
+        "width": 375
+      },
+      {
+        "id": "proceso",
+        "width": 375
+      },
+      {
+        "id": "proyectos",
+        "width": 375
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 375
+      },
+      {
+        "id": "faq",
+        "width": 375
+      },
+      {
+        "id": "preguntas",
+        "width": 375
+      },
+      {
+        "id": "contacto",
+        "width": 375
+      },
+      {
+        "id": "site-footer",
+        "width": 375
+      }
+    ],
+    "theme": "light",
+    "width": 390
+  },
+  {
+    "clientWidth": 375,
+    "overflowing": [],
+    "scrollWidth": 375,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 375
+      },
+      {
+        "id": "technology",
+        "width": 375
+      },
+      {
+        "id": "servicios",
+        "width": 375
+      },
+      {
+        "id": "proceso",
+        "width": 375
+      },
+      {
+        "id": "proyectos",
+        "width": 375
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 375
+      },
+      {
+        "id": "faq",
+        "width": 375
+      },
+      {
+        "id": "preguntas",
+        "width": 375
+      },
+      {
+        "id": "contacto",
+        "width": 375
+      },
+      {
+        "id": "site-footer",
+        "width": 375
+      }
+    ],
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "clientWidth": 360,
+    "overflowing": [],
+    "scrollWidth": 360,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 360
+      },
+      {
+        "id": "technology",
+        "width": 360
+      },
+      {
+        "id": "servicios",
+        "width": 360
+      },
+      {
+        "id": "proceso",
+        "width": 360
+      },
+      {
+        "id": "proyectos",
+        "width": 360
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 360
+      },
+      {
+        "id": "faq",
+        "width": 360
+      },
+      {
+        "id": "preguntas",
+        "width": 360
+      },
+      {
+        "id": "contacto",
+        "width": 360
+      },
+      {
+        "id": "site-footer",
+        "width": 360
+      }
+    ],
+    "theme": "light",
+    "width": 375
+  },
+  {
+    "clientWidth": 360,
+    "overflowing": [],
+    "scrollWidth": 360,
+    "sections": [
+      {
+        "id": "inicio",
+        "width": 360
+      },
+      {
+        "id": "technology",
+        "width": 360
+      },
+      {
+        "id": "servicios",
+        "width": 360
+      },
+      {
+        "id": "proceso",
+        "width": 360
+      },
+      {
+        "id": "proyectos",
+        "width": 360
+      },
+      {
+        "id": "conversation-cta section-space",
+        "width": 360
+      },
+      {
+        "id": "faq",
+        "width": 360
+      },
+      {
+        "id": "preguntas",
+        "width": 360
+      },
+      {
+        "id": "contacto",
+        "width": 360
+      },
+      {
+        "id": "site-footer",
+        "width": 360
+      }
+    ],
+    "theme": "dark",
+    "width": 375
+  }
+]

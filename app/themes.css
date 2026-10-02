@@ -1,0 +1,155 @@
+/* Shared semantic colors; layout and components are identical in both modes. */
+:root {
+  color-scheme: light;
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --surface-alt: #EFEAE2;
+  --surface-quiet: var(--surface-alt);
+  --text: #0A0A0A;
+  --text-muted: #6E6A63;
+  --text-muted-on-alt: #6D6962;
+  --accent: #C6A15B;
+  --accent-light: #E2C785;
+  /* The brand gold needs a darker ink variant on light backgrounds. */
+  --accent-text: #806536;
+  --accent-solid: var(--accent);
+  --accent-soft: var(--accent-light);
+  --accent-wash: rgba(198,161,91,.08);
+  --border: rgba(10,10,10,.12);
+  --button-bg: #0A0A0A;
+  --button-text: #FFFFFF;
+  --focus: #806536;
+  --input-border: #8a867e;
+  --placeholder: #706d66;
+  --selection-bg: var(--accent-light);
+  --selection-text: #0A0A0A;
+  --header-bg: rgba(247,245,240,.94);
+  --glow: rgba(198,161,91,.08);
+  --glow-falloff: rgba(198,161,91,.035);
+  --technology-text: #484641;
+  --chrome-text: #77746e;
+  --chrome-dot: #b8b5ae;
+  --shadow: rgba(10,10,10,.08);
+  --shadow-soft: rgba(10,10,10,.06);
+  --shadow-strong: rgba(10,10,10,.1);
+
+  --inverse-bg: #171717;
+  --on-dark: #F7F5F0;
+  --on-dark-muted: #c5c2ba;
+  --inverse-border: rgba(255,255,255,.2);
+  --inverse-accent: var(--accent-light);
+  --inverse-accent-border: rgba(198,161,91,.6);
+  --process-active-bg: var(--accent-light);
+  --process-active-text: #0A0A0A;
+  --process-active-border: var(--accent);
+  --brand-image-bg: #d8d3c8;
+  --brand-overlay-mid: rgba(10,10,10,.05);
+  --brand-overlay-end: rgba(10,10,10,.58);
+  --monogram-on-light: 1;
+  --monogram-on-dark: 0;
+  --monogram-opacity: .13;
+
+  --cta-bg: var(--surface-alt);
+  --cta-text: #0A0A0A;
+  --cta-muted: var(--text-muted-on-alt);
+  --cta-accent: #806536;
+  --cta-border: rgba(10,10,10,.12);
+  --cta-button-bg: #0A0A0A;
+  --cta-button-text: #FFFFFF;
+  --cta-focus: #806536;
+  --footer-bg: #0A0A0A;
+  --footer-muted: #aaa79f;
+  --footer-link: #c9c6be;
+  --footer-border: rgba(255,255,255,.17);
+  --disabled-text: #77746e;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0A0A0A;
+  --surface: #111111;
+  --surface-alt: #171717;
+  --text: #F7F5F0;
+  --text-muted: #A8A39A;
+  --text-muted-on-alt: #A8A39A;
+  --accent-text: var(--accent-light);
+  --accent-wash: rgba(198,161,91,.09);
+  --border: rgba(255,255,255,.12);
+  --button-bg: #F7F5F0;
+  --button-text: #0A0A0A;
+  --focus: var(--accent);
+  --input-border: #77736B;
+  --placeholder: #99948C;
+  --header-bg: rgba(10,10,10,.95);
+  --glow: rgba(198,161,91,.10);
+  --glow-falloff: rgba(198,161,91,.035);
+  --technology-text: #c9c5bc;
+  --chrome-text: #A8A39A;
+  --chrome-dot: #5d5953;
+  --shadow: rgba(0,0,0,.3);
+  --shadow-soft: rgba(0,0,0,.22);
+  --shadow-strong: rgba(0,0,0,.45);
+  --brand-image-bg: #171717;
+  --brand-overlay-mid: rgba(10,10,10,.10);
+  --brand-overlay-end: rgba(10,10,10,.68);
+  --monogram-on-light: 0;
+  --monogram-on-dark: 1;
+  --monogram-opacity: .18;
+  --cta-bg: #171717;
+  --cta-text: #F7F5F0;
+  --cta-muted: #A8A39A;
+  --cta-accent: var(--accent-light);
+  --cta-border: rgba(255,255,255,.12);
+  --cta-button-bg: #F7F5F0;
+  --cta-button-text: #0A0A0A;
+  --cta-focus: var(--accent);
+  --footer-bg: #050505;
+  --footer-muted: #A8A39A;
+  --footer-link: #c9c5bc;
+  --footer-border: rgba(255,255,255,.12);
+}
+
+/* Context overrides: CTA, permanently dark footer, and decorative brand artwork. */
+.conversation-cta {
+  --text: var(--cta-text);
+  --text-muted: var(--cta-muted);
+  --accent-text: var(--cta-accent);
+  --border: var(--cta-border);
+  --button-bg: var(--cta-button-bg);
+  --button-text: var(--cta-button-text);
+  --focus: var(--cta-focus);
+  color: var(--text);
+}
+.site-footer { --focus: var(--accent-light); }
+.appointment-body { --text-muted: var(--text-muted-on-alt); }
+.question-monogram > img { transition: opacity .35s ease !important; }
+.monogram-on-light { opacity: var(--monogram-on-light); }
+.monogram-on-dark { opacity: var(--monogram-on-dark); }
+
+.theme-selector { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+.theme-selector button {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px;
+  padding: 8px 6px; background: transparent; color: var(--text-muted);
+  font-size: 9px; font-weight: 500; letter-spacing: .5px; text-transform: uppercase;
+}
+.theme-selector button + button { margin-left: 2px; }
+.theme-icon { stroke-width: 1.6; }
+:root[data-theme="light"] [data-theme-option="light"],
+:root[data-theme="dark"] [data-theme-option="dark"] { color: var(--text); font-weight: 600; }
+:root[data-theme="light"] [data-theme-option="light"] .theme-icon,
+:root[data-theme="dark"] [data-theme-option="dark"] .theme-icon { color: var(--accent-text); stroke-width: 2; }
+.mobile-theme-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; border-top: 1px solid var(--border); padding: 12px 0; margin: 0 0 24px; }
+.theme-selector-menu button { min-height: 44px; font-size: 9px; padding-inline: 10px; }
+@media (max-width: 1100px) { .theme-selector-header { display: none; } }
+
+/* Transitions run only after a manual/system change, never on initial paint. */
+html[data-theme-transition] :where(body, body *, body *::before, body *::after, dialog::backdrop) {
+  transition-property: background-color, color, border-color, fill, stroke, box-shadow, outline-color !important;
+  transition-duration: .35s !important;
+  transition-timing-function: ease !important;
+}
+html[data-theme-transition] .question-monogram > img { transition-property: opacity !important; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme-transition] :where(body, body *, body *::before, body *::after, dialog::backdrop),
+  .question-monogram > img { transition-duration: 0s !important; }
+}

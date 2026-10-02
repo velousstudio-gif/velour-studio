@@ -1,4 +1,5 @@
-/** ÚNICA FUENTE DE CONTENIDO PÚBLICO. No guardar claves ni secretos aquí.
+/** CONFIGURACIÓN Y CONTENIDO COMPARTIDO. La home activa usa también home-content.ts.
+ * No guardar claves ni secretos aquí.
  * Los placeholders TU_*_AQUI nunca se convierten en enlaces visibles.
  * Ver content/README.md para editar sin cambiar el diseño. */
 export type Project = { slug: string; name: string; year: string; category: string; description: string; tech: string[]; kind: string; detail: string; status: 'demo' | 'real'; image: { src: string; alt: string }; sector: string; problem: string; solution: string; result: { text: string; evidenceUrl: string } | null };
@@ -46,24 +47,7 @@ export const siteContent = {
     "description": "Diseñamos páginas web, tiendas online y soluciones digitales para marcas y negocios que quieren crecer.",
     "socialImageAlt": "Velour Studio — Experiencias digitales creadas para destacar"
   },
-  "navigation": [
-    [
-      "Trabajos",
-      "works"
-    ],
-    [
-      "Servicios",
-      "services"
-    ],
-    [
-      "Proceso",
-      "process"
-    ],
-    [
-      "El estudio",
-      "studio"
-    ]
-  ],
+  "navigation": [["Inicio", "home"], ["Servicios", "services"], ["Proceso", "process"], ["Trabajos", "works"]],
   "links": {
     "home": "/#inicio",
     "works": "/#proyectos",
@@ -76,6 +60,8 @@ export const siteContent = {
     "terms": "/terminos",
     "process": "/#proceso",
     "questions": "/#preguntas",
+    "faq": "/#faq",
+    "landingService": "/#landing-page",
     "webService": "/#web-commerce",
     "automationService": "/#automation",
     "ecommerceService": "/#ecommerce",
@@ -264,7 +250,7 @@ export const siteContent = {
     {
       "id": "payment",
       "question": "¿Cómo se paga?",
-      "answer": "Podemos organizar el pago de dos maneras, según la propuesta acordada."
+      "answer": "El pago se organiza en dos partes, con el alcance y el presupuesto acordados antes de comenzar."
     },
     {
       "id": "changes",
@@ -279,11 +265,11 @@ export const siteContent = {
   ],
   "process": [
     {
-      "title": "Reunión / brief",
+      "title": "Reunión",
       "timing": "Día 1",
       "description": "Entendemos tu negocio, qué querés construir, tus referencias y el objetivo principal del proyecto.",
       "deliverables": [
-        "Alcance inicial",
+        "Alcance",
         "Presupuesto",
         "Próximos pasos"
       ],
@@ -294,9 +280,9 @@ export const siteContent = {
       "timing": "Primeros días",
       "description": "Definimos estructura, referencias, identidad visual y dirección del proyecto antes de avanzar con el desarrollo.",
       "deliverables": [
-        "Dirección visual",
         "Estructura",
-        "Primera propuesta"
+        "Diseño inicial",
+        "Referencia visual"
       ],
       "approval": true
     },
@@ -305,19 +291,19 @@ export const siteContent = {
       "timing": "Según alcance",
       "description": "Construimos la solución aprobada y compartimos avances para que puedas revisar el proyecto durante el proceso.",
       "deliverables": [
-        "Versión funcional",
-        "Preview / staging"
+        "Preview funcional",
+        "Staging"
       ],
       "approval": false
     },
     {
-      "title": "Revisión y lanzamiento",
+      "title": "Entrega",
       "timing": "Antes de publicar",
       "description": "Probamos responsive, navegación, enlaces, formularios y rendimiento antes de publicar.",
       "deliverables": [
-        "Web publicada",
+        "Proyecto publicado",
         "Accesos",
-        "Configuración final"
+        "Documentación"
       ],
       "approval": true
     },
@@ -565,14 +551,17 @@ export const siteContent = {
   },
   "paymentOptions": [
     {
-      "label": "Opción A",
+      "enabled": true,
+      "label": "Pago en dos partes",
       "description": "50% al inicio y 50% a la entrega."
     },
     {
-      "label": "Opción B",
+      "enabled": false,
+      "label": "Modalidad alternativa",
       "description": "Pago en tres etapas según alcance. Definimos los importes en la propuesta."
     }
   ],
+  "questionTypes": ["Pregunta", "Comentario", "Sugerencia"],
   "diagnosticOptions": {
     "projectTypes": [
       "Página web",
@@ -580,24 +569,22 @@ export const siteContent = {
       "E-commerce",
       "Shopify",
       "Branding",
-      "Automatización",
-      "CRM / Sistema",
-      "Otro"
+      "Automation",
+      "CRM / Sistema"
     ],
     "audiences": [
       "Mi negocio",
-      "Una empresa",
-      "Un cliente",
-      "Proyecto personal",
-      "Otro"
+      "Empresa",
+      "Cliente",
+      "Proyecto personal"
     ],
     "situations": [
-      "Todavía no tengo nada",
-      "Tengo Instagram / redes",
-      "Tengo una web",
-      "Tengo una web pero quiero reemplazarla",
-      "Ya tengo una tienda",
-      "Necesito mejorar un sistema existente"
+      "No tengo web",
+      "Tengo Instagram",
+      "Tengo web",
+      "Quiero reemplazar mi web",
+      "Ya tengo tienda",
+      "Necesito mejorar un sistema"
     ],
     "budgets": [
       "Menos de USD 200",
@@ -714,7 +701,7 @@ export const siteContent = {
       "description": "Escribinos y te ayudamos a entender qué solución puede encajar mejor con tu proyecto.",
       "field": "Pregunta",
       "placeholder": "¿Qué te gustaría saber?",
-      "submit": "Enviar pregunta"
+      "submit": "ENVIAR PREGUNTA"
     },
     "diagnostic": {
       "label": "DIAGNÓSTICO DE PROYECTO",
@@ -728,10 +715,10 @@ export const siteContent = {
       "of": "de",
       "need": "¿Qué necesitás?",
       "audience": "¿Para quién es?",
-      "situation": "¿Cuál es tu situación actual?",
-      "next": "Continuar",
+      "situation": "¿Cómo estás hoy?",
+      "next": "CONTINUAR",
       "back": "Volver",
-      "submit": "Solicitar propuesta",
+      "submit": "SOLICITAR PROPUESTA",
       "budget": "Presupuesto estimado",
       "note": "Sin compromiso.",
       "direct": "¿Preferís hablarlo directamente?",
@@ -753,42 +740,4 @@ export const siteContent = {
     "companyName": "VELOUR STUDIO",
     "trustLabel": "Nuestra forma de trabajar"
   }
-};
-
-/** Copy and presentation data for the experience redesign. Contacts/prices remain above. */
-export const experienceContent = {
-  hero: {
-    eyebrow: 'VELOUR STUDIO — DIGITAL EXPERIENCE',
-    note: 'DISEÑO INDEPENDIENTE',
-    lines: ['CREAMOS', 'EXPERIENCIAS'],
-    accent: 'digitales.',
-    title: 'Creamos experiencias digitales.',
-    description: 'Diseñamos y desarrollamos páginas web, e-commerce y soluciones digitales que combinan estrategia, tecnología y diseño.',
-    primary: 'INICIAR PROYECTO', secondary: 'VER TRABAJOS',
-    exploration: 'VELOUR / SELECTED EXPLORATION', concept: 'CONCEPTO DIGITAL',
-    disciplines: 'ESTRATEGIA. DISEÑO. TECNOLOGÍA.', scroll: 'SCROLL PARA EXPLORAR',
-  },
-  technology: { title: 'TRABAJAMOS CON', note: 'LAS HERRAMIENTAS. NUESTRA MIRADA.', brands: [
-    ['Shopify', 'shopify'], ['Figma', 'figma'], ['Meta', 'meta'], ['Google', 'google'], ['GitHub', 'github'], ['OpenAI', 'openai'], ['Claude', 'claude'], ['Next.js', 'nextdotjs'], ['Vercel', 'vercel'], ['GSAP', 'gsap'],
-  ] },
-  services: {
-    label: '01 / CAPACIDADES', title: 'LO QUE', accent: 'hacemos.',
-    description: 'De una primera idea a una experiencia que funciona. Elegí por dónde empezamos.',
-    expand: 'Explorar servicio', cta: 'HABLEMOS DE TU PROYECTO', visual: 'EXPLORACIÓN VISUAL / CONCEPTO',
-    items: [
-      { id: 'web-commerce', name: 'WEB DESIGN', subtitle: 'Sitios con una mirada propia.', description: siteContent.services.web.description, details: siteContent.services.web.details, deliverables: ['Diseño UI/UX', 'Landing pages', 'Desarrollo responsive', 'Optimización web'], technologies: ['Figma', 'Next.js', 'React'], kind: 'recruitment' },
-      { id: 'ecommerce', name: 'E-COMMERCE', subtitle: 'Diseño que acompaña la compra.', description: 'Diseñamos tiendas online en Shopify y soluciones de venta digital.', details: 'Organizamos el catálogo y la experiencia de compra para que cada producto tenga su lugar y la tienda sea fácil de gestionar.', deliverables: ['Tienda Shopify', 'Catálogo y colecciones', 'Carrito y checkout', 'Configuración de la tienda'], technologies: ['Shopify', 'UX/UI', 'Integraciones'], kind: 'fashion' },
-      { id: 'branding', name: 'BRANDING', subtitle: 'Una identidad con intención.', description: siteContent.services.branding.description, details: 'Definimos una identidad visual que conecte el concepto de tu marca con sus puntos de contacto digitales.', deliverables: ['Identidad visual', 'Tipografía y paleta', 'Sistema gráfico', 'Aplicaciones digitales'], technologies: ['Figma', 'Dirección de arte'], kind: 'identity' },
-      { id: 'automation', name: 'AUTOMATION', subtitle: 'Menos tareas. Más posibilidades.', description: siteContent.services.automation.description, details: siteContent.services.automation.details, deliverables: ['Formularios conectados', 'Flujos de trabajo', 'Integración con CRM', 'APIs'], technologies: ['APIs', 'Node.js', 'Workflows'], kind: 'automation' },
-      { id: 'development', name: 'CUSTOM DEVELOPMENT', subtitle: 'Tecnología a la medida de tu idea.', description: 'Creamos plataformas, portales, sistemas internos y soluciones a medida.', details: 'Diseñamos y desarrollamos la herramienta que tu operación necesita, con el alcance y las prioridades definidos antes de construir.', deliverables: ['Plataformas web', 'Portales', 'Sistemas internos', 'Integraciones'], technologies: ['Next.js', 'TypeScript', 'Node.js'], kind: 'development' },
-    ],
-  },
-  projects: { label: '02 / PORTFOLIO', title: 'SELECTED', accent: 'work.', view: 'VER PROYECTO', },
-  process: { label: '03 / MÉTODO', title: 'CÓMO', accent: 'trabajamos.', names: ['DESCUBRIR', 'DISEÑAR', 'CONSTRUIR', 'LANZAR', 'MEJORAR'] },
-  about: { label: '04 / EL ESTUDIO', caption: 'WE BUILD DIGITAL EXPERIENCES', signature: 'ESTRATEGIA + SENSIBILIDAD + CÓDIGO' },
-  giant: ['DESIGN', 'TECHNOLOGY', 'STRATEGY'],
-  cta: { label: 'EL PRÓXIMO PASO', question: ['¿TENÉS', 'UNA IDEA?'], answer: ['HAGÁMOSLA', 'real.'], primary: 'CONTANOS TU PROYECTO' },
-  faq: { label: '05 / ALGUNAS RESPUESTAS', title: 'Antes de', accent: 'empezar.' },
-  diagnostic: { label: '06 / TU PRÓXIMO PROYECTO', title: '¿QUÉ QUERÉS', accent: 'construir?', direct: 'O EMPECEMOS CON UNA CONVERSACIÓN.' },
-  footer: { note: 'INDEPENDENT MIND. DIGITAL CRAFT.', contact: 'SIGAMOS LA CONVERSACIÓN', studio: 'STUDIO.' },
 };

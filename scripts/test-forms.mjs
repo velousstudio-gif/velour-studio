@@ -52,6 +52,8 @@ for (const input of [project, question]) {
   assert.equal((await missing.json()).error, siteContent.form.messages.failure);
 }
 assert.equal(calls.length, 0);
+assert.equal((await request({ ...question, questionType: 'invalid' })).status, 400);
+assert.equal((await request({ ...question, questionType: {} })).status, 400);
 assert.ok(JSON.stringify(logs).includes('FROM_EMAIL'));
 assert.ok(JSON.stringify(logs).includes('CONTACT_EMAIL'));
 for (const bad of [{ ...project, name: '   ' }, { ...project, name: 'x'.repeat(101) }, { ...project, email: 'bad' }, { ...project, email: 'a@example.com\r\nBcc: other@example.com' }, { ...project, message: 'corto' }, { ...project, message: 'x'.repeat(5001) }, { ...project, company: {} }, { ...project, phone: 'x'.repeat(41) }, { ...project, audience: 'injected' }, { ...project, situation: '' }, { ...project, project: 'injected' }, { ...project, budget: 'injected' }, { ...project, website: 'spam' }, { ...question, kind: 'unknown' }, [], null]) {
@@ -80,6 +82,10 @@ for (const input of [project, question]) {
   assert.equal(new Headers(calls.at(-1).headers).get('idempotency-key'), `velour-contact/${key}`);
 }
 env.FROM_EMAIL = 'Velour Studio <sender@example.com>';
+for (const questionType of siteContent.questionTypes) {
+  assert.equal((await request({ ...question, questionType })).status, 200);
+  assert.ok(JSON.parse(calls.at(-1).body).text.includes(`Consulta: ${questionType}`));
+}
 assert.equal((await request(project)).status, 200);
 assert.equal(JSON.parse(calls.at(-1).body).from, env.FROM_EMAIL);
 for (const sender of ['', 'not-an-email', 'Velour Studio <bad>', 'sender@example.com\r\nBcc: other@example.com']) {

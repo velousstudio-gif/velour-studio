@@ -1,65 +1,58 @@
 # Editar el contenido sin modificar el diseño
 
-Toda la información pública se edita en **content/site-content.ts**. Para completar contacto y publicación, usar los campos públicos de `businessConfig` al principio del archivo; `siteContent.contact` y `siteContent.publication` derivan sus valores de ellos. `lib/content.ts` solo adapta los datos y genera enlaces seguros. No editar allí valores comerciales. Los contactos y el dominio ya no se leen desde NEXT_PUBLIC_*: el archivo de contenido es la fuente única. Nunca guardar claves o contraseñas en este archivo: se incluye en la web pública.
+Los datos públicos compartidos están en `content/site-content.ts`; la copy y composición de la home están en `content/home-content.ts`. Ambos son públicos: nunca guardar API keys o secretos aquí. `lib/content.ts` genera enlaces y adapta los valores.
 
-## Campos principales
+## Dónde editar
 
-| Campo | Qué editar |
+| Archivo / campo | Uso actual |
 | --- | --- |
-| `contact` | Email, WhatsApp internacional, URLs completas de Instagram/LinkedIn, mensaje inicial de WhatsApp y dirección opcional. |
-| `publication` | Dominio completo con HTTPS, responsable/razón social y jurisdicción pendiente de confirmar. |
-| `seo` | Título SEO, descripción y texto alternativo del Open Graph. |
-| `experienceContent` | Nuevo hero, tecnologías, cinco servicios, encabezados, proceso, manifiesto, CTA, diagnóstico y footer. Exportado al final de `site-content.ts`. |
-| `agency` | Descripciones y textos comerciales reutilizados, confianza, FAQ, pregunta, diagnóstico y mockups. |
-| `copy.home` | Textos conservados del estudio, artwork y footer. Las antiguas frases del home se conservan como archivo; el hero activo está en `experienceContent.hero`. |
-| `navigation`, `links` | Nombres del menú y destinos compartidos, incluidos Privacy y Terms. Los IDs de secciones actuales se mantienen. |
-| `services.web`, `services.automation`, `services.branding` | Títulos, descripciones, ampliaciones de servicio y capacidades. |
-| `process` | Cinco etapas, tiempos orientativos, entregables y badge de aprobación. |
-| `prices`, `customProject` | Nombres, importes y cotización personalizada. Mantener los IDs landing/web/commerce para sincronizar las referencias de FAQ. |
-| `projects` | Nombre, slug, año, sector, categoría, descripción, desafío (`problem`), solución, stack (`tech`), estado, imagen y resultado opcional con evidencia. |
-| `faqs` | Objetos con `id`, `question` y `answer`. Los tokens {landingPrice}, {webPrice}, {commercePrice} toman automáticamente los precios vigentes. Conservar el ID `payment` para mostrar opciones de pago en esa respuesta. |
-| `timelines`, `paymentOptions` | Plazos de FAQ y dos alternativas de pago; la segunda no fija porcentajes. |
-| `diagnosticOptions` | Tipos de proyecto, destinatarios, situaciones y presupuestos. Se comparten con la validación del servidor. |
-| `form` y `copy.form` | Mensajes, campos, placeholders y textos de interfaz compartidos. |
-| `footerServices` | Etiquetas y claves de enlace centralizadas del footer. |
-| `copy.privacy`, `copy.terms` | Textos legales actuales, todavía borradores a completar y aprobar. |
-| `copy.demoArtwork` | Todos los textos y nombres ficticios dentro de los mockups de ejemplo. |
-| `media` | Imágenes actuales del hero y del mockup editorial. |
-| `copy.socialImage` | Textos de la imagen Open Graph. |
-| `pendingReview` | Inventario de datos demo, borradores y decisiones pendientes; no se muestra en pantalla. |
+| `site-content.ts` → `businessConfig` | Email público, WhatsApp, redes, dominio y responsable legal. |
+| `siteContent.contact`, `publication` | Mensaje de WhatsApp, dirección opcional, jurisdicción. Contacto y dominio derivan de businessConfig. |
+| `siteContent.seo`, `copy.socialImage` | Metadata y textos de Open Graph. |
+| `home-content.ts` → `homeLocales.es` | Hero, confianza, tecnologías, dos servicios completos, encabezados, CTA, pregunta, diagnóstico y footer. |
+| `homeContent.services[].capabilities` | Opciones de cada servicio y destinos de sus anclas. |
+| `siteContent.services.branding` | Descripción de branding reutilizada por la home. Los antiguos servicios web/automation son copy de archivo; los activos están en home-content.ts. |
+| `siteContent.navigation`, `links` | Header y destinos compartidos. |
+| `siteContent.process` | Cinco etapas, plazos orientativos, descripción, entregables y aprobación. |
+| `siteContent.prices`, `customProject`, `timelines` | Importes y plazos interpolados en FAQ. |
+| `siteContent.faqs` | Preguntas y respuestas. Conservar tokens {landingPrice}, {webPrice}, {commercePrice}, {landingTime}, {webTime}, {commerceTime}. |
+| `siteContent.paymentOptions` | Solo las entradas con enabled: true se publican. Hoy se muestra 50% al inicio y 50% a la entrega. |
+| `siteContent.projects` | Los tres registros de proyecto y páginas de detalle. |
+| `homeContent.portfolio.projects` | Slugs de los dos casos seleccionados para la home y sus títulos editoriales. |
+| `siteContent.diagnosticOptions`, `questionTypes` | Opciones de ambos formularios, compartidas con la validación del servidor. |
+| `siteContent.copy.form`, `form`, `agency.diagnostic`, `agency.question` | Etiquetas, mensajes y pasos de formularios. |
+| `siteContent.copy.privacy`, `copy.terms` | Borradores legales. |
+| `siteContent.copy.demoArtwork`, `agency.interface` | Nombres y copy ficticios de los mockups. La interfaz de reservas es una ilustración. |
+| `siteContent.media` | Imágenes propias usadas en proceso y composición de moda. |
 
-Los textos se mantienen separados donde el diseño usa saltos de línea o cursivas. Conservar espacios iniciales/finales que separan texto e iconos. El nuevo recorrido comercial reutiliza las fuentes, wordmarks, imágenes y mockups existentes.
+La copy de versiones anteriores que permanece en `copy.home` y `agency.hero/trust/cta` no controla la nueva home. No hay claves ni enlaces reales inventados.
 
-## Contactos pendientes
+## Contactos y publicación
 
-Los valores `TU_EMAIL_AQUI`, `TU_WHATSAPP_AQUI`, `TU_INSTAGRAM_AQUI`, `TU_LINKEDIN_AQUI` y `TU_DIRECCION_AQUI` son placeholders explícitos. No se convierten en enlaces, ni se muestran como información real. El footer oculta los canales sin URL válida. Email y WhatsApp ya tienen datos reales confirmados; Instagram, LinkedIn y dominio permanecen vacíos.
+- Email confirmado: `velousstudio@gmail.com`; se transforma en mailto.
+- WhatsApp confirmado: `5493585329272`; presentación `+54 9 358 532 9272`. El mensaje se codifica automáticamente en wa.me.
+- Instagram y LinkedIn: completar URL HTTPS; se ocultan si están vacíos o no son válidos.
+- Dominio: completar `businessConfig.domain` con URL HTTPS. Vacío usa localhost y noindex, sin inventar URLs.
+- Dirección: opcional. Activar `showAddress` solo si debe publicarse.
+- Responsable legal y jurisdicción: pendientes.
 
-- Email: dirección completa, sin `mailto:`.
-- WhatsApp: número internacional con código de país. Se aceptan +, espacios, paréntesis y guiones; se normaliza a dígitos para `wa.me`. El mensaje se codifica automáticamente.
-- Instagram/LinkedIn: URL completa con `https://`, no solo el usuario.
-- Dirección: opcional. Completar y activar `showAddress: true` únicamente si se quiere publicar; aparece con el texto de contacto del footer.
-- Dominio: reemplazar `TU_DOMINIO_AQUI` por la URL pública. Mientras sea un placeholder, se usa localhost sin indexación.
+## Reemplazar los conceptos por proyectos reales
 
-## Cambiar un proyecto demo por uno real
+1. Editar `siteContent.projects`. Conservar slugs publicados o preparar redirecciones al cambiarlos.
+2. Completar nombre, año, sector, categoría, descripción, problema, solución y tecnologías.
+3. Agregar una imagen autorizada a `public/images/` y configurar `image.src` y `image.alt`. Se utiliza Next Image y se conserva la proporción del bloque.
+4. Cambiar status a real solo cuando textos e imagen correspondan a un trabajo real. Mientras esté en demo se mantiene la identificación conceptual.
+5. No publicar resultados sin evidencia: `result` permanece null; un resultado necesita texto y URL de evidencia.
+6. Seleccionar los slugs destacados en `homeContent.portfolio.projects`. La tercera página de detalle sigue disponible aunque no aparezca en la home.
 
-1. Editar el registro en `projects`; conservar `slug` si se quiere mantener la URL existente. Si cambia una URL ya publicada, agregar su redirección antes de desplegar.
-2. Cambiar `status: 'demo'` por `status: 'real'`. Las etiquetas y la advertencia conceptual se eliminan automáticamente solo para ese proyecto.
-3. Colocar una imagen autorizada en `public/images/` y completar `image.src` con `/images/archivo.webp` y `image.alt` con una descripción real. Se usa la misma imagen en portada y detalle, sin modificar componentes. Usar una composición horizontal y tener en cuenta que se encuadra con object-fit: cover.
-4. Mientras `image.src` esté vacío se conserva el mockup actual definido por `kind`; no marcar un proyecto como real sin sustituir también ese material ficticio.
-5. Los textos de `copy.demoArtwork` no se muestran para los proyectos que ya tienen una imagen propia. Los avisos generales de proyectos conceptuales desaparecen cuando todos están marcados como reales.
-6. Completar `sector`, `problem`, `solution` y `tech`. `result` permanece `null` salvo que exista evidencia: usar `{ text: 'Resultado comprobado', evidenceUrl: 'URL pública de la evidencia' }`. Solo se publica en un caso real con URL válida. No inventar métricas.
+## Idiomas
 
-Las cinco visuales de servicios son exploraciones ilustrativas independientes del portfolio; incluyen mockups y dos composiciones abstractas de sistemas, con leyenda de concepto. El dispositivo de reservas usa datos demo de `agency.interface`; no acepta reservas.
+`localeConfig` y `homeLocales.es` preparan los diccionarios. EN permanece deshabilitado. Para activarlo faltan traducción de toda la copy compartida, rutas, metadata y selector funcional.
 
-## Inventario pendiente de confirmar
+## Antes de publicar
 
-- Maison Commerce, Recruitment Platform y Atelier Identity son **demo**: marcas, visuales, fechas y descripciones no representan clientes reales.
-- Los precios 150/250/300 USD fueron solicitados por el propietario, no inventados; faltan alcance, impuestos y vigencia definitiva.
-- Servicios, tiempos, administración y soporte de las FAQ necesitan confirmación comercial.
-- Los textos legales son borradores: completar responsable, contacto, jurisdicción, proveedores, conservación de datos y condiciones efectivas.
-- Instagram, LinkedIn, dirección (si aplica) y dominio siguen pendientes. Email y WhatsApp están confirmados.
-- El formulario usa Resend. Confirmar remitente autorizado y entrega al receptor configurado en CONTACT_EMAIL.
+Confirmar dominio, datos legales, proyectos reales, alcance e impuestos de los precios, tiempos, revisiones y soporte. Redes y dirección son opcionales. No es necesario volver a proporcionar email o WhatsApp.
 
-## Publicación
+Las credenciales de envío se configuran únicamente en `.env.local` o Vercel: `RESEND_API_KEY`, `FROM_EMAIL`, `CONTACT_EMAIL`. Ver [RESEND-SETUP.md](RESEND-SETUP.md). Comprobar una entrega real con remitente verificado tras desplegar.
 
-Después de editar: `npm run lint`, `npm run typecheck`, `npm run test:forms` y `npm run build`; reiniciar el servidor. Configurar Resend con `RESEND_API_KEY`, `FROM_EMAIL` y `CONTACT_EMAIL` en `.env.local` o en el alojamiento. Ambos formularios envían al backend; una configuración incompleta produce un error de servidor y conserva los datos introducidos. Ver [RESEND-SETUP.md](RESEND-SETUP.md) y comprobar una entrega real antes de publicar.
+Ejecutar lint, typecheck, test:forms y build después de modificar opciones. Las pruebas no envían emails ni leen credenciales locales.

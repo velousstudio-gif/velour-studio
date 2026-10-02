@@ -37,7 +37,7 @@ export async function sendInquiry(config: NonNullable<ReturnType<typeof getResen
     `Email: ${inquiry.email}`, `WhatsApp: ${inquiry.phone || 'No indicado'}`,
     `Tipo de proyecto: ${inquiry.project || 'Consulta general'}`,
     `Presupuesto: ${inquiry.budget || 'Sin definir'}`,
-    `Consulta: ${inquiry.kind === 'question' ? 'Pregunta' : 'Diagnóstico de proyecto'}`,
+    `Consulta: ${inquiry.kind === 'question' ? inquiry.questionType : 'Diagnóstico de proyecto'}`,
     ...(inquiry.kind === 'project' ? [`Para: ${inquiry.audience}`, `Situación actual: ${inquiry.situation}`] : []),
     '', 'Mensaje:', inquiry.message,
   ].join('\n');

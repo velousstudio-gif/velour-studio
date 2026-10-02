@@ -1,6 +1,6 @@
 # Velour Studio
 
-Web editorial en español con Next.js, TypeScript, Instrument Serif y Manrope autoalojadas. Nueva experiencia interactiva con GSAP, ScrollTrigger, Framer Motion y Lenis. Mantiene el branding, los assets y el contenido comercial de Velour Studio.
+Web editorial en español con Next.js, TypeScript, Instrument Serif y Manrope autoalojadas. La home usa scroll nativo, CSS y Framer Motion para entradas discretas. No incluye GSAP ni Lenis.
 
 ## Desarrollo y producción
 
@@ -12,32 +12,39 @@ npm run dev
 npm run lint
 npm run typecheck
 npm run test:forms
+npm run test:theme
 npm run build
 npm start
 ```
 
-## Editar contenido
+## Contenido
 
-**Fuente única: `content/site-content.ts`.** Contactos, dirección opcional, dominio, textos, servicios, precios, proyectos, FAQ, navegación y enlaces legales se modifican allí. Guía e inventario de contenidos pendientes en [content/README.md](content/README.md).
+- `content/home-content.ts`: copy activa de la home, servicios, confianza, tecnologías, CTA, composición del portfolio y footer. Diccionario ES y estructura preparada para EN; EN permanece deshabilitado.
+- `content/site-content.ts`: datos públicos, SEO, proyectos, precios, FAQ, proceso, opciones y mensajes de formularios, legales y textos de los mockups.
+- `lib/content.ts`: adaptadores y enlaces calculados. No editar los datos comerciales aquí.
 
-Los placeholders TU_*_AQUI no generan enlaces inválidos. Las antiguas variables NEXT_PUBLIC_CONTACT_EMAIL, NEXT_PUBLIC_WHATSAPP, NEXT_PUBLIC_INSTAGRAM_URL, NEXT_PUBLIC_LINKEDIN_URL y NEXT_PUBLIC_SITE_URL ya no son la fuente del contenido público. Migrar sus valores al archivo central antes de desplegar si estaban configuradas en el alojamiento.
+Guía de edición y pendientes: [content/README.md](content/README.md).
 
-## Antes de publicar
+## Publicación y Resend
 
-Completar contactos y dominio; confirmar textos comerciales, precios y alcance; reemplazar o conservar claramente identificados los tres proyectos demo; completar los borradores legales. Recompilar después de editar.
+Email y WhatsApp reales ya están configurados. Dominio, razón social y redes siguen pendientes. Los proyectos están identificados como conceptos; los legales requieren completar y aprobar su contenido.
 
-Completar `businessConfig` al inicio de `content/site-content.ts`. Para enviar consultas, definir `RESEND_API_KEY`, `FROM_EMAIL` y `CONTACT_EMAIL` en `.env.local` o en el alojamiento. Cada envío hace un POST real; las variables privadas se validan en el servidor al recibirlo. Guía completa: [content/RESEND-SETUP.md](content/RESEND-SETUP.md). No se envían emails de prueba automáticamente. Usar alojamiento compatible con Next.js/Node; no exportación estática.
+Configurar exclusivamente en el servidor `RESEND_API_KEY`, `FROM_EMAIL` y `CONTACT_EMAIL`. Copiar `.env.example` a `.env.local` para desarrollo o definirlas en Vercel y redesplegar. Las claves nunca se incluyen en variables NEXT_PUBLIC ni en contenido público.
 
-## Marca y recursos
+Ambos formularios usan `POST /api/contact`: validación de servidor, honeypot, control de origen, límite de entrada, Reply-To del visitante e idempotencia. Solo se informa éxito cuando Resend devuelve un ID. Los errores mantienen los datos del formulario. El tipo Pregunta/Comentario/Sugerencia se valida y se incluye en el correo.
 
-Header y footer mantienen el wordmark tipográfico; favicon PNG vigente. Los monogramas y logos PNG se conservan como recursos disponibles. Ver `public/brand/README.md`. Las imágenes editoriales son ilustrativas; su procedencia está en `public/images/ART-DIRECTION.md`.
+Guía del remitente verificado y prueba de entrega: [content/RESEND-SETUP.md](content/RESEND-SETUP.md). Requiere alojamiento Next.js/Node; no usar exportación estática.
 
-## Recorrido comercial
+## Arquitectura visual actual
 
-Hero → tecnologías → servicios → portfolio → proceso → estudio y principios → manifiesto → CTA → FAQ → preguntas → diagnóstico → footer. Los precios se muestran en FAQ. Ambos formularios comparten validación y el endpoint de Resend. Conservan todos los datos ante cualquier fallo y confirman éxito solo si el proveedor acepta el email.
+Hero → confianza → tecnologías → dos servicios → nota de branding → proceso → dos proyectos → CTA → FAQ → preguntas → diagnóstico → footer.
 
-ESLint 9 se mantiene por compatibilidad con los plugins React de `eslint-config-next` 16.3.6; actualizar ambos conjuntamente cuando soporten ESLint 10. No añade dependencias al código servido al visitante.
+La home se ensambla en `components/home/home.tsx`; cada bloque tiene su componente en `components/home/`. `components/site.tsx` contiene el header compartido. `components/contact-form.tsx` conserva los formularios. `app/globals.css` contiene el sistema visual y los breakpoints; `app/mockups.css` contiene únicamente las ilustraciones de proyectos.
 
-## Rediseño de experiencia
+Header y footer usan el wordmark tipográfico. Se conserva el favicon y un monograma sutil en Preguntas, oculto en pantallas pequeñas. Los PNG de marca y assets propios permanecen disponibles; Gmail no se muestra.
 
-Arquitectura, efectos, breakpoints, pruebas y pendientes en [content/EXPERIENCE-REPORT.md](content/EXPERIENCE-REPORT.md). La nueva copy editorial está en `experienceContent`, dentro del archivo central de contenido.
+El selector Light / Dark del header (dentro del menú en tablet/mobile) cambia la paleta sin recargar y conserva el dorado en ambos modos. Sin elección manual sigue `prefers-color-scheme`; la preferencia se guarda en `localStorage` con la clave `velour-theme`. Las variables están en `app/themes.css`. Funcionamiento, tokens y QA: [content/THEMES.md](content/THEMES.md).
+
+Informe del trabajo y QA: [content/HOME-REBUILD-REPORT.md](content/HOME-REBUILD-REPORT.md). Los informes anteriores documentan versiones históricas.
+
+ESLint 9 se mantiene por compatibilidad con los plugins React de `eslint-config-next` 16.3.6.
