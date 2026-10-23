@@ -13,6 +13,7 @@ import { WebShowcase, CommerceShowcase, SoftwareShowcase } from './showcase';
 import { Services } from './services';
 import { Process } from './process';
 import { Portfolio } from './portfolio';
+import { Concepts } from './concepts';
 import { FAQ } from './faq';
 import { Footer } from './footer';
 
@@ -25,6 +26,7 @@ export default function Home() {
     <SoftwareShowcase />
     <Services />
     <Portfolio />
+    <Concepts />
     <Process />
     {works.length > 0 && <div className="ix-strip" aria-label="Clientes"><div className="ix-strip-track">{[...works, ...works, ...works].map((work, i) => <span key={`${work.slug}-${i}`} aria-hidden={i >= works.length}>{work.name}</span>)}</div></div>}
     <section className="ix-contact-intro" aria-labelledby="contact-intro-title">

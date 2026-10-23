@@ -64,6 +64,11 @@ const es = {
       { id: 'development', service: 'Software a medida', title: 'CRM y software a medida', text: 'Sistemas adaptados a cómo trabaja tu equipo.' },
     ],
   } as const,
+  concepts: {
+    label: 'CONCEPTOS DE DISEÑO', title: '50 ideas de diseño', accent: 'para tu rubro',
+    leadStrong: 'Diseños de muestra con marcas ficticias,', lead: 'creados por el estudio para mostrarte estilos por rubro. No son clientes: son puntos de partida para tu proyecto.',
+    ariaLabel: 'Conceptos de diseño con marcas ficticias', cta: 'VER LOS 50 CONCEPTOS',
+  },
   contactIntro: {
     label: 'ENVIANOS UN MENSAJE',
     title: 'Contanos tu proyecto y pedí tu presupuesto', accent: 'sin compromiso',
