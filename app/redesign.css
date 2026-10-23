@@ -568,3 +568,16 @@ html, body { overflow-x: clip; }
   .vsl-top-cta { padding: 9px 14px; font-size: 10.5px; }
 }
 .vsl-form { position: relative; }
+.ix-after-list { display: grid; gap: 12px; margin-top: 8px; }
+.ix-after-list li { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 14px; background: #1a1917; border: 1px solid rgba(255,255,255,.06); font-size: 14px; font-weight: 600; }
+.ix-after-list .ix-contact-icon { flex: none; font-size: 12px; font-weight: 800; }
+/* Selector de idioma */
+.lang-switch { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; letter-spacing: .8px; }
+.lang-switch a { padding: 4px 2px; opacity: .55; transition: opacity .2s, color .2s; }
+.lang-switch a[aria-current="true"] { opacity: 1; color: var(--ix-gold-light); }
+.lang-switch a:hover { opacity: 1; }
+.lang-switch span { opacity: .35; }
+body:has(.ix-home) .header-actions .lang-switch { color: var(--ix-cream); }
+.vsl-top .container { gap: 18px; }
+.vsl-lang { margin-left: auto; }
+@media (max-width: 1100px) { .header-actions > .lang-switch { display: none; } }

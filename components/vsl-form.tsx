@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 import { siteContent } from '@/content/site-content';
-import { vsl } from '@/content/vsl';
+import { useDict, useLocalePath } from './locale';
 import { currentAttribution, track } from '@/lib/funnel';
 
 /**
@@ -15,6 +15,11 @@ import { currentAttribution, track } from '@/lib/funnel';
 export function VslForm() {
   const router = useRouter();
   const options = siteContent.diagnosticOptions;
+  const { ui } = useDict();
+  const lp = useLocalePath();
+  const vsl = ui.vsl;
+  const labels = ui.options;
+  const en = labels.projectTypes[0] === 'Website';
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const started = useRef(false);
   const lock = useRef(false);
@@ -36,7 +41,7 @@ export function VslForm() {
       const result = await response.json().catch(() => null);
       if (!response.ok || result?.ok !== true) throw new Error('failed');
       track('lead_submit_success');
-      router.push('/vsl/gracias');
+      router.push(lp('/vsl/gracias'));
     } catch {
       track('lead_submit_error'); setStatus('error'); lock.current = false;
     }
@@ -45,17 +50,17 @@ export function VslForm() {
   return <form className="vsl-form" onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; track('form_start'); } }} aria-busy={status === 'loading'}>
     <input type="text" name="website" tabIndex={-1} autoComplete="off" className="sr-only" aria-hidden="true" />
     <fieldset disabled={status === 'loading'}>
-      <label><span>Nombre *</span><input name="name" required maxLength={100} autoComplete="name" placeholder="Tu nombre" /></label>
-      <label><span>WhatsApp *</span><input name="phone" required maxLength={40} type="tel" autoComplete="tel" placeholder="+54 9 …" /></label>
-      <label className="vsl-span"><span>Email *</span><input name="email" required type="email" maxLength={200} autoComplete="email" placeholder="vos@tuempresa.com" /></label>
-      <label><span>¿Qué necesitás? *</span><select name="project" required defaultValue=""><option value="" disabled>Elegí una opción</option>{options.projectTypes.map(value => <option key={value}>{value}</option>)}</select></label>
-      <label><span>¿Para quién es? *</span><select name="audience" required defaultValue=""><option value="" disabled>Elegí una opción</option>{options.audiences.map(value => <option key={value}>{value}</option>)}</select></label>
-      <label><span>¿Cómo estás hoy? *</span><select name="situation" required defaultValue=""><option value="" disabled>Elegí una opción</option>{options.situations.map(value => <option key={value}>{value}</option>)}</select></label>
-      <label><span>Presupuesto aproximado</span><select name="budget" defaultValue=""><option value="">Prefiero no decir</option>{options.budgets.map(value => <option key={value}>{value}</option>)}</select></label>
-      <label className="vsl-span"><span>Contanos algo más (opcional)</span><textarea name="message" rows={3} maxLength={5000} placeholder="¿Qué te gustaría lograr?" /></label>
+      <label><span>{en ? 'Name *' : 'Nombre *'}</span><input name="name" required maxLength={100} autoComplete="name" placeholder={en ? 'Your name' : 'Tu nombre'} /></label>
+      <label><span>{en ? 'WhatsApp / phone *' : 'WhatsApp *'}</span><input name="phone" required maxLength={40} type="tel" autoComplete="tel" placeholder={en ? '+1 …' : '+54 9 …'} /></label>
+      <label className="vsl-span"><span>Email *</span><input name="email" required type="email" maxLength={200} autoComplete="email" placeholder={en ? 'you@company.com' : 'vos@tuempresa.com'} /></label>
+      <label><span>{ui.agency.diagnostic.need} *</span><select name="project" required defaultValue=""><option value="" disabled>{ui.agency.diagnostic.selectionPlaceholder}</option>{options.projectTypes.map((value, i) => <option key={value} value={value}>{labels.projectTypes[i] ?? value}</option>)}</select></label>
+      <label><span>{ui.agency.diagnostic.audience} *</span><select name="audience" required defaultValue=""><option value="" disabled>{ui.agency.diagnostic.selectionPlaceholder}</option>{options.audiences.map((value, i) => <option key={value} value={value}>{labels.audiences[i] ?? value}</option>)}</select></label>
+      <label><span>{ui.agency.diagnostic.situation} *</span><select name="situation" required defaultValue=""><option value="" disabled>{ui.agency.diagnostic.selectionPlaceholder}</option>{options.situations.map((value, i) => <option key={value} value={value}>{labels.situations[i] ?? value}</option>)}</select></label>
+      <label><span>{ui.agency.diagnostic.budget}</span><select name="budget" defaultValue=""><option value="">{en ? 'Prefer not to say' : 'Prefiero no decir'}</option>{options.budgets.map((value, i) => <option key={value} value={value}>{labels.budgets[i] ?? value}</option>)}</select></label>
+      <label className="vsl-span"><span>{en ? 'Anything else? (optional)' : 'Contanos algo más (opcional)'}</span><textarea name="message" rows={3} maxLength={5000} placeholder={en ? 'What would you like to achieve?' : '¿Qué te gustaría lograr?'} /></label>
     </fieldset>
-    <button type="submit" className="ix-btn ix-btn-gold ix-btn-glow vsl-submit" disabled={status === 'loading'}>{status === 'loading' ? 'ENVIANDO…' : vsl.form.submit}<ArrowUpRight size={17} aria-hidden="true" /></button>
-    <p className="vsl-form-note" role="status" aria-live="polite">{status === 'error' ? siteContent.form.messages.failure : vsl.form.note}</p>
-    <p className="vsl-form-legal">Al enviar aceptás nuestra <Link href="/privacidad">política de privacidad</Link>.</p>
+    <button type="submit" className="ix-btn ix-btn-gold ix-btn-glow vsl-submit" disabled={status === 'loading'}>{status === 'loading' ? (en ? 'SENDING…' : 'ENVIANDO…') : vsl.form.submit}<ArrowUpRight size={17} aria-hidden="true" /></button>
+    <p className="vsl-form-note" role="status" aria-live="polite">{status === 'error' ? ui.messages.failure : vsl.form.note}</p>
+    <p className="vsl-form-legal">{ui.form.al_enviar_aceptas_nuestra}<Link href="/privacidad">{ui.form.politica_de_privacidad}</Link></p>
   </form>;
 }

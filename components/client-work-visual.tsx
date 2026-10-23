@@ -6,7 +6,7 @@ export function BrowserShot({ work, priority = false, sizes = '(max-width: 850px
   if (!work.screenshot) return null;
   return <div className="browser-shot">
     <div className="browser-shot-bar" aria-hidden="true"><span><i /><i /><i /></span><span className="browser-shot-url">{work.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</span><span /></div>
-    <div className="browser-shot-screen"><Image src={work.screenshot} alt={`Portada del sitio de ${work.name}`} fill sizes={sizes} priority={priority} /></div>
+    <div className="browser-shot-screen"><Image src={work.screenshot} alt={work.name} fill sizes={sizes} priority={priority} /></div>
   </div>;
 }
 
@@ -14,8 +14,8 @@ export function BrowserShot({ work, priority = false, sizes = '(max-width: 850px
  * Visual de un trabajo: la captura real si existe; si no, una composición genérica por tipo de proyecto
  * (sin logos, capturas ni datos del cliente).
  */
-export function ClientWorkVisual({ work }: { work: ClientWork }) {
-  if (work.screenshot) return <div className="work-art work-art-shot"><BrowserShot work={work} /><span className="art-context">CAPTURA DEL SITIO PUBLICADO</span></div>;
+export function ClientWorkVisual({ work, label = 'CAPTURA DEL SITIO PUBLICADO' }: { work: ClientWork; label?: string }) {
+  if (work.screenshot) return <div className="work-art work-art-shot"><BrowserShot work={work} /><span className="art-context">{label}</span></div>;
   return <div className={`work-art work-art-${work.mockup}`} aria-hidden="true">
     <div className="work-window">
       <div className="browser-chrome"><span><i /><i /><i /></span><span>{work.category} · {work.sector}</span><span /></div>

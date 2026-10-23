@@ -2,6 +2,8 @@
 
 import type { ReactNode } from 'react';
 import { serviceHref, type ServiceType } from '@/content/portfolio';
+import { localePath } from '@/content/i18n';
+import { useLocale } from './locale';
 
 export const SERVICE_EVENT = 'velour:servicio';
 
@@ -12,9 +14,11 @@ export const SERVICE_EVENT = 'velour:servicio';
  * El clic se mide una sola vez en FunnelTracker (enlaces a #project-form).
  */
 export function ServiceLink({ service, className, children, label }: { service: ServiceType; className?: string; children: ReactNode; label?: string }) {
-  const href = serviceHref(service);
+  const locale = useLocale();
+  const href = localePath(locale, serviceHref(service));
+  const home = localePath(locale, '/');
   return <a href={href} className={className} aria-label={label} onClick={event => {
-    if (window.location.pathname !== '/' || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    if (window.location.pathname !== home || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
     event.preventDefault();
     window.history.replaceState(window.history.state, '', href);
     window.dispatchEvent(new CustomEvent(SERVICE_EVENT, { detail: service }));

@@ -76,7 +76,7 @@ const es = {
     body: 'Entendemos tu negocio y tus objetivos, te proponemos acciones concretas y armamos una propuesta a medida.',
     cta: 'QUIERO MI PRESUPUESTO',
   },
-  formSection: { label: 'HABLEMOS DE TU PROYECTO', title: 'Contanos qué necesitás', direct: 'Contacto directo', directText: 'Elegí el canal que te quede más cómodo.' },
+  formSection: { label: 'HABLEMOS DE TU PROYECTO', title: 'Contanos qué necesitás', after: 'Qué pasa después', afterSteps: ['Recibimos tu consulta al instante.', 'Te contactamos para entender tu negocio.', 'Te enviamos una propuesta con alcance y presupuesto.'] },
   technology: {
     title: 'TRABAJAMOS CON',
     brands: [

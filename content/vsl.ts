@@ -34,7 +34,7 @@ export const vsl = {
     { q: '¿Puedo administrarla yo?', a: 'Sí. Te dejamos todo configurado y te mostramos cómo actualizar lo que necesites.' },
   ],
   thanks: {
-    title: '¡Listo! Recibimos tus datos', text: 'Te vamos a contactar a la brevedad. Si querés adelantar la charla, escribinos por WhatsApp.',
+    title: '¡Listo! Recibimos tus datos', text: 'Te vamos a contactar a la brevedad para conversar sobre tu proyecto.',
     back: 'VOLVER AL SITIO', whatsapp: 'ESCRIBIR POR WHATSAPP',
   },
 };

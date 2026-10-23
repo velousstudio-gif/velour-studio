@@ -9,9 +9,10 @@ export type Project = { slug: string; name: string; year: string; category: stri
 // Completar aquí los datos públicos. Mantener vacíos o placeholders hasta tener datos reales.
 // El destinatario privado del formulario se configura únicamente con CONTACT_EMAIL en el servidor.
 export const businessConfig = {
-  publicEmail: 'velousstudio@gmail.com',
-  whatsappNumber: '5493585329272',
-  whatsappDisplay: '+54 9 358 532 9272',
+  // Contacto público desactivado a pedido del titular (23/10/2026): las consultas entran solo por los formularios (CRM).
+  publicEmail: '',
+  whatsappNumber: '',
+  whatsappDisplay: '',
   instagramUrl: '',
   linkedinUrl: '',
   domain: 'https://velourstudio.online', // URL pública canónica (sitemap, robots, OG)
@@ -348,7 +349,7 @@ export const siteContent = {
     "messages": {
       "nameRequired": "Ingresá tu nombre.",
       "messageTooShort": "Escribí un mensaje de al menos 10 caracteres.",
-      "failure": "No pudimos enviar tu solicitud. Intentá nuevamente o escribinos por WhatsApp.",
+      "failure": "No pudimos enviar tu solicitud. Revisá tu conexión e intentá nuevamente en unos segundos.",
       "success": "Gracias. Recibimos tu solicitud y te contactaremos pronto."
     }
   },

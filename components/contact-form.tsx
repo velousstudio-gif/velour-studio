@@ -6,12 +6,10 @@ import { flushSync } from 'react-dom';
 import { useState, useRef, useEffect } from 'react';
 import { ArrowUpRight, ArrowRight, ArrowLeft, LoaderCircle, CheckCircle2 } from 'lucide-react';
 import { siteContent } from '@/content/site-content';
-import { homeContent } from '@/content/home-content';
+import { useDict } from './locale';
 import { currentAttribution, track } from '@/lib/funnel';
 import { SERVICE_EVENT } from './service-link';
 
-const labels = siteContent.copy.form;
-const copy = siteContent.agency;
 const options = siteContent.diagnosticOptions;
 
 export function ProjectDiagnostic() {
@@ -23,6 +21,11 @@ export function QuestionForm() {
 
 function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
   const diagnostic = kind === 'project';
+  const { home, ui } = useDict();
+  const labels = ui.form;
+  const copy = ui.agency;
+  const optionLabels = ui.options;
+  const messages = ui.messages;
   const [step, setStep] = useState(1);
   const [changingStep, setChangingStep] = useState(false);
   const { reduced } = useMotionPreferences();
@@ -99,7 +102,7 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
     for (const key of ['name', 'message']) {
       const field = form.elements.namedItem(key) as HTMLInputElement | HTMLTextAreaElement;
       field.setCustomValidity(field.value.trim().length < (key === 'message' ? 10 : 1)
-        ? (key === 'message' ? siteContent.form.messages.messageTooShort : siteContent.form.messages.nameRequired) : '');
+        ? (key === 'message' ? messages.messageTooShort : messages.nameRequired) : '');
     }
     if (!form.reportValidity()) return;
     // Capture values before disabling the fieldset. Lock synchronously, before React renders.
@@ -114,13 +117,13 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
       const result = await response.json();
       if (!response.ok || result?.ok !== true) throw new Error('Contact request failed');
       if (!alive.current) return;
-      track('lead_submit_success'); setStatus('success'); setMessage(siteContent.form.messages.success); form.reset();
+      track('lead_submit_success'); setStatus('success'); setMessage(messages.success); form.reset();
       submission.current = null;
       // Keep the confirmation visible; visitors can explicitly start another inquiry by returning.
       setSelection({ project: '', audience: '', situation: '' });
     } catch {
       if (!alive.current) return;
-      track('lead_submit_error'); setStatus('error'); setMessage(siteContent.form.messages.failure);
+      track('lead_submit_error'); setStatus('error'); setMessage(messages.failure);
     } finally {
       submitLock.current = false;
     }
@@ -129,24 +132,24 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
   const messageField = <><label className="message-field"><span className="field-label">{diagnostic ? labels.mensaje : copy.question.field}<b> *</b></span><textarea name="message" placeholder={diagnostic ? labels.contanos_un_poco_sobre_tu_proyecto : copy.question.placeholder} rows={4} required minLength={10} maxLength={5000} aria-describedby={`${kind}-message-help`} onInput={event => event.currentTarget.setCustomValidity('')} /></label><p className="form-help" id={`${kind}-message-help`}>{labels.al_menos_10_caracteres}</p></>;
 
   return <form ref={formRef} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; track('form_start'); } }} className={`contact-form ${diagnostic ? 'diagnostic-form' : 'question-form'}`} aria-label={diagnostic ? copy.diagnostic.label : copy.question.title} aria-busy={status === 'loading' || changingStep}>
-    {diagnostic && <div className="diagnostic-progress"><h3 ref={stepRef} tabIndex={-1}>{copy.diagnostic.stepLabel} <motion.span key={step} className="step-number" initial={false} animate={{ opacity: 1 }}> {step} de 2</motion.span> <span>— {copy.diagnostic.steps[step - 1]}</span></h3><div className="step-progress-track" aria-hidden="true"><motion.i animate={{ scaleX: step / 2 }} initial={false} transition={{ duration: reduced ? 0 : .3, ease: editorialEase }} /></div></div>}
+    {diagnostic && <div className="diagnostic-progress"><h3 ref={stepRef} tabIndex={-1}>{copy.diagnostic.stepLabel} <motion.span key={step} className="step-number" initial={false} animate={{ opacity: 1 }}> {step} {copy.diagnostic.of} 2</motion.span> <span>— {copy.diagnostic.steps[step - 1]}</span></h3><div className="step-progress-track" aria-hidden="true"><motion.i animate={{ scaleX: step / 2 }} initial={false} transition={{ duration: reduced ? 0 : .3, ease: editorialEase }} /></div></div>}
     <p className="form-help">{labels.los_campos_con_son_obligatorios}</p>
     <div className="form-step-window">
     {diagnostic && <fieldset className="diagnostic-first" hidden={step !== 1} disabled={step !== 1 || changingStep || status === 'loading'}>
       <legend className="sr-only">{copy.diagnostic.steps[0]}</legend>
-      <fieldset className="project-options"><legend>{copy.diagnostic.need} <span>*</span></legend><div>{options.projectTypes.map(type => <label className="project-option" key={type}><input type="radio" name="project" value={type} checked={selection.project === type} onChange={() => setSelection({ ...selection, project: type })} required /><span>{type}<ArrowUpRight size={14} /></span></label>)}</div></fieldset>
-      <label><span className="field-label">{copy.diagnostic.audience} <b>*</b></span><select name="audience" value={selection.audience} onChange={event => setSelection({ ...selection, audience: event.target.value })} required><option value="" disabled>{copy.diagnostic.selectionPlaceholder}</option>{options.audiences.map(value => <option key={value}>{value}</option>)}</select></label>
-      <label><span className="field-label">{copy.diagnostic.situation} <b>*</b></span><select name="situation" aria-describedby={selection.situation.length > 30 ? 'selected-situation' : undefined} value={selection.situation} onChange={event => setSelection({ ...selection, situation: event.target.value })} required><option value="" disabled>{copy.diagnostic.selectionPlaceholder}</option>{options.situations.map(value => <option key={value}>{value}</option>)}</select></label>
-      {selection.situation.length > 30 && <p className="selection-detail" id="selected-situation">{selection.situation}</p>}
+      <fieldset className="project-options"><legend>{copy.diagnostic.need} <span>*</span></legend><div>{options.projectTypes.map((type, i) => <label className="project-option" key={type}><input type="radio" name="project" value={type} checked={selection.project === type} onChange={() => setSelection({ ...selection, project: type })} required /><span>{optionLabels.projectTypes[i] ?? type}<ArrowUpRight size={14} /></span></label>)}</div></fieldset>
+      <label><span className="field-label">{copy.diagnostic.audience} <b>*</b></span><select name="audience" value={selection.audience} onChange={event => setSelection({ ...selection, audience: event.target.value })} required><option value="" disabled>{copy.diagnostic.selectionPlaceholder}</option>{options.audiences.map((value, i) => <option key={value} value={value}>{optionLabels.audiences[i] ?? value}</option>)}</select></label>
+      <label><span className="field-label">{copy.diagnostic.situation} <b>*</b></span><select name="situation" aria-describedby={selection.situation.length > 30 ? 'selected-situation' : undefined} value={selection.situation} onChange={event => setSelection({ ...selection, situation: event.target.value })} required><option value="" disabled>{copy.diagnostic.selectionPlaceholder}</option>{options.situations.map((value, i) => <option key={value} value={value}>{optionLabels.situations[i] ?? value}</option>)}</select></label>
+      {selection.situation.length > 30 && <p className="selection-detail" id="selected-situation">{optionLabels.situations[options.situations.indexOf(selection.situation)] ?? selection.situation}</p>}
     </fieldset>}
     <fieldset hidden={diagnostic && step !== 2} disabled={(diagnostic && step !== 2) || changingStep || status === 'loading' || status === 'success'} className="inquiry-details">
       <legend className="sr-only">{copy.diagnostic.steps[1]}</legend>
-      {!diagnostic && <><fieldset className="question-types"><legend>{homeContent.question.typeLabel}</legend><div>{siteContent.questionTypes.map((type, index) => <label className="question-type-option" key={type}><input type="radio" name="questionType" value={type} defaultChecked={index === 0} required /><span>{type}</span></label>)}</div></fieldset>{messageField}</>}
+      {!diagnostic && <><fieldset className="question-types"><legend>{home.question.typeLabel}</legend><div>{siteContent.questionTypes.map((type, index) => <label className="question-type-option" key={type}><input type="radio" name="questionType" value={type} defaultChecked={index === 0} required /><span>{ui.questionTypes[index] ?? type}</span></label>)}</div></fieldset>{messageField}</>}
       <div className="form-grid"><label><span className="field-label">{labels.nombre}<b> *</b></span><input name="name" autoComplete="name" placeholder={labels.tu_nombre} required maxLength={100} onInput={event => event.currentTarget.setCustomValidity('')} /></label>
         {diagnostic && <label><span className="field-label">{labels.empresa}</span><input name="company" autoComplete="organization" placeholder={labels.nombre_de_tu_negocio} maxLength={150} /></label>}
         <label><span className="field-label">{labels.email}<b> *</b></span><input name="email" type="email" autoComplete="email" placeholder={labels.vos_tuempresa_com} required maxLength={254} /></label>
         <label><span className="field-label">{labels.whatsapp}</span><input name="phone" type="tel" autoComplete="tel" placeholder={labels.text_54_9} maxLength={40} /></label>
-        {diagnostic && <label className="budget-field"><span className="field-label">{copy.diagnostic.budget}</span><select name="budget" defaultValue=""><option value="">{labels.sin_definir}</option>{options.budgets.map(budget => <option key={budget}>{budget}</option>)}</select></label>}
+        {diagnostic && <label className="budget-field"><span className="field-label">{copy.diagnostic.budget}</span><select name="budget" defaultValue=""><option value="">{labels.sin_definir}</option>{options.budgets.map((budget, i) => <option key={budget} value={budget}>{optionLabels.budgets[i] ?? budget}</option>)}</select></label>}
       </div>
       {diagnostic && messageField}
     </fieldset>

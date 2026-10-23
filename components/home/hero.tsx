@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
-import { homeContent } from '@/content/home-content';
+import { getDict, localePath, localizeConcept, localizeWork, type Locale } from '@/content/i18n';
 import { siteContent } from '@/content/site-content';
 import { concepts } from '@/content/concepts';
 import { contact } from '@/lib/content';
@@ -13,10 +13,10 @@ import { Spotlight } from '../fx';
  * Portada oscura centrada. Detrás: un plano 3D inclinado con columnas de pantallas que se desplazan
  * (trabajos reales + conceptos), trazos de luz sobre la grilla y un foco dorado que sigue al cursor.
  */
-export function Hero() {
-  const copy = homeContent.hero;
-  const works = visibleClientWorks().filter(work => work.screenshot);
-  const pool = concepts.slice(0, 20);
+export function Hero({ locale = 'es' }: { locale?: Locale }) {
+  const copy = getDict(locale).home.hero;
+  const works = visibleClientWorks().map(work => localizeWork(locale, work)).filter(work => work.screenshot);
+  const pool = concepts.slice(0, 20).map(concept => localizeConcept(locale, concept));
   const columns = [0, 1, 2, 3, 4].map(c => {
     const items: React.ReactNode[] = [];
     for (let i = 0; i < 4; i++) {
@@ -36,11 +36,11 @@ export function Hero() {
       <h1 id="hero-title"><span className="hero-line"><span>{copy.title}</span></span><span className="hero-line ix-hero-line2"><span>{copy.accent}</span></span></h1>
       <p className="ix-hero-lead hero-enter" style={{ animationDelay: '.45s' }}><strong>{copy.leadStrong}</strong> {copy.lead}</p>
       <div className="ix-actions hero-enter" style={{ animationDelay: '.6s' }}>
-        <Link className="ix-btn ix-btn-gold ix-btn-glow" href={siteContent.links.form}>{copy.primary}<ArrowUpRight size={17} aria-hidden="true" /></Link>
-        {contact.whatsappHref ? <a className="ix-btn ix-btn-line" href={contact.whatsappHref} target="_blank" rel="noopener noreferrer">{copy.whatsapp}<ArrowUpRight size={17} aria-hidden="true" /></a> : <Link className="ix-btn ix-btn-line" href={siteContent.links.works}>{copy.secondary}</Link>}
+        <Link className="ix-btn ix-btn-gold ix-btn-glow" href={localePath(locale, siteContent.links.form)}>{copy.primary}<ArrowUpRight size={17} aria-hidden="true" /></Link>
+        {contact.whatsappHref ? <a className="ix-btn ix-btn-line" href={contact.whatsappHref} target="_blank" rel="noopener noreferrer">{copy.whatsapp}<ArrowUpRight size={17} aria-hidden="true" /></a> : <Link className="ix-btn ix-btn-line" href={localePath(locale, siteContent.links.works)}>{copy.secondary}</Link>}
       </div>
-      {works.length > 0 && <ul className="ix-hero-clients hero-enter" style={{ animationDelay: '.75s' }} aria-label={copy.clientsLabel}>{works.map(work => <li key={work.slug}><Link href={`/trabajos/${work.slug}`}>{work.name}</Link></li>)}</ul>}
-      <a className="ix-scroll-cue" href="#servicios" aria-label="Bajar a servicios"><span /></a>
+      {works.length > 0 && <ul className="ix-hero-clients hero-enter" style={{ animationDelay: '.75s' }} aria-label={copy.clientsLabel}>{works.map(work => <li key={work.slug}><Link href={localePath(locale, `/trabajos/${work.slug}`)}>{work.name}</Link></li>)}</ul>}
+      <a className="ix-scroll-cue" href="#servicios" aria-label={locale === 'en' ? 'Scroll to services' : 'Bajar a servicios'}><span /></a>
     </div>
   </Spotlight></section>;
 }

@@ -115,9 +115,12 @@ assert.equal((await request(project)).status, 502);
 providerResponse = () => { throw new Error('Connection lost'); };
 assert.equal((await request(question)).status, 502);
 const links = contactLinks(siteContent.contact);
-assert.equal(links.emailHref, 'mailto:velousstudio@gmail.com');
-const whatsapp = new URL(links.whatsappHref);
-assert.equal(whatsapp.origin + whatsapp.pathname, 'https://wa.me/5493585329272');
+// Decisión 23/10/2026: contacto público desactivado; las consultas entran solo por formularios (CRM).
+assert.equal(links.emailHref, ''); assert.equal(links.whatsappHref, '');
+const sample = contactLinks({ ...siteContent.contact, email: 'hola@ejemplo.com', whatsapp: '5491100000000' });
+assert.equal(sample.emailHref, 'mailto:hola@ejemplo.com');
+const whatsapp = new URL(sample.whatsappHref);
+assert.equal(whatsapp.origin + whatsapp.pathname, 'https://wa.me/5491100000000');
 assert.equal(whatsapp.searchParams.get('text'), siteContent.contact.whatsappMessage);
 assert.equal(links.instagram, ''); assert.equal(links.linkedin, '');
 console.log('OK: endpoint, validación, variables exactas, SDK Resend real con HTTP simulado, campos/asunto/replyTo, idempotencia, errores y logs sin claves. No se enviaron emails.');
