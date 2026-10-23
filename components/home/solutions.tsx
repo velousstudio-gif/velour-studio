@@ -1,17 +1,15 @@
-import { ArrowUpRight, Building2, MonitorSmartphone, Server, Sparkles, Table2, Truck, WifiOff, Wifi } from 'lucide-react';
-import { capabilities, ownProducts } from '@/content/portfolio';
+import { ArrowUpRight, WifiOff, Wifi } from 'lucide-react';
+import { ownProducts } from '@/content/portfolio';
 import { siteContent } from '@/content/site-content';
 import { Reveal, ImageReveal, MotionLink as Link } from '../motion';
 import { ServiceLink } from '../service-link';
 
-const ICONS = { ai: Sparkles, airtable: Table2, logistics: Truck, backend: Server, frontend: MonitorSmartphone, enterprise: Building2 };
-
-/** Producto propio + capacidades técnicas: separados de los trabajos de clientes y de los servicios. */
+/** Producto propio: separado de los trabajos de clientes y de los servicios. */
 export function Solutions() {
   const product = ownProducts[0];
   return <section id="soluciones" className="solutions section-space" aria-labelledby="solutions-title"><div className="container">
-    <div className="section-heading"><div><span className="eyebrow">SOLUCIONES</span><h2 id="solutions-title">Productos propios<br /><em>y capacidades técnicas.</em></h2></div>
-      <p>Además de diseñar y desarrollar webs, creamos software. Acá separamos lo que es un producto de Velour de las capacidades con las que construimos soluciones a medida.</p></div>
+    <div className="section-heading"><div><span className="eyebrow">SOLUCIONES</span><h2 id="solutions-title">Software propio <em>de Velour Studio.</em></h2></div>
+      <p>Además de diseñar y desarrollar para clientes, creamos nuestras propias herramientas.</p></div>
 
     <article className="product-feature" aria-labelledby="product-name">
       <Reveal className="product-copy">
@@ -25,17 +23,6 @@ export function Solutions() {
       </Reveal>
       <figure className="product-visual"><ImageReveal><LedgerMockup /></ImageReveal><figcaption>{product.name.toUpperCase()} / INTERFAZ ILUSTRATIVA</figcaption></figure>
     </article>
-
-    <div className="capabilities-head"><span className="eyebrow">CAPACIDADES TÉCNICAS</span><p>Lo que podemos construir para tu operación. Cada proyecto se define con alcance y presupuesto antes de empezar.</p></div>
-    <ul className="capability-grid">{capabilities.map((item, index) => {
-      const Icon = ICONS[item.icon];
-      return <li key={item.id} id={`capacidad-${item.id}`}><Reveal className="capability-card" delay={(index % 3) * .06}>
-        <span className="capability-icon" aria-hidden="true"><Icon size={20} strokeWidth={1.5} /></span>
-        <h3>{item.title}</h3><p>{item.description}</p>
-        <ul className="capability-examples">{item.examples.map(example => <li key={example}>{example}</li>)}</ul>
-        <ServiceLink service={item.service} className="text-link" label={`Consultar por ${item.title}`}>CONSULTAR<ArrowUpRight size={15} aria-hidden="true" /></ServiceLink>
-      </Reveal></li>;
-    })}</ul>
 
     <div className="solutions-outro"><p>¿No sabés qué solución necesitás?<br /><em>Contanos el problema y te proponemos el camino.</em></p><Link href={siteContent.links.form} className="button">CONTANOS TU PROYECTO<ArrowUpRight size={17} aria-hidden="true" /></Link></div>
   </div></section>;

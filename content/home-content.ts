@@ -7,14 +7,27 @@ export const localeConfig = { current: 'es', available: ['es'], planned: ['en'] 
 const es = {
   quote: 'COTIZAR PROYECTO', more: 'VER MÁS', includes: 'INCLUYE',
   hero: {
-    eyebrow: 'AGENCIA DIGITAL — DISEÑO & DESARROLLO',
-    title: 'Diseñamos páginas y experiencias digitales',
-    accent: 'pensadas para destacar y convertir.',
-    description: 'Creamos páginas web, e-commerce, branding y soluciones digitales para negocios que quieren una presencia profesional y funcional.',
-    secondary: 'VER TRABAJOS', caption: 'Diseño que se ve. Tecnología que funciona.',
-    visualLabel: 'MAISON COMMERCE / EXPLORACIÓN CONCEPTUAL',
+    eyebrow: 'ESTUDIO DE DISEÑO Y DESARROLLO WEB',
+    title: 'Webs y sistemas que',
+    accent: 'convierten visitas en clientes.',
+    description: 'Diseñamos páginas web, tiendas online y software a medida para negocios que quieren verse profesionales, generar confianza y vender más fácil.',
+    primary: 'QUIERO COTIZAR MI PROYECTO', secondary: 'VER TRABAJOS', caption: 'Diseño que se ve. Tecnología que funciona.',
+    visualLabel: 'MAISON COMMERCE / EXPLORACIÓN CONCEPTUAL', clientsLabel: 'Trabajos recientes',
   },
-  trust: ['DISEÑO PERSONALIZADO', 'RESPONSIVE', 'ATENCIÓN DIRECTA', 'SOLUCIONES A MEDIDA'],
+  trust: ['Diseño 100% a medida', 'Adaptada a celulares', 'Presupuesto sin compromiso'],
+  serviceGrid: {
+    label: 'QUÉ HACEMOS', title: 'Todo lo que tu negocio necesita', accent: 'para vender online.',
+    description: 'Elegí por dónde empezar. Cada proyecto se define con alcance y presupuesto claros antes de comenzar.',
+    primary: 'PEDIR PRESUPUESTO SIN COMPROMISO', secondary: 'VER TRABAJOS',
+    items: [
+      { id: 'web-commerce', icon: 'web', service: 'Página web', title: 'Páginas web', description: 'Sitios a medida que explican qué hacés, generan confianza y facilitan el contacto.', points: ['Diseño desde cero', 'Rápida y adaptada a celulares', 'Formularios y WhatsApp conectados'] },
+      { id: 'landing-page', icon: 'landing', service: 'Landing page', title: 'Landing pages', description: 'Una página enfocada en una sola acción, ideal para campañas y lanzamientos.', points: ['Mensaje claro y directo', 'Pensada para anuncios', 'Medición de consultas'] },
+      { id: 'ecommerce', icon: 'shop', service: 'E-commerce', title: 'Tiendas online', description: 'E-commerce y Shopify listos para vender, con un catálogo fácil de administrar.', points: ['Catálogo y stock', 'Pagos y envíos', 'Compra simple en el celular'] },
+      { id: 'branding', icon: 'brand', service: 'Branding', title: 'Branding', description: 'Una identidad visual clara y consistente, desde el logo hasta cada punto de contacto.', points: ['Logo e identidad', 'Paleta y tipografías', 'Aplicaciones digitales'] },
+      { id: 'automation', icon: 'automation', service: 'Automatización / IA', title: 'Automatización e IA', description: 'Conectamos tus herramientas y automatizamos tareas repetitivas para ganar tiempo.', points: ['Flujos entre apps', 'Asistentes con IA', 'Menos carga manual'] },
+      { id: 'development', icon: 'software', service: 'Software a medida', title: 'CRM y software a medida', description: 'Sistemas internos adaptados a cómo trabaja tu equipo: clientes, pedidos y reportes.', points: ['CRM y seguimiento comercial', 'Paneles por rol', 'Integraciones con tus sistemas'] },
+    ],
+  } as const,
   technology: {
     title: 'TRABAJAMOS CON',
     brands: [
@@ -55,21 +68,21 @@ const es = {
   ],
   branding: { label: 'BRANDING', title: 'Una identidad que también habla por vos.', description: siteContent.services.branding.description },
   process: {
-    label: 'CÓMO TRABAJAMOS', title: 'Qué pasa después', accent: 'de que nos escribís',
+    label: 'CÓMO TRABAJAMOS', title: 'Qué pasa después', accent: 'de que nos escribís.',
     description: 'Queremos que siempre sepas qué estamos haciendo, qué sigue y cuándo necesitamos tu aprobación.',
     visualTitle: 'De la intención', visualAccent: 'a lo tangible.',
     visualNote: 'Una idea clara. Cada decisión, en su lugar.',
     caption: 'ESTRATEGIA / DISEÑO / DESARROLLO',
   },
   portfolio: {
-    label: 'TRABAJOS SELECCIONADOS', title: 'Proyectos diseñados', accent: 'para funcionar.',
+    label: 'PORTFOLIO', title: 'Proyectos que', accent: 'hablan por nosotros.',
     projects: [
       { slug: 'fashion-store', title: 'Una tienda diseñada para vender sin complicaciones.' },
       { slug: 'recruitment-platform', title: 'Una experiencia digital creada alrededor del negocio.' },
     ],
     view: 'VER PROYECTO', demo: 'CONCEPTO / NO ES UN CASO DE CLIENTE',
     conceptsLabel: 'EXPLORACIONES CONCEPTUALES DEL ESTUDIO',
-    clientIntro: 'Trabajos realizados para clientes, publicados con su autorización, y exploraciones propias del estudio.',
+    clientIntro: 'Sitios y plataformas que diseñamos y desarrollamos para nuestros clientes, publicados con su autorización.',
     outro: '¿Querés que tu proyecto sea el próximo?', cta: 'CONTANOS TU PROYECTO',
   },
   cta: {

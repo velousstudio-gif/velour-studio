@@ -1,10 +1,21 @@
+import Image from 'next/image';
 import type { ClientWork } from '@/content/portfolio';
 
+/** Marco de navegador con la captura real del sitio publicado. */
+export function BrowserShot({ work, priority = false, sizes = '(max-width: 850px) 100vw, 640px' }: { work: ClientWork; priority?: boolean; sizes?: string }) {
+  if (!work.screenshot) return null;
+  return <div className="browser-shot">
+    <div className="browser-shot-bar" aria-hidden="true"><span><i /><i /><i /></span><span className="browser-shot-url">{work.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</span><span /></div>
+    <div className="browser-shot-screen"><Image src={work.screenshot} alt={`Portada del sitio de ${work.name}`} fill sizes={sizes} priority={priority} /></div>
+  </div>;
+}
+
 /**
- * Composición genérica por tipo de proyecto: sin logos, capturas ni datos del cliente.
- * Cuando haya capturas autorizadas, reemplazar por la imagen real.
+ * Visual de un trabajo: la captura real si existe; si no, una composición genérica por tipo de proyecto
+ * (sin logos, capturas ni datos del cliente).
  */
 export function ClientWorkVisual({ work }: { work: ClientWork }) {
+  if (work.screenshot) return <div className="work-art work-art-shot"><BrowserShot work={work} /><span className="art-context">CAPTURA DEL SITIO PUBLICADO</span></div>;
   return <div className={`work-art work-art-${work.mockup}`} aria-hidden="true">
     <div className="work-window">
       <div className="browser-chrome"><span><i /><i /><i /></span><span>{work.category} · {work.sector}</span><span /></div>

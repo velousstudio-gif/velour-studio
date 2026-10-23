@@ -10,6 +10,7 @@ import '@fontsource/manrope/latin-600.css';
 import './globals.css';
 import './mockups.css';
 import './portfolio.css';
+import './redesign.css';
 import { MotionProvider } from '@/components/motion';
 import { FunnelTracker } from '@/components/funnel-tracker';
 import { AmbientLight } from '@/components/home/ambient-light';

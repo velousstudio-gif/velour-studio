@@ -39,6 +39,8 @@ export type ClientWork = {
   reviewNotes: string;
   checkedAt: string;
   mockup: 'gastronomy' | 'recruitment' | 'ads' | 'operations';
+  /** Captura real del sitio publicado (solo trabajos autorizados), en /public. */
+  screenshot?: string;
   service: ServiceType;
 };
 
@@ -47,7 +49,112 @@ export type ClientWork = {
  * Los pendientes de autorización se guardan en content/clientes-pendientes.local.json (ignorado por Git) y solo se
  * ven como vista previa en `npm run dev` (ver lib/portfolio-preview.ts).
  */
-export const clientWorks: ClientWork[] = [];
+export const clientWorks: ClientWork[] = [
+  {
+    slug: "sobretablas",
+    screenshot: "/trabajos/sobretablas.webp",
+    name: "Sobretablas",
+    url: "https://sobretablasve.com/",
+    sector: "Gastronomía y catering",
+    location: "Maracaibo, Venezuela",
+    category: "Web",
+    summary: "Sitio de un restaurante gourmet con tablas creativas y catering: presenta la propuesta, las cartas digitales, una galería de creaciones y un formulario de reserva que arma la solicitud y la envía por WhatsApp.",
+    publicFeatures: [
+      "Cartas digitales por categoría (tablas, restaurante, vida saludable) y cartas marcadas como «próximamente»",
+      "Galería de creaciones con vista ampliada",
+      "Formulario de reserva (tipo de solicitud, fecha, hora y personas) que se envía por WhatsApp",
+      "Horarios, ubicación con enlace a mapa e Instagram"
+    ],
+    observedTech: [
+      "Aplicación web compilada con Vite",
+      "Diseño responsive"
+    ],
+    velourScope: "Diseño y desarrollo completo del sitio: diseño de la interfaz, programación y puesta en línea.",
+    authorized: true,
+    reviewNotes: "Autorizado por el cliente; alcance confirmado por la dirección el 23/10/2026.",
+    checkedAt: "2026-10-23",
+    mockup: "gastronomy",
+    service: "Página web"
+  },
+  {
+    slug: "prime-hiring-solutions",
+    screenshot: "/trabajos/prime-hiring-solutions.webp",
+    name: "Prime Hiring Solutions",
+    url: "https://primehiringsolution.com/",
+    sector: "Búsqueda y selección de personal",
+    location: "Mercado hispanohablante",
+    category: "Plataforma",
+    summary: "Plataforma de búsqueda y selección: un sitio comercial con acceso a portal que organiza a los postulantes por perfil de puesto para reabrir una búsqueda sin empezar de cero.",
+    publicFeatures: [
+      "Base de postulantes por perfil de puesto, con historial",
+      "Estados del proceso: aprobado, reserva, rechazado, contratado, retirado, no disponible",
+      "Formulario de postulación dedicado por puesto",
+      "Portal para empresas con acceso y registro"
+    ],
+    observedTech: [
+      "Next.js",
+      "Portal con autenticación"
+    ],
+    velourScope: "Diseño y desarrollo completo del sitio: diseño de la interfaz, programación y puesta en línea.",
+    authorized: true,
+    reviewNotes: "Autorizado por el cliente; alcance confirmado por la dirección el 23/10/2026.",
+    checkedAt: "2026-10-23",
+    mockup: "recruitment",
+    service: "Software a medida"
+  },
+  {
+    slug: "digitsolution",
+    screenshot: "/trabajos/digitsolution.webp",
+    name: "Digitsolution",
+    url: "https://www.digitsolution.io/",
+    sector: "Infraestructura para anunciantes digitales",
+    location: "Internacional",
+    category: "Web",
+    summary: "Sitio comercial en inglés (con opción en francés) que presenta paquetes por niveles, una comparativa, el proceso en tres pasos y preguntas frecuentes, con contacto por Telegram y WhatsApp.",
+    publicFeatures: [
+      "Paquetes por niveles con tabla comparativa",
+      "Sección de proceso en tres pasos y preguntas frecuentes",
+      "Selector de idioma inglés / francés",
+      "Contacto directo por Telegram y WhatsApp; enlace a tienda externa"
+    ],
+    observedTech: [
+      "Recursos servidos desde Cloudflare R2",
+      "Diseño responsive"
+    ],
+    velourScope: "Diseño y desarrollo completo del sitio: diseño de la interfaz, programación y puesta en línea.",
+    authorized: true,
+    reviewNotes: "Autorizado por el cliente; alcance confirmado por la dirección el 23/10/2026.",
+    checkedAt: "2026-10-23",
+    mockup: "ads",
+    service: "Landing page"
+  },
+  {
+    slug: "zamudio-clipping",
+    screenshot: "/trabajos/zamudio-clipping.webp",
+    name: "Zamudio Clipping",
+    url: "https://zamudioclipping.com/",
+    sector: "Contenido de video corto",
+    location: "Internacional",
+    category: "Plataforma",
+    summary: "Plataforma para operar campañas de clips de video corto: presenta el flujo de campañas, la red de clippers y una capa operativa con accesos por rol.",
+    publicFeatures: [
+      "Accesos por rol: administración, operaciones y clipper",
+      "Validación de entregas (asignación, cuenta, URL duplicada, reglas de campaña)",
+      "Historial de métricas y registro de auditoría",
+      "Solicitud de ingreso para clippers e inicio de sesión"
+    ],
+    observedTech: [
+      "Aplicación web compilada con Vite",
+      "Autenticación de usuarios"
+    ],
+    velourScope: "Diseño y desarrollo completo del sitio: diseño de la interfaz, programación y puesta en línea.",
+    authorized: true,
+    reviewNotes: "Autorizado por el cliente; alcance confirmado por la dirección el 23/10/2026.",
+    checkedAt: "2026-10-23",
+    mockup: "operations",
+    service: "Software a medida"
+  }
+];
 
 export const ownProducts = [
   {
