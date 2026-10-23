@@ -19,7 +19,7 @@ export function Portfolio({ locale = 'es' }: { locale?: Locale }) {
     const src = kind === 'phone' ? work.screenshotMobile : work.screenshot;
     if (!src) return null;
     return <Link key={key} href={localePath(locale, `/trabajos/${work.slug}`)} className={`ix-tile ix-tile-${kind}`} aria-label={`${copy.view}: ${work.name}`} aria-hidden={hidden || undefined} tabIndex={hidden ? -1 : undefined}>
-      <span className="ix-tile-screen"><Image src={src} alt={hidden ? '' : work.name} fill sizes={kind === 'phone' ? '220px' : '360px'} /></span>
+      <span className="ix-tile-screen"><Image src={src} alt={hidden ? '' : work.name} fill sizes={kind === 'phone' ? '260px' : '420px'} quality={90} /></span>
       <span className="ix-tile-caption"><b>{work.name}</b>{work.sector}<ArrowUpRight size={14} aria-hidden="true" /></span>
     </Link>;
   };

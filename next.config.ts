@@ -15,6 +15,8 @@ const privateHeaders = [
 
 const nextConfig: NextConfig = {
   turbopack: { root: process.cwd() },
+  // 90: capturas de trabajos con texto nítido; 75: resto de imágenes (valor por defecto).
+  images: { qualities: [75, 90] },
   // PGlite es solo para desarrollo/pruebas: no se empaqueta ni se sube a producción.
   serverExternalPackages: ['@electric-sql/pglite'],
   outputFileTracingExcludes: { '*': ['node_modules/@electric-sql/**'] },

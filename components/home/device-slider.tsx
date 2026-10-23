@@ -23,7 +23,7 @@ export function DeviceSlider({ slides, device, sizes, interval = 4200, priority 
   return <div className="ix-slider" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
     <div className={`ix-device ix-device-${device}`}>
       {device === 'phone' && <span className="ix-notch" aria-hidden="true" />}
-      <div className="ix-device-screen">{slides.map((slide, i) => <Image key={slide.slug} src={slide.src} alt={i === index ? `${slider.site} ${slide.name}` : ''} aria-hidden={i !== index} fill sizes={sizes} priority={priority && i === 0} data-active={i === index} />)}</div>
+      <div className="ix-device-screen">{slides.map((slide, i) => <Image key={slide.slug} src={slide.src} alt={i === index ? `${slider.site} ${slide.name}` : ''} aria-hidden={i !== index} fill sizes={sizes} quality={90} priority={priority && i === 0} data-active={i === index} />)}</div>
       {device === 'laptop' && <span className="ix-laptop-base" aria-hidden="true" />}
     </div>
     {slides.length > 1 && <div className="ix-dots" role="group" aria-label={slider.choose}>{slides.map((slide, i) => <button key={slide.slug} type="button" aria-label={`${slider.view} ${slide.name}`} aria-pressed={i === index} onClick={() => { setIndex(i); setPaused(true); }} />)}</div>}

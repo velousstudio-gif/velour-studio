@@ -2,11 +2,11 @@ import Image from 'next/image';
 import type { ClientWork } from '@/content/portfolio';
 
 /** Marco de navegador con la captura real del sitio publicado. */
-export function BrowserShot({ work, priority = false, sizes = '(max-width: 850px) 100vw, 640px' }: { work: ClientWork; priority?: boolean; sizes?: string }) {
+export function BrowserShot({ work, priority = false, sizes = '(max-width: 1200px) 100vw, 1200px' }: { work: ClientWork; priority?: boolean; sizes?: string }) {
   if (!work.screenshot) return null;
   return <div className="browser-shot">
     <div className="browser-shot-bar" aria-hidden="true"><span><i /><i /><i /></span><span className="browser-shot-url">{work.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</span><span /></div>
-    <div className="browser-shot-screen"><Image src={work.screenshot} alt={work.name} fill sizes={sizes} priority={priority} /></div>
+    <div className="browser-shot-screen"><Image src={work.screenshot} alt={work.name} fill sizes={sizes} priority={priority} quality={90} /></div>
   </div>;
 }
 
