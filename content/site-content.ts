@@ -49,7 +49,7 @@ export const siteContent = {
     "description": "Diseñamos páginas web, tiendas online y soluciones digitales para marcas y negocios que quieren crecer.",
     "socialImageAlt": "Velour Studio — Experiencias digitales creadas para destacar"
   },
-  "navigation": [["Inicio", "home"], ["Servicios", "services"], ["Soluciones", "solutions"], ["Trabajos", "works"], ["Proceso", "process"]],
+  "navigation": [["Diseño web", "services"], ["Tiendas online", "ecommerceService"], ["Software a medida", "automationService"], ["Trabajos", "works"], ["Proceso", "process"]],
   "links": {
     "home": "/#inicio",
     "works": "/#proyectos",

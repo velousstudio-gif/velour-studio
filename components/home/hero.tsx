@@ -1,28 +1,27 @@
-import { ArrowUpRight, Check } from 'lucide-react';
-import { homeContent as copy } from '@/content/home-content';
+import Image from 'next/image';
+import { ArrowUpRight } from 'lucide-react';
+import { homeContent } from '@/content/home-content';
 import { siteContent } from '@/content/site-content';
+import { contact } from '@/lib/content';
 import { visibleClientWorks } from '@/lib/portfolio-preview';
 import { MotionLink as Link } from '../motion';
-import { HeroShowcase } from './hero-showcase';
 
-/** Portada: fondo oscuro, mensaje directo, dos acciones y trabajos reales a la vista. */
+/** Portada oscura centrada: mensaje directo, dos acciones y los clientes reales debajo. */
 export function Hero() {
+  const copy = homeContent.hero;
   const works = visibleClientWorks().filter(work => work.screenshot);
-  return <section id="inicio" className="vx-hero" aria-labelledby="hero-title">
-    <div className="vx-hero-glow" aria-hidden="true" />
-    <div className="container vx-hero-inner">
-      <div className="vx-hero-copy">
-        <p className="vx-kicker hero-enter" style={{ animationDelay: '.05s' }}><span aria-hidden="true" />{copy.hero.eyebrow}</p>
-        <h1 id="hero-title"><span className="hero-line"><span>{copy.hero.title}</span></span> <em className="hero-line"><span>{copy.hero.accent}</span></em></h1>
-        <p className="vx-hero-lead hero-enter" style={{ animationDelay: '.45s' }}>{copy.hero.description}</p>
-        <div className="vx-hero-actions hero-enter" style={{ animationDelay: '.6s' }}>
-          <Link className="vx-btn vx-btn-gold" href={siteContent.links.form}>{copy.hero.primary}<ArrowUpRight size={18} aria-hidden="true" /></Link>
-          <Link className="vx-btn vx-btn-ghost" href={siteContent.links.works}>{copy.hero.secondary}<ArrowUpRight size={18} aria-hidden="true" /></Link>
-        </div>
-        <ul className="vx-hero-trust hero-enter" style={{ animationDelay: '.75s' }} aria-label="Nuestra forma de trabajar">{copy.trust.map(item => <li key={item}><Check size={14} aria-hidden="true" />{item}</li>)}</ul>
+  return <section id="inicio" className="ix-hero" aria-labelledby="hero-title">
+    <div className="ix-hero-bg" aria-hidden="true">{works.slice(0, 4).map((work, i) => <div key={work.slug} className="ix-hero-tile" data-i={i}><Image src={work.screenshot!} alt="" fill sizes="50vw" priority={i < 2} /></div>)}</div>
+    <div className="ix-hero-deco" aria-hidden="true"><span className="ix-deco-tl"><i />{copy.decoA}</span><span className="ix-deco-tr"><i />{copy.decoB}</span><span className="ix-deco-side">{copy.side}</span><span className="ix-deco-bl">{copy.decoC}<i /></span><span className="ix-deco-br">{copy.decoD}<i /></span></div>
+    <div className="container ix-hero-inner">
+      <p className="ix-kicker hero-enter" style={{ animationDelay: '.05s' }}><span aria-hidden="true" />{copy.eyebrow}</p>
+      <h1 id="hero-title"><span className="hero-line"><span>{copy.title}</span></span><span className="hero-line ix-hero-line2"><span>{copy.accent}</span></span></h1>
+      <p className="ix-hero-lead hero-enter" style={{ animationDelay: '.45s' }}><strong>{copy.leadStrong}</strong> {copy.lead}</p>
+      <div className="ix-actions hero-enter" style={{ animationDelay: '.6s' }}>
+        <Link className="ix-btn ix-btn-gold" href={siteContent.links.form}>{copy.primary}<ArrowUpRight size={17} aria-hidden="true" /></Link>
+        {contact.whatsappHref ? <a className="ix-btn ix-btn-line" href={contact.whatsappHref} target="_blank" rel="noopener noreferrer">{copy.whatsapp}<ArrowUpRight size={17} aria-hidden="true" /></a> : <Link className="ix-btn ix-btn-line" href={siteContent.links.works}>{copy.secondary}</Link>}
       </div>
-      {works.length > 0 && <HeroShowcase works={works.map(({ slug, name, sector, url, screenshot }) => ({ slug, name, sector, url, screenshot: screenshot! }))} />}
+      {works.length > 0 && <ul className="ix-hero-clients hero-enter" style={{ animationDelay: '.75s' }} aria-label={copy.clientsLabel}>{works.map(work => <li key={work.slug}><Link href={`/trabajos/${work.slug}`}>{work.name}</Link></li>)}</ul>}
     </div>
-    {works.length > 0 && <div className="container vx-clients"><span>{copy.hero.clientsLabel}</span><ul>{works.map(work => <li key={work.slug}><Link href={`/trabajos/${work.slug}`}>{work.name}</Link></li>)}</ul></div>}
   </section>;
 }

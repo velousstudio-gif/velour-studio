@@ -7,6 +7,8 @@ import '@fontsource/instrument-serif/latin-400-italic.css';
 import '@fontsource/manrope/latin-400.css';
 import '@fontsource/manrope/latin-500.css';
 import '@fontsource/manrope/latin-600.css';
+import '@fontsource/manrope/latin-700.css';
+import '@fontsource/manrope/latin-800.css';
 import './globals.css';
 import './mockups.css';
 import './portfolio.css';

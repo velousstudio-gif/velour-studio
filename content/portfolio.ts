@@ -41,6 +41,8 @@ export type ClientWork = {
   mockup: 'gastronomy' | 'recruitment' | 'ads' | 'operations';
   /** Captura real del sitio publicado (solo trabajos autorizados), en /public. */
   screenshot?: string;
+  /** Captura real en versión celular. */
+  screenshotMobile?: string;
   service: ServiceType;
 };
 
@@ -53,6 +55,7 @@ export const clientWorks: ClientWork[] = [
   {
     slug: "sobretablas",
     screenshot: "/trabajos/sobretablas.webp",
+    screenshotMobile: "/trabajos/sobretablas-movil.webp",
     name: "Sobretablas",
     url: "https://sobretablasve.com/",
     sector: "Gastronomía y catering",
@@ -79,6 +82,7 @@ export const clientWorks: ClientWork[] = [
   {
     slug: "prime-hiring-solutions",
     screenshot: "/trabajos/prime-hiring-solutions.webp",
+    screenshotMobile: "/trabajos/prime-hiring-solutions-movil.webp",
     name: "Prime Hiring Solutions",
     url: "https://primehiringsolution.com/",
     sector: "Búsqueda y selección de personal",
@@ -105,6 +109,7 @@ export const clientWorks: ClientWork[] = [
   {
     slug: "digitsolution",
     screenshot: "/trabajos/digitsolution.webp",
+    screenshotMobile: "/trabajos/digitsolution-movil.webp",
     name: "Digitsolution",
     url: "https://www.digitsolution.io/",
     sector: "Infraestructura para anunciantes digitales",
@@ -131,6 +136,7 @@ export const clientWorks: ClientWork[] = [
   {
     slug: "zamudio-clipping",
     screenshot: "/trabajos/zamudio-clipping.webp",
+    screenshotMobile: "/trabajos/zamudio-clipping-movil.webp",
     name: "Zamudio Clipping",
     url: "https://zamudioclipping.com/",
     sector: "Contenido de video corto",
