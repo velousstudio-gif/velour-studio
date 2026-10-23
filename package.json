@@ -9,19 +9,29 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "test:forms": "node scripts/test-forms.mjs",
-    "test:theme": "node scripts/test-theme.mjs"
+    "test:theme": "node scripts/test-theme.mjs",
+    "test:crm": "node --conditions=react-server --import tsx scripts/test-crm.mts",
+    "check:supabase": "node scripts/check-supabase.mjs",
+    "test:persist": "node --conditions=react-server --import tsx scripts/test-persist.mts",
+    "check:build": "node --import tsx scripts/check-public-build.mts",
+    "check:prod": "node scripts/smoke-prod.mjs",
+    "restore:backup": "node scripts/restore-backup.mjs"
   },
   "dependencies": {
     "@fontsource/instrument-serif": "^5.3.0",
     "@fontsource/manrope": "^5.3.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.118.0",
     "framer-motion": "^12.23.0",
     "lucide-react": "^0.468.0",
     "next": "^16.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "resend": "^6.31.0"
+    "resend": "^6.31.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.11",
     "@tailwindcss/postcss": "^4.1.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
@@ -29,6 +39,7 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.6",
     "tailwindcss": "^4.1.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.0"
   }
 }

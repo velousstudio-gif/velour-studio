@@ -48,3 +48,14 @@ El selector Light / Dark del header (dentro del menú en tablet/mobile) cambia l
 Informe del trabajo y QA: [content/HOME-REBUILD-REPORT.md](content/HOME-REBUILD-REPORT.md). Los informes anteriores documentan versiones históricas.
 
 ESLint 9 se mantiene por compatibilidad con los plugins React de `eslint-config-next` 16.3.6.
+
+## CRM privado y leads (Fase 2)
+
+`/login` → `/crm` (panel, leads, ficha, notas, tareas, CSV). Producción: Supabase (guía exacta en [supabase/README.md](supabase/README.md)).
+
+Probar el CRM completo en local, sin cuentas externas: en `.env.local` definí `LEAD_STORE=pglite`, `DEV_ADMIN_EMAIL` y `DEV_ADMIN_PASSWORD` (y opcionalmente `DEV_COLLAB_*`), corré `npm run dev` y entrá en http://localhost:3000/login. Los datos quedan en `.data/` (ignorado por git).
+
+```sh
+npm run test:crm    # SQL real con RLS, roles, historial, filtros, intake y seguridad
+npm run test:forms  # endpoint de contacto + persistencia
+```

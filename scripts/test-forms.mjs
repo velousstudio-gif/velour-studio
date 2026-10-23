@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
-import { randomUUID } from 'node:crypto';
+import * as nodeCrypto from 'node:crypto';
+const { randomUUID } = nodeCrypto;
 import { Resend } from 'resend';
 import ts from 'typescript';
 
@@ -25,12 +26,16 @@ function load(filename) {
   const exports = {};
   cache.set(file, exports);
   const source = ts.transpileModule(fs.readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
-  const context = { exports, URL, process: { env },
+  const context = { exports, URL, Response, Blob, process: { env },
     console: { error: (...args) => logs.push(args), info: (...args) => logs.push(args) },
     require(specifier) {
       if (specifier === 'server-only') return {};
       if (specifier === 'next/server') return { NextResponse: Response };
-      if (specifier === 'node:crypto') return { randomUUID };
+      if (specifier === 'node:crypto') return nodeCrypto;
+      if (['@supabase/supabase-js', '@supabase/ssr', 'next/headers'].includes(specifier)) return {}; // no se usan con LEAD_STORE=file
+      if (specifier === 'node:fs/promises') return fs.promises;
+      if (specifier === 'node:fs') return fs;
+      if (specifier === 'node:path') return { default: path };
       if (specifier === 'resend') return { Resend };
       return load((specifier.startsWith('@/') ? path.join(process.cwd(), specifier.slice(2)) : path.resolve(path.dirname(file), specifier)) + '.ts');
     },
@@ -116,3 +121,51 @@ assert.equal(whatsapp.origin + whatsapp.pathname, 'https://wa.me/5493585329272')
 assert.equal(whatsapp.searchParams.get('text'), siteContent.contact.whatsappMessage);
 assert.equal(links.instagram, ''); assert.equal(links.linkedin, '');
 console.log('OK: endpoint, validación, variables exactas, SDK Resend real con HTTP simulado, campos/asunto/replyTo, idempotencia, errores y logs sin claves. No se enviaron emails.');
+
+// ---- Fase 1: persistencia de leads, idempotencia, atribución y eventos (store en archivo temporal) ----
+import os from 'node:os';
+const tmp = path.join(os.tmpdir(), `velour-leads-${randomUUID()}.json`);
+Object.assign(env, { LEAD_STORE: 'file', LEAD_STORE_PATH: tmp, RESEND_API_KEY: 're_local_fake_key', FROM_EMAIL: 'sender@example.com', CONTACT_EMAIL: 'recipient@example.com' });
+const { resetLeadStoreForTests } = load('lib/leads/store.ts');
+resetLeadStoreForTests();
+const tracking = { landingPage: '/', sourcePage: '/', referrerHost: 'google.com', utmSource: 'ig', utmMedium: 'social', utmCampaign: 'oct', utmContent: '', utmTerm: '' };
+const k1 = randomUUID();
+providerResponse = () => Response.json({ id: 'test-message' });
+assert.equal((await request({ ...project, tracking }, { 'idempotency-key': k1 })).status, 200);
+assert.equal((await request({ ...project, tracking }, { 'idempotency-key': k1 })).status, 200); // reintento
+let db = JSON.parse(fs.readFileSync(tmp, 'utf8'));
+assert.equal(db.leads.length, 1, 'el reintento no duplica el lead');
+assert.equal(db.leads[0].status, 'nuevo');
+assert.equal(db.leads[0].origin, 'campaña:ig');
+assert.equal(db.leads[0].tracking.utmCampaign, 'oct');
+assert.equal(db.leads[0].consent.version.startsWith('privacidad'), true);
+// inválido => no crea lead
+assert.equal((await request({ ...project, email: 'bad' })).status, 400);
+assert.equal(JSON.parse(fs.readFileSync(tmp, 'utf8')).leads.length, 1);
+// Resend caído => el lead se guarda igual y el visitante recibe éxito
+providerResponse = () => Response.json({ name: 'x', statusCode: 500, message: 'down' }, { status: 500 });
+assert.equal((await request({ ...question, email: 'otro@example.com' })).status, 200);
+db = JSON.parse(fs.readFileSync(tmp, 'utf8'));
+assert.equal(db.leads.length, 2); assert.equal(db.leads[1].notification, 'fallida');
+// duplicado por email + tracking malicioso descartado
+providerResponse = () => Response.json({ id: 'ok' });
+assert.equal((await request({ ...project, tracking: { utmSource: '<script>', landingPage: 'javascript:x', referrerHost: 'a b' } })).status, 200);
+db = JSON.parse(fs.readFileSync(tmp, 'utf8'));
+assert.equal(db.leads[2].possibleDuplicateOf, db.leads[0].id);
+assert.equal(db.leads[2].tracking.utmSource, ''); assert.equal(db.leads[2].tracking.landingPage, ''); assert.equal(db.leads[2].origin, 'directo');
+// Sin store ni Resend => 503; sin store pero con Resend => comportamiento anterior
+env.LEAD_STORE = ''; resetLeadStoreForTests();
+assert.equal((await request(project)).status, 200);
+env.RESEND_API_KEY = '';
+assert.equal((await request(project)).status, 503);
+// Eventos anónimos
+env.LEAD_STORE = 'file'; resetLeadStoreForTests();
+const { POST: events } = load('app/api/events/route.ts');
+const ev = body => events(new Request('http://localhost:3000/api/events', { method: 'POST', headers: { origin: 'http://localhost:3000' }, body: JSON.stringify(body) }));
+assert.equal((await ev({ event: 'whatsapp_click', page: '/' })).status, 204);
+assert.equal((await ev({ event: 'hack' })).status, 400);
+assert.equal((await events(new Request('http://localhost:3000/api/events', { method: 'POST', headers: { origin: 'https://evil.example' }, body: '{}' }))).status, 403);
+db = JSON.parse(fs.readFileSync(tmp, 'utf8'));
+assert.ok(Object.keys(db.events).some(key => key.endsWith('|whatsapp_click|/')));
+fs.rmSync(tmp, { force: true });
+console.log('OK Fase 1: lead persistido, idempotente, atribución saneada, duplicados marcados, Resend caído no pierde leads, eventos anónimos.');

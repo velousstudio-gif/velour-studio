@@ -1,11 +1,14 @@
 import { notFound } from 'next/navigation';
-import { MotionLink as Link, AnimatedButton } from '@/components/motion';
+import { MotionLink as Link } from '@/components/motion';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import { siteContent } from '@/content/site-content';
 import { projects } from '@/lib/content';
 import { externalUrl } from '@/lib/contact-links';
 import { ProjectVisual } from '@/components/project-visual';
 import { Header, Footer } from '@/components/site';
+import { ServiceLink } from '@/components/service-link';
+
+const SERVICE_FOR = { fashion: 'E-commerce', recruitment: 'Software a medida', identity: 'Branding' } as const;
 
 export function generateStaticParams() { return projects.map(({ slug }) => ({ slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -29,6 +32,6 @@ export default async function Project({ params }: { params: Promise<{ slug: stri
       {project.status === 'real' && project.result && evidence && <section><h2>{copy.result}</h2><p>{project.result.text}</p><a className="underlined-link" href={evidence} target="_blank" rel="noopener noreferrer">{copy.result}<ArrowUpRight size={16} /></a></section>}
     </div>
     <div className="tech-tags" aria-label={copy.stack}>{project.tech.map(tag => <span key={tag}>{tag}</span>)}</div>
-    <AnimatedButton className="primary" href={siteContent.links.form}>{siteContent.copy.projectPage.quiero_una_solucion_asi}<ArrowUpRight size={17} /></AnimatedButton>
+    <ServiceLink className="button" service={SERVICE_FOR[project.kind as keyof typeof SERVICE_FOR] ?? 'Página web'}>{siteContent.copy.projectPage.quiero_una_solucion_asi}<ArrowUpRight size={17} aria-hidden="true" /></ServiceLink>
   </main><Footer /></>;
 }

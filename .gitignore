@@ -6,3 +6,8 @@ out/
 !.env.example
 *.tsbuildinfo
 *.log
+
+.data/
+
+# Clientes pendientes de autorización (repo público: nunca subir)
+content/*.local.json

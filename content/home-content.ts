@@ -68,6 +68,8 @@ const es = {
       { slug: 'recruitment-platform', title: 'Una experiencia digital creada alrededor del negocio.' },
     ],
     view: 'VER PROYECTO', demo: 'CONCEPTO / NO ES UN CASO DE CLIENTE',
+    conceptsLabel: 'EXPLORACIONES CONCEPTUALES DEL ESTUDIO',
+    clientIntro: 'Trabajos realizados para clientes, publicados con su autorización, y exploraciones propias del estudio.',
     outro: '¿Querés que tu proyecto sea el próximo?', cta: 'CONTANOS TU PROYECTO',
   },
   cta: {

@@ -2,6 +2,8 @@
  * No guardar claves ni secretos aquí.
  * Los placeholders TU_*_AQUI nunca se convierten en enlaces visibles.
  * Ver content/README.md para editar sin cambiar el diseño. */
+import { SERVICE_TYPES } from './portfolio';
+
 export type Project = { slug: string; name: string; year: string; category: string; description: string; tech: string[]; kind: string; detail: string; status: 'demo' | 'real'; image: { src: string; alt: string }; sector: string; problem: string; solution: string; result: { text: string; evidenceUrl: string } | null };
 
 // Completar aquí los datos públicos. Mantener vacíos o placeholders hasta tener datos reales.
@@ -12,7 +14,7 @@ export const businessConfig = {
   whatsappDisplay: '+54 9 358 532 9272',
   instagramUrl: '',
   linkedinUrl: '',
-  domain: '', // URL completa con https://
+  domain: 'https://velourstudio.online', // URL pública canónica (sitemap, robots, OG)
   legalBusinessName: 'TU_RAZON_SOCIAL_AQUI',
 };
 
@@ -47,11 +49,12 @@ export const siteContent = {
     "description": "Diseñamos páginas web, tiendas online y soluciones digitales para marcas y negocios que quieren crecer.",
     "socialImageAlt": "Velour Studio — Experiencias digitales creadas para destacar"
   },
-  "navigation": [["Inicio", "home"], ["Servicios", "services"], ["Proceso", "process"], ["Trabajos", "works"]],
+  "navigation": [["Inicio", "home"], ["Servicios", "services"], ["Soluciones", "solutions"], ["Trabajos", "works"], ["Proceso", "process"]],
   "links": {
     "home": "/#inicio",
     "works": "/#proyectos",
     "services": "/#servicios",
+    "solutions": "/#soluciones",
     "studio": "/#nosotros",
     "contact": "/#contacto",
     "manifesto": "/#manifiesto",
@@ -563,15 +566,7 @@ export const siteContent = {
   ],
   "questionTypes": ["Pregunta", "Comentario", "Sugerencia"],
   "diagnosticOptions": {
-    "projectTypes": [
-      "Página web",
-      "Landing page",
-      "E-commerce",
-      "Shopify",
-      "Branding",
-      "Automation",
-      "CRM / Sistema"
-    ],
+    "projectTypes": [...SERVICE_TYPES] as string[],
     "audiences": [
       "Mi negocio",
       "Empresa",

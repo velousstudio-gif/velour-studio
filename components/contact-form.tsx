@@ -7,6 +7,8 @@ import { useState, useRef, useEffect } from 'react';
 import { ArrowUpRight, ArrowRight, ArrowLeft, LoaderCircle, CheckCircle2 } from 'lucide-react';
 import { siteContent } from '@/content/site-content';
 import { homeContent } from '@/content/home-content';
+import { currentAttribution, track } from '@/lib/funnel';
+import { SERVICE_EVENT } from './service-link';
 
 const labels = siteContent.copy.form;
 const copy = siteContent.agency;
@@ -28,6 +30,7 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
   const stepAnimation = useRef<ReturnType<typeof animate> | null>(null);
   const transitionLock = useRef(false);
   const submitLock = useRef(false);
+  const started = useRef(false);
   const submission = useRef<{ body: string; key: string } | null>(null);
   const alive = useRef(true);
   useEffect(() => { alive.current = true; return () => { alive.current = false; stepAnimation.current?.stop(); }; }, []);
@@ -40,9 +43,19 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
 
   useEffect(() => {
     if (!diagnostic) return;
-    const plan = new URLSearchParams(window.location.search).get('plan');
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get('plan');
     const field = formRef.current?.elements.namedItem('message') as HTMLTextAreaElement | null;
     if (plan && field) field.value = `Me interesa el plan ${plan.slice(0, 150)}. `;
+    // CTA con servicio: preselecciona el tipo de proyecto (solo valores de la lista oficial).
+    const choose = (value: unknown) => {
+      if (typeof value !== 'string' || !options.projectTypes.includes(value) || submitLock.current) return;
+      setSelection(current => ({ ...current, project: value }));
+    };
+    choose(params.get('servicio'));
+    const onService = (event: Event) => choose((event as CustomEvent).detail);
+    window.addEventListener(SERVICE_EVENT, onService);
+    return () => window.removeEventListener(SERVICE_EVENT, onService);
   }, [diagnostic, formRef]);
   useEffect(() => {
     if (previousStep.current !== step) stepRef.current?.focus();
@@ -80,7 +93,7 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
     if (submitLock.current || status === 'success' || transitionLock.current) return;
     const form = event.currentTarget;
     if (diagnostic && step === 1) {
-      if (form.reportValidity()) await changeStep(2);
+      if (form.reportValidity()) { track('form_step_complete'); await changeStep(2); }
       return;
     }
     for (const key of ['name', 'message']) {
@@ -90,7 +103,7 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
     }
     if (!form.reportValidity()) return;
     // Capture values before disabling the fieldset. Lock synchronously, before React renders.
-    const data = { ...Object.fromEntries(new FormData(form)), kind, ...(diagnostic ? selection : {}) };
+    const data = { ...Object.fromEntries(new FormData(form)), kind, ...(diagnostic ? selection : {}), tracking: currentAttribution() };
     const body = JSON.stringify(data);
     submitLock.current = true;
     setStatus('loading'); setMessage('');
@@ -101,13 +114,13 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
       const result = await response.json();
       if (!response.ok || result?.ok !== true) throw new Error('Contact request failed');
       if (!alive.current) return;
-      setStatus('success'); setMessage(siteContent.form.messages.success); form.reset();
+      track('lead_submit_success'); setStatus('success'); setMessage(siteContent.form.messages.success); form.reset();
       submission.current = null;
       // Keep the confirmation visible; visitors can explicitly start another inquiry by returning.
       setSelection({ project: '', audience: '', situation: '' });
     } catch {
       if (!alive.current) return;
-      setStatus('error'); setMessage(siteContent.form.messages.failure);
+      track('lead_submit_error'); setStatus('error'); setMessage(siteContent.form.messages.failure);
     } finally {
       submitLock.current = false;
     }
@@ -115,7 +128,7 @@ function InquiryForm({ kind }: { kind: 'project' | 'question' }) {
 
   const messageField = <><label className="message-field"><span className="field-label">{diagnostic ? labels.mensaje : copy.question.field}<b> *</b></span><textarea name="message" placeholder={diagnostic ? labels.contanos_un_poco_sobre_tu_proyecto : copy.question.placeholder} rows={4} required minLength={10} maxLength={5000} aria-describedby={`${kind}-message-help`} onInput={event => event.currentTarget.setCustomValidity('')} /></label><p className="form-help" id={`${kind}-message-help`}>{labels.al_menos_10_caracteres}</p></>;
 
-  return <form ref={formRef} onSubmit={submit} className={`contact-form ${diagnostic ? 'diagnostic-form' : 'question-form'}`} aria-label={diagnostic ? copy.diagnostic.label : copy.question.title} aria-busy={status === 'loading' || changingStep}>
+  return <form ref={formRef} onSubmit={submit} onFocus={() => { if (!started.current) { started.current = true; track('form_start'); } }} className={`contact-form ${diagnostic ? 'diagnostic-form' : 'question-form'}`} aria-label={diagnostic ? copy.diagnostic.label : copy.question.title} aria-busy={status === 'loading' || changingStep}>
     {diagnostic && <div className="diagnostic-progress"><h3 ref={stepRef} tabIndex={-1}>{copy.diagnostic.stepLabel} <motion.span key={step} className="step-number" initial={false} animate={{ opacity: 1 }}> {step} de 2</motion.span> <span>— {copy.diagnostic.steps[step - 1]}</span></h3><div className="step-progress-track" aria-hidden="true"><motion.i animate={{ scaleX: step / 2 }} initial={false} transition={{ duration: reduced ? 0 : .3, ease: editorialEase }} /></div></div>}
     <p className="form-help">{labels.los_campos_con_son_obligatorios}</p>
     <div className="form-step-window">

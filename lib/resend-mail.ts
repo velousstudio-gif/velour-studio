@@ -29,10 +29,11 @@ export function getResendConfig() {
   return { apiKey, fromEmail, contactEmail };
 }
 
-export async function sendInquiry(config: NonNullable<ReturnType<typeof getResendConfig>>, inquiry: Inquiry, idempotencyKey: string) {
+export async function sendInquiry(config: NonNullable<ReturnType<typeof getResendConfig>>, inquiry: Inquiry, idempotencyKey: string, options: { crmSaved?: boolean } = {}) {
   // Plain text keeps visitor-supplied markup inert. The visitor is Reply-To, never From.
   const text = [
     'Nueva solicitud de proyecto — Velour Studio', '',
+    ...(options.crmSaved === false ? ['⚠ ATENCIÓN: esta solicitud NO quedó registrada en el CRM (falló la base de datos). Cargala manualmente.', ''] : []),
     `Nombre: ${inquiry.name}`, `Empresa: ${inquiry.company || 'No indicada'}`,
     `Email: ${inquiry.email}`, `WhatsApp: ${inquiry.phone || 'No indicado'}`,
     `Tipo de proyecto: ${inquiry.project || 'Consulta general'}`,

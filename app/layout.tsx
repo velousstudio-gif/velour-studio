@@ -9,7 +9,9 @@ import '@fontsource/manrope/latin-500.css';
 import '@fontsource/manrope/latin-600.css';
 import './globals.css';
 import './mockups.css';
+import './portfolio.css';
 import { MotionProvider } from '@/components/motion';
+import { FunnelTracker } from '@/components/funnel-tracker';
 import { AmbientLight } from '@/components/home/ambient-light';
 import { DEFAULT_THEME, themeInitScript } from '@/lib/theme';
 export const metadata: Metadata = {
@@ -25,4 +27,4 @@ export const metadata: Metadata = {
   },
   robots: { index: isPublicSite, follow: true },
 };
-export default function RootLayout({children}:{children:React.ReactNode}) {return <html lang="es" data-scroll-behavior="smooth" data-theme={DEFAULT_THEME} suppressHydrationWarning><head><script id="velour-theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} /></head><body><MotionProvider><AmbientLight />{children}</MotionProvider><noscript><style>{`.motion-reveal,.image-reveal{opacity:1!important;transform:none!important;clip-path:none!important}.faq-content{height:auto!important;opacity:1!important}.animated-faq{content-visibility:visible}`}</style></noscript></body></html>}
+export default function RootLayout({children}:{children:React.ReactNode}) {return <html lang="es" data-scroll-behavior="smooth" data-theme={DEFAULT_THEME} suppressHydrationWarning><head><script id="velour-theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} /></head><body><MotionProvider><AmbientLight /><FunnelTracker />{children}</MotionProvider><noscript><style>{`.motion-reveal,.image-reveal{opacity:1!important;transform:none!important;clip-path:none!important}.faq-content{height:auto!important;opacity:1!important}.animated-faq{content-visibility:visible}`}</style></noscript></body></html>}
