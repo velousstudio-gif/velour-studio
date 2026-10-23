@@ -43,7 +43,7 @@ const base = (n: number, over: Record<string, unknown> = {}) => ({
   kind: 'project', name: `Lead ${n}`, email: `lead${n}@ejemplo.com`, phone: `+54 9 358 40${n}0000`, company: n % 2 ? 'Empresa SA' : '',
   service_type: n % 2 ? 'Página web' : 'Shopify', audience: 'Mi negocio', situation: 'No tengo web', budget: 'USD 200–500',
   message: `Mensaje de prueba número ${n}`, origin: n % 2 ? 'campaña:ig' : 'directo', utm_source: n % 2 ? 'ig' : '',
-  landing_page: '/', source_page: '/', consent_version: 'privacidad-2026-10', request_key: `key-${n}`, ...over,
+  landing_page: '/', source_page: '/', consent_version: 'privacidad-2026-11', request_key: `key-${n}`, ...over,
 });
 
 console.log('\nIntake público y base de datos');

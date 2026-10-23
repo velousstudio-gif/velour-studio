@@ -1,8 +1,8 @@
 /**
- * POLÍTICA DE PRIVACIDAD v2 — BORRADOR PARA APROBACIÓN (Fase 4).
+ * POLÍTICA DE PRIVACIDAD v2 — APROBADA por la dirección el 23/10/2026 (plazo 24 meses; responsable: Velour Studio).
  *
  * `approved: false` → /privacidad sigue mostrando el texto vigente. Para publicar:
- *   1) Completar los campos [ENTRE CORCHETES] (razón social, plazo de conservación) y revisar con asesoría legal.
+ *   1) Campos completados (responsable: Velour Studio; plazo: 24 meses). Revisar con asesoría legal cuando haya razón social.
  *   2) Cambiar `approved` a true y subir CONSENT_VERSION en lib/leads/store.ts a 'privacidad-2026-11' (o la fecha real),
  *      para que cada lead registre qué versión del aviso aceptó.
  * Coherente con lo implementado: formularios → Supabase (CRM), aviso por email (Resend), atribución sin datos
@@ -10,12 +10,12 @@
  * solo en el panel privado. Marco: Ley 25.326 (Argentina). No es asesoramiento legal.
  */
 export const privacyPolicy = {
-  approved: false,
+  approved: true,
   version: 'privacidad-2026-11',
-  updated: '[FECHA DE PUBLICACIÓN]',
+  updated: '23 de octubre de 2026',
   sections: [
     { title: 'Quién es responsable', body: [
-      'Velour Studio ([RAZÓN SOCIAL Y CUIT/CUIL A COMPLETAR]) es responsable de los datos que nos enviás a través de este sitio. Para cualquier consulta sobre privacidad escribinos a velousstudio@gmail.com.',
+      'Velour Studio es responsable de los datos que nos enviás a través de este sitio. Para cualquier consulta sobre privacidad escribinos a velousstudio@gmail.com.',
     ] },
     { title: 'Qué datos recopilamos', body: [
       'Cuando completás un formulario: nombre, email y mensaje; y, si los indicás, empresa, WhatsApp, tipo de proyecto, para quién es, situación actual y presupuesto orientativo.',
@@ -37,7 +37,7 @@ export const privacyPolicy = {
       'El panel privado del equipo usa cookies técnicas de sesión, necesarias para iniciar sesión de forma segura. No se usan en las páginas públicas.',
     ] },
     { title: 'Cuánto tiempo los conservamos', body: [
-      'Conservamos cada consulta durante [PLAZO A DEFINIR, por ejemplo 24 meses desde el último contacto] y luego la eliminamos o la anonimizamos, salvo que exista una relación comercial que requiera conservarla por más tiempo.',
+      'Conservamos cada consulta durante 24 meses desde el último contacto y luego la eliminamos o la anonimizamos, salvo que exista una relación comercial que requiera conservarla por más tiempo.',
     ] },
     { title: 'Tus derechos', body: [
       'Podés pedir acceso, rectificación, actualización o supresión de tus datos escribiendo a velousstudio@gmail.com. Te respondemos dentro de los plazos legales.',

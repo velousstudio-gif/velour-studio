@@ -11,7 +11,7 @@ import type { LeadStatus } from '../crm/types';
 
 /** Estados del pipeline (03_REQUISITOS_FUNNEL_CRM). El CRM de Fase 2 los usará tal cual. */
 
-export const CONSENT_VERSION = 'privacidad-2026-10';
+export const CONSENT_VERSION = 'privacidad-2026-11';
 
 export type Lead = {
   id: string;
